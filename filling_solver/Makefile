@@ -1,5 +1,5 @@
 TARGET = FillingSolver.jar
-OBJ = Rational.class Geometry.class PartsDecomposer.class Main.class 
+OBJ = Rational.class Geometry.class PartsDecomposer.class FillingSolver.class Main.class
 
 .PHONY: all clean
 

@@ -1,6 +1,5 @@
 import java.util.Arrays;
 
-
 public class Main {
 	public static void main(String[] args) {
 		PartsDecomposer decomposer = new PartsDecomposer();
@@ -11,5 +10,7 @@ public class Main {
 		System.out.println(Arrays.toString(decomposer.polygons));
 		System.out.println(Arrays.toString(decomposer.edges));
 		System.out.println(decomposer.parts);
+		FillingSolver solver = new FillingSolver(decomposer);
+		solver.solve();
 	}
 }

@@ -9,8 +9,8 @@ public class PartsDecomposer {
 
 	ArrayList<Point<Rational>> points = new ArrayList<>();
 	HashMap<Point<Rational>, Integer> pointToIdx = new HashMap<>();
-	Polygon[] polygons;
-	Edge[] edges;
+	Polygon[] polygons; // polygons appeard in input data
+	Edge[] edges; // edges split to fragments at all intersect points
 	ArrayList<Part> parts = new ArrayList<>();
 
 	void readInput() {
@@ -118,10 +118,10 @@ public class PartsDecomposer {
 	}
 
 	Part extractPart(int start, int next) {
-		Part ret = new Part();
 		int prev = start;
 		int cur = next;
-		ret.vs.add(cur);
+		ArrayList<Integer> vs = new ArrayList<>();
+		vs.add(cur);
 		while (cur != start) {
 			Edge cand = null;
 			Rational cosSq = new Rational(BigInteger.valueOf(10), BigInteger.ONE); // smaller is better
@@ -150,9 +150,9 @@ public class PartsDecomposer {
 				cur = cand.p1;
 				cand.usedBackward = true;
 			}
-			ret.vs.add(cur);
+			vs.add(cur);
 		}
-		return ret;
+		return new Part(vs, points);
 	}
 
 	boolean isCcw(Polygon polygon) {
@@ -205,11 +205,24 @@ public class PartsDecomposer {
 }
 
 class Part {
-	ArrayList<Integer> vs = new ArrayList<>();
+	ArrayList<Integer> vs = new ArrayList<>(); // point indices in ccw order
+	Rational area;
+
+	Part(ArrayList<Integer> vs, ArrayList<Point<Rational>> points) {
+		this.vs = vs;
+		area = Rational.ZERO;
+		Point<Rational> prev = points.get(vs.get(vs.size() - 1));
+		for (int i = 0; i < vs.size(); ++i) {
+			Point<Rational> cur = points.get(vs.get(i));
+			area = area.add(cur.y.mul(prev.x).sub(cur.x.mul(prev.y)));
+			prev = cur;
+		}
+		area = area.div(new Rational(BigInteger.valueOf(2), BigInteger.ONE));
+	}
 
 	@Override
 	public String toString() {
-		return vs.toString();
+		return vs.toString() + " " + area;
 	}
 }
 
