@@ -3,6 +3,8 @@ import java.math.BigInteger;
 public class Rational implements Comparable<Rational> {
 	final BigInteger num;
 	final BigInteger den;
+	static final Rational ZERO = new Rational(BigInteger.ZERO, BigInteger.ONE);
+	static final Rational ONE = new Rational(BigInteger.ONE, BigInteger.ONE);
 
 	Rational(BigInteger n, BigInteger d) {
 		if (n.equals(BigInteger.ZERO)) {
@@ -10,6 +12,9 @@ public class Rational implements Comparable<Rational> {
 			den = BigInteger.ONE;
 		} else {
 			BigInteger gcd = n.gcd(d);
+			if (d.signum() < 0 && gcd.signum() > 0) { // invariant: den > 0
+				gcd = gcd.negate();
+			}
 			num = n.divide(gcd);
 			den = d.divide(gcd);
 		}
@@ -17,11 +22,18 @@ public class Rational implements Comparable<Rational> {
 
 	Rational(String str) {
 		String[] numden = str.split("/");
-		this.num = new BigInteger(numden[0]);
-		if (numden.length == 1) {
-			this.den = BigInteger.ONE;
+		BigInteger n = new BigInteger(numden[0]);
+		if (n.equals(BigInteger.ZERO)) {
+			num = BigInteger.ZERO;
+			den = BigInteger.ONE;
 		} else {
-			this.den = new BigInteger(numden[1]);
+			BigInteger d = numden.length == 1 ? BigInteger.ONE : new BigInteger(numden[1]);
+			BigInteger gcd = n.gcd(d);
+			if (d.signum() < 0 && gcd.signum() > 0) { // invariant: den > 0
+				gcd = gcd.negate();
+			}
+			num = n.divide(gcd);
+			den = d.divide(gcd);
 		}
 	}
 
@@ -35,6 +47,10 @@ public class Rational implements Comparable<Rational> {
 
 	Rational add(Rational v) {
 		return new Rational(this.num.multiply(v.den).add(v.num.multiply(this.den)), this.den.multiply(v.den));
+	}
+
+	Rational sub(Rational v) {
+		return new Rational(this.num.multiply(v.den).subtract(v.num.multiply(this.den)), this.den.multiply(v.den));
 	}
 
 	public int compareTo(Rational r) {
