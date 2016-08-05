@@ -135,7 +135,7 @@ var Segment = function(from, to){
 		if(cross > 0){ return  1; }
 		if(cross < 0){ return -1; }
 		if(d.dot(e).compare(new Rational()) < 0){ return 2; }
-		if(d.norm() < e.norm()){ return -2; }
+		if(d.norm().compare(e.norm()) < 0){ return -2; }
 		return 0;
 	};
 
