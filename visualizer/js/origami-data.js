@@ -158,3 +158,14 @@ var Problem = function(silhouette, skelton){
 	silhouette.forEach(function(p){ self.silhouette.push(p.clone()); });
 	skelton.forEach(function(s){ self.skelton.push(s.clone()); });
 };
+
+var Solution = function(vertices, polygons){
+	if(vertices === undefined){ vertices = []; }
+	if(polygons === undefined){ polygons = []; }
+
+	var self = this;
+	this.vertices = [];
+	this.polygons = [];
+	vertices.forEach(function(p){ self.vertices.push(p.concat()); });
+	polygons.forEach(function(p){ self.polygons.push(p.clone()); });
+};

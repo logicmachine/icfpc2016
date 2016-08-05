@@ -16,13 +16,15 @@ $(document).ready(function(){
 		$("#problem-file-browse"),
 		function(data){
 			var problem = parseProblem(data);
-			console.log(problem);
 			drawProblem("#destination-svg", problem);
 		});
 	register_file_handlers(
 		$("#solution-file"),
 		$("#solution-file-text"),
 		$("#solution-file-browse"),
-		function(data){ });
+		function(data){
+			var solution = parseSolution(data);
+			drawSolution("#source-svg", solution);
+		});
 });
 
