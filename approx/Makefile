@@ -1,5 +1,5 @@
 all: approximate_solver
-CXXFLAGS=-Wall -g -std=c++11
+CXXFLAGS=-Wall -g -std=c++11 # -I$(HOME)/Downloads/boost_1_61_0
 
 
 pch.hpp.gch: pch.hpp
