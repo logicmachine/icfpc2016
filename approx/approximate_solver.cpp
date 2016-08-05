@@ -6,14 +6,24 @@
 namespace bg = boost::geometry;
 namespace bm = boost::multiprecision;
 
+//#define USE_DOUBLE
+
+#ifdef USE_DOUBLE
+typedef bm::mpq_rational mpval_t;
+typedef double val_t;
+#define str_to_val(x) (get_double(mpval_t(x)))
+#else
 typedef bm::mpq_rational val_t;
+typedef bm::mpq_rational mpval_t;
+#define str_to_val(x) (x)
+#endif
 typedef bg::model::d2::point_xy<val_t> point_t;
 typedef bg::model::linestring<point_t> line_t;
 typedef bg::model::segment<point_t> seg_t;
 typedef bg::model::polygon<point_t> poly_t;
 
 static double
-get_double(val_t const &v)
+get_double(mpval_t const &v)
 {
     return (double) v;
 }
@@ -59,9 +69,9 @@ output_solution(Solution &s,
 {
     std::cout << s.src_point.size() << '\n';
     for (auto &&p : s.src_point) {
-        std::cout << p.x()
+        std::cout << mpval_t(p.x())
                   << ','
-                  << p.y()
+                  << mpval_t(p.y())
                   << '\n';
     }
 
@@ -78,9 +88,9 @@ output_solution(Solution &s,
     }
 
     for (auto &&p : s.dst_point) {
-        std::cout << (p.x()-ts.move_x)
+        std::cout << mpval_t((p.x()-ts.move_x))
                   << ','
-                  << (p.y()-ts.move_y)
+                  << mpval_t((p.y()-ts.move_y))
                   << '\n';
     }
 
@@ -364,8 +374,13 @@ static Input load(std::istream &ins)
             getline(ins, xs, ',');
             getline(ins, ys);
 
+#ifdef USE_DOUBLE
+            val_t px(get_double(mpval_t(xs)));
+            val_t py(get_double(mpval_t(ys)));
+#else
             val_t px(xs);
             val_t py(ys);
+#endif
 
             poly.outer().push_back(point_t(px,py));
         }
@@ -386,10 +401,10 @@ static Input load(std::istream &ins)
         getline(std::cin, y1);
 
         seg_t s;
-        bg::set<0,0>(s, val_t(x0));
-        bg::set<0,1>(s, val_t(y0));
-        bg::set<1,0>(s, val_t(x1));
-        bg::set<1,1>(s, val_t(y1));
+        bg::set<0,0>(s, val_t(str_to_val(x0)));
+        bg::set<0,1>(s, val_t(str_to_val(y0)));
+        bg::set<1,0>(s, val_t(str_to_val(x1)));
+        bg::set<1,1>(s, val_t(str_to_val(y1)));
         i.seg_list.push_back(s);
     }
 
