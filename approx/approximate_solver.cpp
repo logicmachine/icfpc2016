@@ -217,7 +217,37 @@ kuso_solver(Input &i)
             s.dst_point.push_back(point_t(1,ym2));
 
             return s;
+        }
 
+        if (xm < 1) {
+            xm = std::max(val_t(0.51), xm);
+
+            s.src_point.push_back(point_t(0,0));
+            s.src_point.push_back(point_t(xm,0));
+            s.src_point.push_back(point_t(1,0));
+
+            s.src_point.push_back(point_t(0,1));
+            s.src_point.push_back(point_t(xm,1));
+            s.src_point.push_back(point_t(1,1));
+
+            RefPoly rp;
+            rp.vertex_list = std::vector<int>({0,1,4,3});
+            s.src_poly.push_back(std::move(rp));
+
+            rp.vertex_list = std::vector<int>({1,2,5,4});
+            s.src_poly.push_back(std::move(rp));
+
+            val_t xm2 = 1-(1-xm)*2;
+
+            s.dst_point.push_back(point_t(0,0));
+            s.dst_point.push_back(point_t(xm,0));
+            s.dst_point.push_back(point_t(xm2,0));
+
+            s.dst_point.push_back(point_t(0,1));
+            s.dst_point.push_back(point_t(xm,1));
+            s.dst_point.push_back(point_t(xm2,1));
+
+            return s;
         }
 
         return simple_solution();
