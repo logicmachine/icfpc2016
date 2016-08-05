@@ -13,7 +13,6 @@ Polygon::Polygon(){}
 
 void Polygon::set_vertex_from_input(std::string input, struct Vertex *vertex){
 
-  std::cin >> input;
   std::vector<std::string> tmp1, tmp2, tmp3;
   boost::algorithm::split(tmp1, input, boost::is_any_of(","));
   boost::algorithm::split(tmp2, tmp1[0], boost::is_any_of("/"));

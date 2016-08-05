@@ -1,4 +1,4 @@
-#ifndef _INC_POLYGON   //まだ読み込まれていなければ以下の処理をする
+#ifndef _INC_POLYGON 
 #define _INC_POLYGON
 #include <gmpxx.h>
 #include <vector>
