@@ -38,3 +38,24 @@ var parseProblem = function(str){
 	return new Problem(silhouette, skelton);
 };
 
+var parseSolution = function(str){
+	var tokens = str.split(/\s+/);
+	var n = parseInt(tokens.shift(), 10);
+	var vertices = [];
+	for(var i = 0; i < n; ++i){
+		vertices.push([ parseVector2(tokens.shift()) ]);
+	}
+	var m = parseInt(tokens.shift(), 10);
+	var polygons = [];
+	for(var i = 0; i < m; ++i){
+		var k = parseInt(tokens.shift(), 10), poly = [];
+		for(var j = 0; j < k; ++j){
+			poly.push(parseInt(tokens.shift(), 10));
+		}
+		polygons.push(poly);
+	}
+	for(var i = 0; i < n; ++i){
+		vertices[i].push(parseVector2(tokens.shift()));
+	}
+	return new Solution(vertices, polygons);
+};
