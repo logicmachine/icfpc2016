@@ -273,6 +273,7 @@ def signal_handler(signum, frame):
 def main(args):
 	if len(args) < 2:
 		print >>sys.stderr, "Usage: %s solver" % os.path.basename(args[0])
+		print >>sys.stderr, "  To quit, CTRL+\\"
 		sys.exit(1)
 
 	solver = args[1]

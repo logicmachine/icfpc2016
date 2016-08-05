@@ -108,7 +108,7 @@ def show_solves(problem_id=None):
 
 def main(args):
 	if len(args) < 2:
-		print "Usage: %s [jobs|problems]" % os.path.basename(args[0])
+		print "Usage: %s [jobs|problems|solves]" % os.path.basename(args[0])
 		sys.exit(1)
 
 	target = args[1]
