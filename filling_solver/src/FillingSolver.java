@@ -9,12 +9,13 @@ public class FillingSolver {
 	ArrayList<Point<BigInteger>> points = new ArrayList<>();
 	int[][] polygons;
 	Edge[] edges;
+	BigInteger scale;
 
 	void readInput() {
 		try (Scanner sc = new Scanner(System.in)) {
 			int NP = sc.nextInt();
 			ArrayList<ArrayList<Point<Rational>>> rawPolygons = new ArrayList<>();
-			BigInteger lcm = BigInteger.ONE;
+			scale = BigInteger.ONE;
 			for (int i = 0; i < NP; ++i) {
 				int NV = sc.nextInt();
 				ArrayList<Point<Rational>> polygon = new ArrayList<>();
@@ -23,8 +24,8 @@ public class FillingSolver {
 					Rational x = new Rational(coord[0]);
 					Rational y = new Rational(coord[1]);
 					polygon.add(new Point<Rational>(x, y));
-					lcm = lcm(lcm, x.den);
-					lcm = lcm(lcm, y.den);
+					scale = lcm(scale, x.den);
+					scale = lcm(scale, y.den);
 				}
 				rawPolygons.add(polygon);
 			}
@@ -40,10 +41,10 @@ public class FillingSolver {
 				Rational x2 = new Rational(pos2[0]);
 				Rational y2 = new Rational(pos2[1]);
 				edge.add(new Point<Rational>(x2, y2));
-				lcm = lcm(lcm, x1.den);
-				lcm = lcm(lcm, y1.den);
-				lcm = lcm(lcm, x2.den);
-				lcm = lcm(lcm, y2.den);
+				scale = lcm(scale, x1.den);
+				scale = lcm(scale, y1.den);
+				scale = lcm(scale, x2.den);
+				scale = lcm(scale, y2.den);
 				rawEdges.add(edge);
 			}
 
@@ -53,7 +54,7 @@ public class FillingSolver {
 				ArrayList<Point<Rational>> polygon = rawPolygons.get(i);
 				polygons[i] = new int[polygon.size()];
 				for (int j = 0; j < polygon.size(); ++j) {
-					Point<BigInteger> p = scaleToInt(polygon.get(j), lcm);
+					Point<BigInteger> p = scaleToInt(polygon.get(j), scale);
 					if (!pointToIdx.containsKey(p)) {
 						pointToIdx.put(p, points.size());
 						points.add(p);
@@ -65,7 +66,7 @@ public class FillingSolver {
 			for (int i = 0; i < NE; ++i) {
 				int p1, p2;
 				{
-					Point<BigInteger> p = scaleToInt(rawEdges.get(i).get(0), lcm);
+					Point<BigInteger> p = scaleToInt(rawEdges.get(i).get(0), scale);
 					if (!pointToIdx.containsKey(p)) {
 						pointToIdx.put(p, points.size());
 						points.add(p);
@@ -73,7 +74,7 @@ public class FillingSolver {
 					p1 = pointToIdx.get(p);
 				}
 				{
-					Point<BigInteger> p = scaleToInt(rawEdges.get(i).get(1), lcm);
+					Point<BigInteger> p = scaleToInt(rawEdges.get(i).get(1), scale);
 					if (!pointToIdx.containsKey(p)) {
 						pointToIdx.put(p, points.size());
 						points.add(p);
