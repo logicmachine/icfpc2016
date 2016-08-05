@@ -43,7 +43,7 @@ var drawProblem = function(svg_selector, problem){
 					].join(",");
 				}).join(" ");
 			})
-			.attr("stroke", colors)
+			.attr("stroke", function(d, i){ return colors(i - 1); })
 			.attr("stroke-width", "1")
 			.attr("fill", function(p, i){
 				if(!p.isClockWise()){ return "white"; }
@@ -69,5 +69,40 @@ var drawProblem = function(svg_selector, problem){
 			})
 			.attr("stroke", "black")
 			.attr("stroke-width", "2");
+};
+
+var drawSolution = function(svg_selector, solution){
+	var padding = 10;
+	var svg_width  = $(svg_selector).width();
+	var svg_height = $(svg_selector).height();
+	var svg_size   = Math.min(svg_width, svg_height);
+	var x_scale = d3.scaleLinear()
+		.domain([ 0, 1.5 ])
+		.range ([ padding, svg_size - padding ]);
+	var y_scale = d3.scaleLinear()
+		.domain([ 0, 1.5 ])
+		.range ([ svg_size - padding, padding ]);
+	var colors = d3.scaleOrdinal(d3.schemeCategory10);
+
+	var svg = d3.select(svg_selector);
+	svg.selectAll("polygon")
+		.data(solution.polygons)
+		.enter()
+			.append("polygon")
+			.attr("points", function(polygon, index){
+				return polygon.vertices.map(function(v){
+					return [
+						x_scale(v.x.toNumber()),
+						y_scale(v.y.toNumber())
+					].join(",");
+				}).join(" ");
+			})
+			.attr("stroke", function(d, i){ return colors(i - 1); })
+			.attr("stroke-width", "1")
+			.attr("fill", function(p, i){
+				if(!p.isClockWise()){ return "white"; }
+				return colors(i - 1);
+			})
+			.attr("fill-opacity", "0.3");
 };
 
