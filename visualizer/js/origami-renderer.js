@@ -166,10 +166,12 @@ var DestinationRenderer = function(){
 		this.problem = problem.clone();
 		var offset = computeOffset();
 		drawProblem(offset[0], offset[1]);
+		drawSolution(offset[0], offset[1]);
 	};
 	this.setSolution = function(solution){
 		this.solution = solution.clone();
 		var offset = computeOffset();
+		drawProblem(offset[0], offset[1]);
 		drawSolution(offset[0], offset[1]);
 	};
 
