@@ -49,7 +49,8 @@ API_PROBLEM = "curl --compressed -L -H Expect: -H 'X-API-Key: 56-c0d0425216599ec
 
 # Solution Submission
 # (problem_id, solution.txt)
-API_SOLUTION = "curl --compressed -L -H Expect: -H 'X-API-Key: 56-c0d0425216599ecb557d45138c644174' -F 'problem_id=%d' -F 'solution_spec=@%s' 'http://2016sv.icfpcontest.org/api/solution/submit'"
+#API_SOLUTION = "curl --compressed -L -H Expect: -H 'X-API-Key: 56-c0d0425216599ecb557d45138c644174' -F 'problem_id=%d' -F 'solution_spec=@%s' 'http://2016sv.icfpcontest.org/api/solution/submit'"
+API_SOLUTION = "curl --compressed -L -H Expect: -H 'X-API-Key: 56-c0d0425216599ecb557d45138c644174' -F 'problem_id=%d' -F 'solution_spec=@-' 'http://2016sv.icfpcontest.org/api/solution/submit'"
 
 
 CUR_CREATE_JOBS = """
@@ -62,13 +63,13 @@ CREATE TABLE IF NOT EXISTS problems (problem_id INTEGER PRIMARY KEY AUTOINCREMEN
 #CREATE TABLE IF NOT EXISTS solutions (solution_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, content TEXT)
 #"""
 CUR_CREATE_SOLVES = """
-CREATE TABLE IF NOT EXISTS solves (solve_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, job_id INTEGER NOT NULL, solver TEXT, problem_id INTEGER, solution TEXT, size TEXT, score REAL)
+CREATE TABLE IF NOT EXISTS solves (solve_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, job_id INTEGER NOT NULL, solver TEXT, problem_id INTEGER, solution TEXT, size TEXT, resemblance REAL, solution_spec_hash TEXT)
 """
 
 INSERT_JOBS = "INSERT INTO jobs VALUES(NULL,?,?,?,?,?,?)"
 INSERT_PROBLEMS = "INSERT INTO problems VALUES(?,?,?,?,?,?,?)"
 #INSERT_SOLUTIONS = "INSERT INTO solutions VALUES(NULL,?,?)"
-INSERT_SOLVES = "INSERT INTO solves VALUES(NULL,?,?,?,?,?,?)"
+INSERT_SOLVES = "INSERT INTO solves VALUES(NULL,?,?,?,?,?,?,?)"
 
 con = sqlite3.connect(os.path.join(BASE_PATH, "icfpc2016.sqlite3"), check_same_thread=False)
 cur = con.cursor()
@@ -185,8 +186,8 @@ def run_job(job_id, commands):
 				for command in self.commands:
 					#returncode, stdo, stde = perform(command)
 					returncode, stdo, stde = Command(command).run(TIMEOUT)
-					print command ##### debug_nf
-					print stdo, stde ##### debug_nf
+					#print command ##### debug_nf
+					#print stdo, stde ##### debug_nf
 					rc |= returncode
 					self.response.append((stdo.rstrip(), stde.rstrip()))
 				job_finish(self.job_id)
@@ -203,7 +204,7 @@ def job_finish(job_id):
 	data = queue_thread.threads[job_id].get_response()
 	content = ""
 	for o, e in data:
-		print o
+		#print o
 		#content = json.loads(o)
 		content += o
 	queue_thread.remove(job_id)
@@ -218,12 +219,18 @@ def job_finish(job_id):
 				solver = data[1]
 				problem_id = int(data[2])
 				solution_size = len(content.replace(" ", "").replace("\n", ""))
-				cur.execute(INSERT_SOLVES, (job_id, solver, problem_id, content, solution_size, 0.0))
+				cur.execute(INSERT_SOLVES, (job_id, solver, problem_id, content, solution_size, 0.0, ""))
 				con.commit()
 
-				#CUR_CREATE_SOLVES = """
-				#CREATE TABLE IF NOT EXISTS solves (solve_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, job_id INTEGER NOT NULL, solver TEXT, problem_id INTEGER, solution TEXT, size TEXT, score REAL)
-				#"""
+				#rc, o, e = Command(API_SOLUTION % (problem_id, solution_file)).run(None)
+				rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
+				#run_job_task("solution_submit", ["%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)])
+				try:
+					data = json.loads(o)
+					cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], problem_id))
+					con.commit()
+				except:
+					pass
 
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
 		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
@@ -301,7 +308,9 @@ def main(args):
 
 	print "Running program..."
 	#run_job_task("test", ["ls"])
-	solve_problems("wc -l")
+	solver = "/home/futatsugi/develop/contests/icfpc2016/approx/approximate_solver"
+	#solve_problems("wc -l")
+	solve_problems(solver)
 
 	print "Completed!"
 
