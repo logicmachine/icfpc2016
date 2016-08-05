@@ -1,14 +1,18 @@
 var drawProblem = function(svg_selector, problem){
+	var x_offset = problem.skelton[0].from.x;
+	var y_offset = problem.skelton[0].from.y;
 	var xmin = Infinity, ymin = Infinity;
 	problem.silhouette.forEach(function(polygon){
 		polygon.vertices.forEach(function(v){
-			xmin = Math.min(xmin, v.x.toNumber());
-			ymin = Math.min(ymin, v.y.toNumber());
+			x_offset = x_offset.min(v.x);
+			y_offset = y_offset.min(v.y);
 		});
 	});
 	problem.skelton.forEach(function(s){
-		xmin = Math.min(xmin, Math.min(s.from.x.toNumber(), s.to.x.toNumber()));
-		ymin = Math.min(ymin, Math.min(s.from.y.toNumber(), s.to.y.toNumber()));
+		x_offset = x_offset.min(s.from.x);
+		y_offset = y_offset.min(s.from.y);
+		x_offset = x_offset.min(s.to.x);
+		y_offset = y_offset.min(s.to.y);
 	});
 
 	var padding = 10;
@@ -16,10 +20,10 @@ var drawProblem = function(svg_selector, problem){
 	var svg_height = $(svg_selector).height();
 	var svg_size   = Math.min(svg_width, svg_height);
 	var x_scale = d3.scaleLinear()
-		.domain([ xmin, xmin + 1.5 ])
+		.domain([ 0, 1.5 ])
 		.range ([ padding, svg_size - padding ]);
 	var y_scale = d3.scaleLinear()
-		.domain([ ymin, ymin + 1.5 ])
+		.domain([ 0, 1.5 ])
 		.range ([ svg_size - padding, padding ]);
 	var colors = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -33,14 +37,17 @@ var drawProblem = function(svg_selector, problem){
 			.append("polygon")
 			.attr("points", function(polygon, index){
 				return polygon.vertices.map(function(v){
-					return [x_scale(v.x.toNumber()), y_scale(v.y.toNumber())].join(",");
+					return [
+						x_scale(v.x.sub(x_offset).toNumber()),
+						y_scale(v.y.sub(y_offset).toNumber())
+					].join(",");
 				}).join(" ");
 			})
 			.attr("stroke", colors)
 			.attr("stroke-width", "1")
 			.attr("fill", function(p, i){
 				if(!p.isClockWise()){ return "white"; }
-				return colors(i);
+				return colors(i - 1);
 			})
 			.attr("fill-opacity", function(p, i){
 				if(!p.isClockWise()){ return "1"; }
@@ -54,10 +61,10 @@ var drawProblem = function(svg_selector, problem){
 		.enter()
 			.append("path")
 			.attr("d", function(s){
-				var sx = x_scale(s.from.x.toNumber());
-				var sy = y_scale(s.from.y.toNumber());
-				var tx = x_scale(s.to.x.toNumber());
-				var ty = y_scale(s.to.y.toNumber());
+				var sx = x_scale(s.from.x.sub(x_offset).toNumber());
+				var sy = y_scale(s.from.y.sub(y_offset).toNumber());
+				var tx = x_scale(s.to.x.sub(x_offset).toNumber());
+				var ty = y_scale(s.to.y.sub(y_offset).toNumber());
 				return "M " + sx + " " + sy + " L " + tx + " " + ty;
 			})
 			.attr("stroke", "black")

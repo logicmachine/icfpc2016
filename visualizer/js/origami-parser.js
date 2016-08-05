@@ -1,10 +1,10 @@
 var parseRational = function(str){
 	var tokens = str.split(/\s*\/\s*/);
-	var nume = parseInt(tokens.shift(), 10);
+	var nume = tokens.shift();
 	if(tokens.length === 0){
 		return new Rational(nume);
 	}else{
-		var deno = parseInt(tokens.shift(), 10);
+		var deno = tokens.shift();
 		return new Rational(nume, deno);
 	}
 };

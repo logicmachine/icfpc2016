@@ -1,57 +1,74 @@
 var Rational = function(nume, deno){
 	var gcd = function(a, b){
-		if(b == 0){ return a; }
-		return gcd(b, a % b);
+		if(b.isZero()){ return a; }
+		return gcd(b, a.remainder(b));
 	};
 
-	if(nume === undefined){ nume = 0; }
-	if(deno === undefined){ deno = 1; }
-	if(deno < 0){
-		nume = -nume;
-		deno = -deno;
+	if(nume === undefined){ nume = BigInteger.ZERO; }
+	if(typeof nume === 'number'){ nume = new BigInteger(nume); }
+	if(typeof nume === 'string'){ nume = new BigInteger(nume); }
+	if(deno === undefined){ deno = BigInteger.ONE; }
+	if(typeof deno === 'number'){ deno = new BigInteger(deno); }
+	if(typeof deno === 'string'){ deno = new BigInteger(deno); }
+	if(deno.sign() < 0){
+		nume = nume.negate();
+		deno = deno.negate();
 	}
-	var g = gcd(Math.abs(nume), Math.abs(deno));
-	this.nume = nume / g;
-	this.deno = deno / g;
+	var g = gcd(nume.abs(), deno.abs());
+	this.nume = nume.divide(g);
+	this.deno = deno.divide(g);
 
 	this.clone = function(){
 		return new Rational(this.nume, this.deno);
 	};
 
 	this.toNumber = function(){
-		return this.nume / this.deno;
+		return this.nume.toJSValue() / this.deno.toJSValue();
 	};
 	this.toString = function(){
-		if(this.deno == 1){ return "" + this.nume; }
-		return this.nume + "/" + this.deno;
+		if(this.deno == 1){ return this.nume.toString(); }
+		return this.nume.toString() + "/" + this.deno.toString();
 	};
 
 	this.add = function(r){
 		var g = gcd(this.deno, r.deno);
-		var deno = this.deno / g * r.deno;
-		var nume = this.nume * (r.deno / g) + r.nume * (this.deno / g);
+		var deno = this.deno.divide(g).multiply(r.deno);
+		var nume = this.nume.multiply(r.deno.divide(g)).add(r.nume.multiply(this.deno.divide(g)));
 		return new Rational(nume, deno);
 	};
 	this.sub = function(r){
 		var g = gcd(this.deno, r.deno);
-		var deno = this.deno / g * r.deno;
-		var nume = this.nume * (r.deno / g) - r.nume * (this.deno / g);
+		var deno = this.deno.divide(g).multiply(r.deno);
+		var nume = this.nume.multiply(r.deno.divide(g)).subtract(r.nume.multiply(this.deno.divide(g)));
 		return new Rational(nume, deno);
 	};
 	this.mul = function(r){
-		return new Rational(this.nume * r.nume, this.deno * r.deno);
+		return new Rational(this.nume.multiply(r.nume), this.deno.multiply(r.deno));
 	};
 	this.div = function(r){
-		return new Rational(this.nume * r.deno, this.deno * r.nume);
+		return new Rational(this.nume.multiply(r.deno), this.deno.multiply(r.nume));
 	};
 
 	this.equals = function(r){
-		return this.nume === r.nume && this.deno === r.deno;
+		return this.nume.compare(r.nume) === 0 && this.deno.compare(r.deno) === 0;
 	};
 
 	this.lessThan = function(r){
 		var g = gcd(this.deno, r.deno);
-		return this.nume * (r.deno / g) < r.nume * (this.deno / g);
+		var a = this.nume.multiply(r.deno.divide(g));
+		var b = r.nume.multiply(this.deno.divide(g));
+		return a.compare(b) < 0;
+	};
+
+	this.min = function(r){
+		return this.lessThan(r)
+			? new Rational(this.nume, this.deno)
+			: new Rational(r.nume, r.deno);
+	};
+	this.max = function(r){
+		return this.lessThan(r)
+			? new Rational(r.nume, r.deno)
+			: new Rational(this.nume, this.deno);
 	};
 };
 
