@@ -1,9 +1,10 @@
 all: approximate_solver
+CXXFLAGS=-Wall -g -std=c++11
+
 
 pch.hpp.gch: pch.hpp
-	g++ $<
+	g++ $(CXXFLAGS) $<
 
-CXXFLAGS=-Wall -g -std=c++11
 
 approximate_solver.o: approximate_solver.cpp pch.hpp.gch
 

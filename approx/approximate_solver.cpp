@@ -12,9 +12,18 @@ typedef bg::model::linestring<point_t> line_t;
 typedef bg::model::segment<point_t> seg_t;
 typedef bg::model::polygon<point_t> poly_t;
 
+static double
+get_double(val_t const &v)
+{
+    return (double) v;
+}
+
+
 struct Input {
     val_t x_min;
     val_t y_min;
+    val_t x_max;
+    val_t y_max;
 
     std::vector<poly_t> facet_list;
     std::vector<seg_t> seg_list;
@@ -34,12 +43,100 @@ struct History {
 
 };
 
-struct Solution {
-    Solution *prev;             // NULL if root
-    std::vector<std::pair<int,int> > line_list;
-    std::vector<point_t> vertex_list;
+struct RefPoly {
+    std::vector<int> vertex_list;
 };
 
+struct Solution {
+    std::vector<point_t> src_point;
+    std::vector<RefPoly> src_poly;
+    std::vector<point_t> dst_point;
+};
+
+static void
+output_solution(Solution &s, 
+                TransformStat &ts)
+{
+    std::cout << s.src_point.size() << '\n';
+    for (auto &&p : s.src_point) {
+        std::cout << p.x()
+                  << ','
+                  << p.y()
+                  << '\n';
+    }
+
+    std::cout << s.src_poly.size() << '\n';
+    for (auto &&poly : s.src_poly) {
+        auto & p0_list = poly.vertex_list;
+        std::cout << p0_list.size() << ' ';
+
+        for (auto &&pv : p0_list ) {
+            std::cout << pv << ' ';
+        }
+
+        std::cout << '\n';
+    }
+
+    for (auto &&p : s.dst_point) {
+        std::cout << (p.x()-ts.move_x)
+                  << ','
+                  << (p.y()-ts.move_y)
+                  << '\n';
+    }
+
+
+    /* debug */
+    std::cerr << s.src_point.size() << '\n';
+    for (auto &&p : s.src_point) {
+        std::cerr << get_double(p.x())
+                  << ','
+                  << get_double(p.y())
+                  << '\n';
+    }
+
+    std::cerr << s.src_poly.size() << '\n';
+    for (auto &&poly : s.src_poly) {
+        auto & p0_list = poly.vertex_list;
+        std::cerr << p0_list.size() << ' ';
+
+        for (auto &&pv : p0_list ) {
+            std::cerr << get_double(pv) << ' ';
+        }
+
+        std::cerr << '\n';
+    }
+
+    for (auto &&p : s.dst_point) {
+        std::cerr << get_double((p.x()-ts.move_x))
+                  << ','
+                  << get_double((p.y()-ts.move_y))
+                  << '\n';
+    }
+
+}
+
+static Solution
+simple_solution()
+{
+    Solution s;
+    s.src_point.push_back(point_t(0,0));
+    s.src_point.push_back(point_t(1,0));
+    s.src_point.push_back(point_t(1,1));
+    s.src_point.push_back(point_t(0,1));
+
+    RefPoly rp;
+    rp.vertex_list = std::vector<int>({0,1,2,3});
+    s.src_poly.push_back(std::move(rp));
+
+    s.dst_point.push_back(point_t(0,0));
+    s.dst_point.push_back(point_t(1,0));
+    s.dst_point.push_back(point_t(1,1));
+    s.dst_point.push_back(point_t(0,1));
+
+    return s;
+}
+
+#if 0
 static Solution
 fold(Solution *prev_sol,
      line_t const &cut_line)
@@ -53,8 +150,88 @@ fold(Solution *prev_sol,
      */
     Solution next;
 
+    auto &llist = prev_sol->line_list;
+    auto &vlist = prev_sol->vertex_list;
+
+    int n=llist.size();
+    for (int li=0; li<n; li++) {
+        std::vector<point_t> ip;
+        seg_t s0(vlist[llist[li].first],
+                 vlist[llist[li].second]);
+        seg_t s1(vlist[llist[li].first],
+                 vlist[llist[li].second]);
+
+        bg::intersects(s0, s1);
+
+        if (ip.size() == 1) {
+
+        }
+    }
+
     next.prev = prev_sol;
     return std::move(next);
+}
+#endif
+
+static Solution
+kuso_solver(Input &i)
+{
+    Solution s;
+
+    val_t xm = i.x_max;
+    val_t ym = i.y_max;
+
+    if (xm >= 1  || ym >= 1) {
+        return simple_solution();
+    }
+
+    xm = std::max(val_t(0.51), xm);
+    ym = std::max(val_t(0.51), ym);
+
+    s.src_point.push_back(point_t(0,0));
+    s.src_point.push_back(point_t(xm,0));
+    s.src_point.push_back(point_t(1,0));
+
+    s.src_point.push_back(point_t(0,ym));
+    s.src_point.push_back(point_t(xm,ym));
+    s.src_point.push_back(point_t(1,ym));
+
+    s.src_point.push_back(point_t(0,1));
+    s.src_point.push_back(point_t(xm,1));
+    s.src_point.push_back(point_t(1,1));
+
+    RefPoly rp;
+    rp.vertex_list = std::vector<int>({0,1,4,3});
+    s.src_poly.push_back(std::move(rp));
+
+    rp.vertex_list = std::vector<int>({1,2,5,4});
+    s.src_poly.push_back(std::move(rp));
+
+    rp.vertex_list = std::vector<int>({3,4,7,6});
+    s.src_poly.push_back(std::move(rp));
+
+    rp.vertex_list = std::vector<int>({4,5,8,7});
+    s.src_poly.push_back(std::move(rp));
+
+    val_t xm2 = 1-(1-xm)*2;
+    val_t ym2 = 1-(1-ym)*2;
+
+    //std::cerr << xm << "," << xm2 << '\n';
+
+    s.dst_point.push_back(point_t(0,0));
+    s.dst_point.push_back(point_t(xm,0));
+    s.dst_point.push_back(point_t(xm2,0));
+
+    s.dst_point.push_back(point_t(0,ym));
+    s.dst_point.push_back(point_t(xm,ym));
+    s.dst_point.push_back(point_t(xm2,ym));
+
+    s.dst_point.push_back(point_t(0,ym2));
+    s.dst_point.push_back(point_t(xm,ym2));
+    s.dst_point.push_back(point_t(xm2,ym2));
+
+    return s;
+
 }
 
 
@@ -62,25 +239,36 @@ static void
 move_to_zero(TransformStat &ts,
              Input &i)
 {
-    val_t &xm = i.x_min;
-    val_t &ym = i.y_min;
+    val_t xm = i.x_min;
+    val_t ym = i.y_min;
 
     ts.move_x = -xm;
     ts.move_y = -ym;
 
+    std::cerr << "size:"
+              << get_double(i.x_max) << "-"
+              << get_double(i.x_min) << 'x'
+              << get_double(i.y_max) << '-'
+              << get_double(i.y_min) << '\n';
+
     i.x_min = 0;
     i.y_min = 0;
+    i.x_max -= xm;
+    i.y_max -= ym;
 
-    for (auto &&poly : i.facet_list) {
-        auto p0_list = poly.outer();
+    std::cerr << "a:" << get_double(xm) << "," << get_double(ym) << '\n';
+    std::cerr << "b:" << get_double(i.x_max) << "," << get_double(i.y_max) << '\n';
 
-        for (auto &&v : p0_list) {
+    for (auto &poly : i.facet_list) {
+        auto &p0_list = poly.outer();
+
+        for (auto &v : p0_list) {
             v.x(v.x() - xm);
             v.y(v.y() - ym);
         }
     }
 
-    for (auto &&s : i.seg_list) {
+    for (auto &s : i.seg_list) {
         bg::set<0,0>(s, bg::get<0,0>(s) - xm);
         bg::set<0,1>(s, bg::get<0,1>(s) - ym);
         bg::set<1,0>(s, bg::get<1,0>(s) - xm);
@@ -140,12 +328,6 @@ static Input load(std::istream &ins)
     return std::move(i);
 }
 
-static double
-get_double(val_t const &v)
-{
-    return (double) v;
-}
-
 struct Render {
     cairo_t *c;
     val_t scale;
@@ -199,13 +381,21 @@ build_render(cairo_t *c,
     Render r;
     r.c = c;
     r.scale = scale;
-    r.off_x = off_x;
-    r.off_y = off_y;
+    //r.off_x = off_x;
+    //r.off_y = off_y;
 
-    std::cout << (800/get_double(scale)) << '\n';
+    r.off_x = 0;
+    r.off_y = 0;
+
+    //std::cout << (800/get_double(scale)) << '\n';
 
     i.x_min = x_min;
     i.y_min = y_min;
+    i.x_max = x_max;
+    i.y_max = y_max;
+
+    std::cerr << "c:" << x_min << "," << y_min << '\n';
+    std::cerr << "d:" << x_max << "," << y_max << '\n';
 
     return r;
 }
@@ -258,12 +448,15 @@ main(int argc, char **argv)
 
     cairo_set_source_rgb(c, 1, 0, 0);
 
-    //move_to_zero(ts, input);
-
     Render r = build_render(c, input);
+    move_to_zero(ts, input);
+
     render_input(r, input);
 
     cairo_destroy(c);
 
     cairo_surface_write_to_png(dst, "out.png");
+
+    Solution s = kuso_solver(input);
+    output_solution(s, ts);
 }
