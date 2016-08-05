@@ -86,6 +86,7 @@ output_solution(Solution &s,
 
 
     /* debug */
+#if 0
     std::cerr << s.src_point.size() << '\n';
     for (auto &&p : s.src_point) {
         std::cerr << get_double(p.x())
@@ -112,6 +113,7 @@ output_solution(Solution &s,
                   << get_double((p.y()-ts.move_y))
                   << '\n';
     }
+#endif
 
 }
 
@@ -181,7 +183,43 @@ kuso_solver(Input &i)
     val_t xm = i.x_max;
     val_t ym = i.y_max;
 
-    if (xm >= 1  || ym >= 1) {
+    if (xm >= 1||ym>=1) {
+        if (ym < 1) {
+            ym = std::max(val_t(0.51), ym);
+
+            s.src_point.push_back(point_t(0,0));
+            s.src_point.push_back(point_t(1,0));
+
+            s.src_point.push_back(point_t(0,ym));
+            s.src_point.push_back(point_t(1,ym));
+
+            s.src_point.push_back(point_t(0,1));
+            s.src_point.push_back(point_t(1,1));
+
+            RefPoly rp;
+            rp.vertex_list = std::vector<int>({0,1,3,2});
+            s.src_poly.push_back(std::move(rp));
+
+            rp.vertex_list = std::vector<int>({2,3,5,4});
+            s.src_poly.push_back(std::move(rp));
+
+            val_t ym2 = 1-(1-ym)*2;
+
+            //std::cerr << xm << "," << xm2 << '\n';
+
+            s.dst_point.push_back(point_t(0,0));
+            s.dst_point.push_back(point_t(1,0));
+
+            s.dst_point.push_back(point_t(0,ym));
+            s.dst_point.push_back(point_t(1,ym));
+
+            s.dst_point.push_back(point_t(0,ym2));
+            s.dst_point.push_back(point_t(1,ym2));
+
+            return s;
+
+        }
+
         return simple_solution();
     }
 
@@ -245,19 +283,19 @@ move_to_zero(TransformStat &ts,
     ts.move_x = -xm;
     ts.move_y = -ym;
 
-    std::cerr << "size:"
-              << get_double(i.x_max) << "-"
-              << get_double(i.x_min) << 'x'
-              << get_double(i.y_max) << '-'
-              << get_double(i.y_min) << '\n';
+    //std::cerr << "size:"
+    //          << get_double(i.x_max) << "-"
+    //          << get_double(i.x_min) << 'x'
+    //          << get_double(i.y_max) << '-'
+    //          << get_double(i.y_min) << '\n';
 
     i.x_min = 0;
     i.y_min = 0;
     i.x_max -= xm;
     i.y_max -= ym;
 
-    std::cerr << "a:" << get_double(xm) << "," << get_double(ym) << '\n';
-    std::cerr << "b:" << get_double(i.x_max) << "," << get_double(i.y_max) << '\n';
+    //std::cerr << "a:" << get_double(xm) << "," << get_double(ym) << '\n';
+    //std::cerr << "b:" << get_double(i.x_max) << "," << get_double(i.y_max) << '\n';
 
     for (auto &poly : i.facet_list) {
         auto &p0_list = poly.outer();
@@ -394,17 +432,20 @@ build_render(cairo_t *c,
     i.x_max = x_max;
     i.y_max = y_max;
 
-    std::cerr << "c:" << x_min << "," << y_min << '\n';
-    std::cerr << "d:" << x_max << "," << y_max << '\n';
+    //std::cerr << "c:" << x_min << "," << y_min << '\n';
+    //std::cerr << "d:" << x_max << "," << y_max << '\n';
 
     return r;
 }
 
 static void
-render_input(Render &r,
-             Input &i)
+render_result(Render &r,
+              Input &i,
+              Solution &s)
 {
+    /* in */
     cairo_set_source_rgb(r.c, 0, 1, 0);
+    cairo_set_line_width(r.c, 2);
 
     for (auto &&s : i.seg_list) {
         r.move_to(bg::get<0,0>(s),
@@ -414,7 +455,9 @@ render_input(Render &r,
         cairo_stroke(r.c);
     }
 
-    cairo_set_source_rgb(r.c, 1, 0, 0);
+    /* out */
+    cairo_set_source_rgb(r.c, 0.5, 0.5, 1);
+    cairo_set_line_width(r.c, 4);
     for (auto &&poly : i.facet_list) {
         auto p0_list = poly.outer();
 
@@ -432,6 +475,27 @@ render_input(Render &r,
 
         cairo_stroke(r.c);
     }
+
+
+    /* result */
+    cairo_set_source_rgb(r.c, 1, 0, 0);
+    cairo_set_line_width(r.c, 2);
+
+    //std::cout << s.src_poly.size() << '\n';
+    for (auto &&poly : s.src_poly) {
+        auto & p0_list = poly.vertex_list;
+        int n = p0_list.size();
+
+        r.move_to(s.dst_point[p0_list[0]].x(),
+                  s.dst_point[p0_list[0]].y());
+        for (int pi=1; pi<n; pi++) {
+            r.line_to(s.dst_point[p0_list[pi]].x(),
+                      s.dst_point[p0_list[pi]].y());
+        }
+        cairo_close_path(r.c);
+        cairo_stroke(r.c);
+    }
+
 }
 
 int
@@ -451,12 +515,12 @@ main(int argc, char **argv)
     Render r = build_render(c, input);
     move_to_zero(ts, input);
 
-    render_input(r, input);
+    Solution s = kuso_solver(input);
+    output_solution(s, ts);
+
+    render_result(r, input, s);
 
     cairo_destroy(c);
 
     cairo_surface_write_to_png(dst, "out.png");
-
-    Solution s = kuso_solver(input);
-    output_solution(s, ts);
 }
