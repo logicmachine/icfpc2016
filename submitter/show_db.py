@@ -26,7 +26,8 @@ import collections
 import sqlite3
 import cgi
 
-BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
+#BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
+DB_FILE = "icfpc2016.sqlite3"
 
 CUR_CREATE_JOBS = """
 CREATE TABLE IF NOT EXISTS jobs (job_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, status TEXT, task_type TEXT, submit_time TEXT, start_time TEXT, end_time TEXT, content TEXT)
@@ -46,7 +47,8 @@ INSERT_PROBLEMS = "INSERT INTO problems VALUES(?,?,?,?,?,?,?)"
 #INSERT_SOLUTIONS = "INSERT INTO solutions VALUES(NULL,?,?)"
 INSERT_SOLVES = "INSERT INTO solves VALUES(NULL,?,?,?,?,?,?,?)"
 
-con = sqlite3.connect(os.path.join(BASE_PATH, "icfpc2016.sqlite3"), check_same_thread=False)
+#con = sqlite3.connect(os.path.join(BASE_PATH, "icfpc2016.sqlite3"), check_same_thread=False)
+con = sqlite3.connect(DB_FILE, check_same_thread=False)
 cur = con.cursor()
 cur_lock = threading.Lock()
 cur.execute(CUR_CREATE_JOBS)
@@ -69,7 +71,7 @@ def show_jobs(job_id=None):
 		else:
 			cur.execute("SELECT * FROM jobs")
 			for row in cur:
-				print ",".join(map(str, row))
+				print ",".join(map(str, row[:-1]))
 	
 
 def show_problems(problem_id=None):
@@ -106,7 +108,7 @@ def show_solves(problem_id=None):
 
 def main(args):
 	if len(args) < 2:
-		print "Usage: %s [jobs|problems]" % os.path.basename(args[0])
+		print "Usage: %s [jobs|problems|solves]" % os.path.basename(args[0])
 		sys.exit(1)
 
 	target = args[1]

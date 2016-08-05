@@ -26,7 +26,10 @@ import collections
 import sqlite3
 import cgi
 
-BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
+#BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
+#BASE_PATH = ".."
+PROBLEMS_PATH = "../problems"
+DB_FILE = "icfpc2016.sqlite3"
 TIMEOUT = 180.0
 MAX_RUNNING = 4
 
@@ -71,7 +74,8 @@ INSERT_PROBLEMS = "INSERT INTO problems VALUES(?,?,?,?,?,?,?)"
 #INSERT_SOLUTIONS = "INSERT INTO solutions VALUES(NULL,?,?)"
 INSERT_SOLVES = "INSERT INTO solves VALUES(NULL,?,?,?,?,?,?,?)"
 
-con = sqlite3.connect(os.path.join(BASE_PATH, "icfpc2016.sqlite3"), check_same_thread=False)
+#con = sqlite3.connect(os.path.join(BASE_PATH, DB_FILE), check_same_thread=False)
+con = sqlite3.connect(DB_FILE, check_same_thread=False)
 cur = con.cursor()
 cur_lock = threading.Lock()
 cur.execute(CUR_CREATE_JOBS)
@@ -222,15 +226,18 @@ def job_finish(job_id):
 				cur.execute(INSERT_SOLVES, (job_id, solver, problem_id, content, solution_size, 0.0, ""))
 				con.commit()
 
-				#rc, o, e = Command(API_SOLUTION % (problem_id, solution_file)).run(None)
-				rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
-				#run_job_task("solution_submit", ["%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)])
-				try:
-					data = json.loads(o)
-					cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], problem_id))
-					con.commit()
-				except:
-					pass
+				for n in range(10):
+					#rc, o, e = Command(API_SOLUTION % (problem_id, solution_file)).run(None)
+					rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
+					#run_job_task("solution_submit", ["%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)])
+					try:
+						data = json.loads(o)
+						cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], data["problem_id"]))
+						con.commit()
+						break
+					except:
+						print >>sys.stderr, "Solution JSON error: retry %d" % (n + 1)
+						time.sleep(1.0)
 
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
 		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
@@ -264,11 +271,12 @@ def signal_handler(signum, frame):
 	sys.exit()
 
 def main(args):
-	"""
 	if len(args) < 2:
-		print >>sys.stderr, "Usage: %s [blob|snapshot|problem|solution|hello] ..."
+		print >>sys.stderr, "Usage: %s solver" % os.path.basename(args[0])
+		print >>sys.stderr, "  To quit, CTRL+\\"
 		sys.exit(1)
-	"""
+
+	solver = args[1]
 
 	signal.signal(signal.SIGINT, signal_handler)
 	#signal.signal(signal.SIGQUIT, signal_handler)
@@ -289,7 +297,8 @@ def main(args):
 	for problem in problems:
 		print problem["problem_id"], problem["problem_spec_hash"]
 		filename = "problem_%05d_%05d_%05d.txt" % (problem["problem_id"], problem["problem_size"], problem["solution_size"])
-		filename = os.path.join(BASE_PATH, "problems", filename)
+		#filename = os.path.join(BASE_PATH, "problems", filename)
+		filename = os.path.join(PROBLEMS_PATH, filename)
 		if not os.path.isfile(filename):
 			#rc, o, e = perform(API_BLOB % problem["problem_spec_hash"])
 			rc, o, e = Command(API_BLOB % problem["problem_spec_hash"]).run(None)
@@ -308,7 +317,7 @@ def main(args):
 
 	print "Running program..."
 	#run_job_task("test", ["ls"])
-	solver = "/home/futatsugi/develop/contests/icfpc2016/approx/approximate_solver"
+	#solver = "/home/futatsugi/develop/contests/icfpc2016/approx/approximate_solver"
 	#solve_problems("wc -l")
 	solve_problems(solver)
 
