@@ -3,9 +3,25 @@
 #include <gmpxx.h>
 #include <vector>
 #include <iostream>
+#include <boost/algorithm/string.hpp>
+
+#include <boost/multiprecision/gmp.hpp>
+#include <boost/multiprecision/cpp_int.hpp>
+#include <boost/rational.hpp>
 
 
 class Polygon{
+  class Shift{
+    private:
+
+    public:
+      Shift();
+      void parallel_shift();
+
+
+  };
+
+
   private:
     //分数
     struct Fraction{
@@ -18,6 +34,8 @@ class Polygon{
       //分数
       Fraction x;
       Fraction y;
+      boost::rational<boost::multiprecision::mpz_int> x_rational;
+      boost::rational<boost::multiprecision::mpz_int> y_rational;
     };
 
     //頂点

@@ -8,6 +8,10 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 
+#include <boost/multiprecision/gmp.hpp>
+#include <boost/multiprecision/cpp_int.hpp>
+#include <boost/rational.hpp>
+
 
 Polygon::Polygon(){}
 
