@@ -28,6 +28,7 @@ import cgi
 
 BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
 TIMEOUT = 180.0
+MAX_RUNNING = 4
 
 API_KEY = "56-c0d0425216599ecb557d45138c644174"
 #API_URL = "http://2016sv.icfpcontest.org/api"
@@ -50,7 +51,6 @@ API_PROBLEM = "curl --compressed -L -H Expect: -H 'X-API-Key: 56-c0d0425216599ec
 # (problem_id, solution.txt)
 API_SOLUTION = "curl --compressed -L -H Expect: -H 'X-API-Key: 56-c0d0425216599ecb557d45138c644174' -F 'problem_id=%d' -F 'solution_spec=@%s' 'http://2016sv.icfpcontest.org/api/solution/submit'"
 
-MAX_RUNNING = 4
 
 CUR_CREATE_JOBS = """
 CREATE TABLE IF NOT EXISTS jobs (job_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, status TEXT, task_type TEXT, submit_time TEXT, start_time TEXT, end_time TEXT, content TEXT)
@@ -136,8 +136,8 @@ class Command:
 
 	def run(self, timeout):
 		def target():
-			#self.process = subprocess.Popen(shlex.split(self.cmd), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-			self.process = subprocess.Popen(shlex.split(self.cmd.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			#self.process = subprocess.Popen(shlex.split(self.cmd.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			self.stdo, self.stde = self.process.communicate()
 			self.returncode = self.process.returncode
 		t = threading.Thread(target=target)
@@ -185,6 +185,8 @@ def run_job(job_id, commands):
 				for command in self.commands:
 					#returncode, stdo, stde = perform(command)
 					returncode, stdo, stde = Command(command).run(TIMEOUT)
+					print command ##### debug_nf
+					print stdo, stde ##### debug_nf
 					rc |= returncode
 					self.response.append((stdo.rstrip(), stde.rstrip()))
 				job_finish(self.job_id)
@@ -204,17 +206,29 @@ def job_finish(job_id):
 		print o
 		#content = json.loads(o)
 		content += o
-		content += "\n"
 	queue_thread.remove(job_id)
 
 	with cur_lock:
+		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
+		row = cur.fetchone()
+		if row:
+			task_type = row[0]
+			data = task_type.split(":")
+			if len(data) == 3 and data[0] == "solver":
+				solver = data[1]
+				problem_id = int(data[2])
+				solution_size = len(content.replace(" ", "").replace("\n", ""))
+				cur.execute(INSERT_SOLVES, (job_id, solver, problem_id, content, solution_size, 0.0))
+				con.commit()
+
+				#CUR_CREATE_SOLVES = """
+				#CREATE TABLE IF NOT EXISTS solves (solve_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, job_id INTEGER NOT NULL, solver TEXT, problem_id INTEGER, solution TEXT, size TEXT, score REAL)
+				#"""
+
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
 		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
 		con.commit()
 
-#CUR_CREATE_JOBS = """
-#CREATE TABLE IF NOT EXISTS jobs (job_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, status TEXT, task_type TEXT, subm#it_time TEXT, start_time TEXT, end_time TEXT, content TEXT)
-#"""
 def run_job_task(task_type, commands):
 	with cur_lock:
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
@@ -222,11 +236,14 @@ def run_job_task(task_type, commands):
 		con.commit()
 	job_id = cur.lastrowid
 	queue_thread.push(job_id, commands)
-	#run_job(job_id, commands)
 
-def solve_problems(sovler):
+def solve_problems(solver):
 	with cur_lock:
-		cur.execute("SELECT * FROM problems")
+		cur.execute("SELECT problem_id, content FROM problems")
+		problems = [(row[0], row[1]) for row in cur]
+
+	for problem_id, problem in problems:
+		run_job_task("solver:%s:%d" %(solver, problem_id), ["%s <<EOF\n%s\nEOF\n" % (solver, problem)])
 
 def cleanup_db():
 	with cur_lock:
@@ -283,8 +300,8 @@ def main(args):
 		f.close()
 
 	print "Running program..."
-	run_job_task("test", ["ls"])
-	#solve_problems(SOLVER_EXE)
+	#run_job_task("test", ["ls"])
+	solve_problems("wc -l")
 
 	print "Completed!"
 

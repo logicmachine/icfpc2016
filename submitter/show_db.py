@@ -88,6 +88,21 @@ def show_problems(problem_id=None):
 			for row in cur:
 				print ",".join(map(str, row[:-1]))
 
+def show_solves(problem_id=None):
+	with cur_lock:
+		cur.execute("PRAGMA TABLE_INFO(solves)")
+		print ",".join(map(str, [row[1] for row in cur]))
+		if problem_id:
+			cur.execute("SELECT * FROM solves WHERE problem_id=%d" % problem_id)
+			for row in cur:
+				print ",".join(map(str, row))
+			else:
+				print "No problem_id: %d" % problem_id
+		else:
+			cur.execute("SELECT * FROM solves")
+			for row in cur:
+				print ",".join(map(str, row))
+
 def main(args):
 	if len(args) < 2:
 		print "Usage: %s [jobs|problems]" % os.path.basename(args[0])
@@ -100,5 +115,7 @@ def main(args):
 		show_jobs(uid)
 	elif target == "problems":
 		show_problems(uid)
+	elif target == "solves":
+		show_solves(uid)
 
 if __name__ == "__main__": main(sys.argv)
