@@ -11,3 +11,6 @@ ICFP Programming Contest 2016
 
 ## チーム名
 * fixstars
+
+## 公式サイト
+http://icfpc2016.blogspot.jp/
