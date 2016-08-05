@@ -1,5 +1,9 @@
 #ifndef _INC_POLYGON   //まだ読み込まれていなければ以下の処理をする
 #define _INC_POLYGON
+#include <gmpxx.h>
+#include <vector>
+#include <iostream>
+
 
 class Polygon{
   private:
@@ -27,12 +31,12 @@ class Polygon{
     struct Vertex{
       Cordinate c;
     };
-    vector<Vertex> vertices;
-    vector<Edge> edges; 
+    std::vector<Vertex> vertices;
+    std::vector<Edge> edges; 
     // mpz_t normalization_max;
 
   public:
-    Polygon(){}
+    Polygon();
     void set_vertecies(int num_vertices);
     // void normalize(); 正規化はケタ数大きすぎるのでやらない方向で
     void set_edges(int num_edges);

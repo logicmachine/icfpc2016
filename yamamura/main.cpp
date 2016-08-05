@@ -1,11 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <gmpxx.h>
-#include <stdio.h>
-#include <string>
-#include <sstream>
-#include <boost/algorithm/string.hpp>
 #include "polygon.h"
 
 using namespace std;
@@ -26,7 +20,7 @@ void input(){
   cin >> num_edges;
 
   // polygon.set_edges(num_edges);
-  polygon.normalize();
+  // polygon.normalize();
 
 }
 
