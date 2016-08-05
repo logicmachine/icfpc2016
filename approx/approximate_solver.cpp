@@ -18,7 +18,7 @@ typedef bm::mpq_rational mpval_t;
 #define str_to_val(x) (x)
 #endif
 typedef bg::model::d2::point_xy<val_t> point_t;
-typedef bg::model::linestring<point_t> line_t;
+typedef bg::model::linestring<point_t> linestr_t;
 typedef bg::model::segment<point_t> seg_t;
 typedef bg::model::polygon<point_t> poly_t;
 
@@ -28,6 +28,9 @@ get_double(mpval_t const &v)
     return (double) v;
 }
 
+struct line_t {
+    point_t p0, p1;
+};
 
 struct Input {
     val_t x_min;
@@ -148,9 +151,25 @@ simple_solution()
     return s;
 }
 
+struct State {
+    std::vector<point_t> vert_list;
+    std::vector<RefPoly> poly_list;
+};
+
+struct AddInfo
+{
+    int vert_idx;
+
+    AddInfo()
+        :vert_idx(-1)
+    {}
+};
+
+
 #if 0
-static Solution
-fold(Solution *prev_sol,
+static bool
+fold(State *next_st,
+     State *prev_st,
      line_t const &cut_line)
 {
     /*
@@ -160,28 +179,33 @@ fold(Solution *prev_sol,
      *   1.3. 切ったlineふたつを追加
      *
      */
-    Solution next;
 
-    auto &llist = prev_sol->line_list;
-    auto &vlist = prev_sol->vertex_list;
+    State ret;
+    auto &seg_list = prev_st->seg_list;
+    int n=seg_list.size();
+    int prev_nvert = prev_st->vert_list.size();
 
-    int n=llist.size();
-    for (int li=0; li<n; li++) {
+    for (int vi=0; vi<prev_nvert; vi++) {
+
+    }
+
+    std::vector<point_t> vert_list 
+
+    std::vector<seg_t> new_list;
+
+    for (int si=0; si<n; si++) {
         std::vector<point_t> ip;
-        seg_t s0(vlist[llist[li].first],
-                 vlist[llist[li].second]);
-        seg_t s1(vlist[llist[li].first],
-                 vlist[llist[li].second]);
 
-        bg::intersects(s0, s1);
+        bg::intersection(cut_line, seg_list[si], ip);
 
         if (ip.size() == 1) {
+
+        } else {
 
         }
     }
 
-    next.prev = prev_sol;
-    return std::move(next);
+    return std::move(ret);
 }
 #endif
 
@@ -195,7 +219,7 @@ kuso_solver(Input &i)
 
     if (xm >= 1||ym>=1) {
         if (ym < 1) {
-            ym = std::max(val_t(0.51), ym);
+            ym = std::max(val_t(0.50), ym);
 
             s.src_point.push_back(point_t(0,0));
             s.src_point.push_back(point_t(1,0));
@@ -230,7 +254,7 @@ kuso_solver(Input &i)
         }
 
         if (xm < 1) {
-            xm = std::max(val_t(0.51), xm);
+            xm = std::max(val_t(0.50), xm);
 
             s.src_point.push_back(point_t(0,0));
             s.src_point.push_back(point_t(xm,0));
@@ -263,8 +287,8 @@ kuso_solver(Input &i)
         return simple_solution();
     }
 
-    xm = std::max(val_t(0.51), xm);
-    ym = std::max(val_t(0.51), ym);
+    xm = std::max(val_t(0.50), xm);
+    ym = std::max(val_t(0.50), ym);
 
     s.src_point.push_back(point_t(0,0));
     s.src_point.push_back(point_t(xm,0));
