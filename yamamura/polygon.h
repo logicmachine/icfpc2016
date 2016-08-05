@@ -16,30 +16,30 @@ class Polygon{
     //座標
     struct Cordinate{
       //分数
-      Fraction x_ini;
-      Fraction y_ini;
-      //正規化した後
-      // mpz_t x;
-      // mpz_t y;
-    };
-
-    struct Edge{
-      Cordinate c1, c2;
+      Fraction x;
+      Fraction y;
     };
 
     //頂点
     struct Vertex{
       Cordinate c;
     };
+
+    //頂点を結ぶ
+    struct Edge{
+      Vertex v1, v2;
+    };
+
     std::vector<Vertex> vertices;
     std::vector<Edge> edges; 
-    // mpz_t normalization_max;
 
   public:
     Polygon();
+    void set_vertex_from_input(std::string input, struct Vertex *vertex);
     void set_vertecies(int num_vertices);
     // void normalize(); 正規化はケタ数大きすぎるのでやらない方向で
     void set_edges(int num_edges);
+
 
 };
 #endif

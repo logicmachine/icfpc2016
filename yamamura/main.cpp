@@ -19,8 +19,7 @@ void input(){
   int num_edges;
   cin >> num_edges;
 
-  // polygon.set_edges(num_edges);
-  // polygon.normalize();
+  polygon.set_edges(num_edges);
 
 }
 
