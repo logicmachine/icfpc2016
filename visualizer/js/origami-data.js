@@ -49,24 +49,31 @@ var Rational = function(nume, deno){
 		return new Rational(this.nume.multiply(r.deno), this.deno.multiply(r.nume));
 	};
 
+	this.negate = function(){
+		return new Rational(this.nume.negate(), this.deno);
+	};
+	this.abs = function(){
+		return new Rational(this.nume.abs(), this.deno);
+	};
+
 	this.equals = function(r){
 		return this.nume.compare(r.nume) === 0 && this.deno.compare(r.deno) === 0;
 	};
 
-	this.lessThan = function(r){
+	this.compare = function(r){
 		var g = gcd(this.deno, r.deno);
 		var a = this.nume.multiply(r.deno.divide(g));
 		var b = r.nume.multiply(this.deno.divide(g));
-		return a.compare(b) < 0;
+		return a.compare(b);
 	};
 
 	this.min = function(r){
-		return this.lessThan(r)
+		return this.compare(r) < 0
 			? new Rational(this.nume, this.deno)
 			: new Rational(r.nume, r.deno);
 	};
 	this.max = function(r){
-		return this.lessThan(r)
+		return this.compare(r) < 0
 			? new Rational(r.nume, r.deno)
 			: new Rational(this.nume, this.deno);
 	};
@@ -101,8 +108,12 @@ var Vector2 = function(x, y){
 		return this.x.mul(v.y).sub(this.y.mul(v.x));
 	};
 
+	this.norm = function(){
+		return this.x.mul(this.x).add(this.y.mul(this.y));
+	};
+
 	this.equals = function(v){
-		return this.x === v.x && this.y === v.y;
+		return this.x.equals(v.x) && this.y.equals(v.y);
 	};
 };
 
@@ -116,6 +127,23 @@ var Segment = function(from, to){
 	this.clone = function(){
 		return new Segment(this.from, this.to);
 	};
+
+	this.ccw = function(v){
+		var a = this.from, b = this.to, c = v;
+		var d = b.sub(a), e = c.sub(a);
+		var cross = d.cross(e).compare(new Rational());
+		if(cross > 0){ return  1; }
+		if(cross < 0){ return -1; }
+		if(d.dot(e).compare(new Rational()) < 0){ return 2; }
+		if(d.norm() < e.norm()){ return -2; }
+		return 0;
+	};
+
+	this.intersect = function(s){
+		if(this.ccw(s.from) * this.ccw(s.to) > 0){ return false; }
+		if(s.ccw(this.from) * s.ccw(this.to) > 0){ return false; }
+		return true;
+	}
 };
 
 var Polygon = function(vertices){
@@ -144,7 +172,19 @@ var Polygon = function(vertices){
 	};
 
 	this.isClockWise = function(){
-		return !this.area().lessThan(new Rational());
+		return this.area().compare(new Rational()) >= 0;
+	};
+
+	this.isSimple = function(){
+		var edges = this.edges(), n = edges.length;
+		for(var i = 0; i < n; ++i){
+			var prev = (i + n - 1) % n, next = (i + 1) % n;
+			for(var j = 0; j < n; ++j){
+				if(j == prev || j == i || j == next){ continue; }
+				if(edges[i].intersect(edges[j])){ return false; }
+			}
+		}
+		return true;
 	};
 };
 
@@ -186,7 +226,7 @@ var Solution = function(vertices, polygons){
 			indices.forEach(function(index){
 				polygon.push(self.vertices[index][0].clone());
 			});
-			polygons.push(polygon);
+			polygons.push(new Polygon(polygon));
 		});
 		return polygons;
 	};
@@ -197,7 +237,7 @@ var Solution = function(vertices, polygons){
 			indices.forEach(function(index){
 				polygon.push(self.vertices[index][1].clone());
 			});
-			polygons.push(polygon);
+			polygons.push(new Polygon(polygon));
 		});
 		return polygons;
 	};

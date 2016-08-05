@@ -29,22 +29,22 @@ import cgi
 BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
 
 CUR_CREATE_JOBS = """
-CREATE TABLE IF NOT EXISTS jobs (job_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, task_type TEXT, submit_time TEXT, start_time TEXT, end_time TEXT, content TEXT)
+CREATE TABLE IF NOT EXISTS jobs (job_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, status TEXT, task_type TEXT, submit_time TEXT, start_time TEXT, end_time TEXT, content TEXT)
 """
 CUR_CREATE_PROBLEMS = """
-CREATE TABLE IF NOT EXISTS problems (problem_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, publish_time INTEGER, solution_size INTEGER, owner INTEGER, problem_size INTEGER, problem_spec_hash TEXT)
+CREATE TABLE IF NOT EXISTS problems (problem_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, publish_time INTEGER, solution_size INTEGER, owner TEXT, problem_size INTEGER, problem_spec_hash TEXT, content TEXT)
 """
 #CUR_CREATE_SOLUTIONS = """
 #CREATE TABLE IF NOT EXISTS solutions (solution_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, content TEXT)
 #"""
 CUR_CREATE_SOLVES = """
-CREATE TABLE IF NOT EXISTS solves (solve_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, job_id INTEGER NOT NULL, solver TEXT, solution TEXT, size TEXT, score REAL)
+CREATE TABLE IF NOT EXISTS solves (solve_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, job_id INTEGER NOT NULL, solver TEXT, problem_id INTEGER, solution TEXT, size TEXT, resemblance REAL, solution_spec_hash TEXT)
 """
 
-INSERT_JOBS = "INSERT INTO jobs VALUES(NULL,?,?,?,?,?,?,?,?,NULL)"
-INSERT_PROBLEMS = "INSERT INTO problems VALUES(?,?,?,?,?,?)"
+INSERT_JOBS = "INSERT INTO jobs VALUES(NULL,?,?,?,?,?,?)"
+INSERT_PROBLEMS = "INSERT INTO problems VALUES(?,?,?,?,?,?,?)"
 #INSERT_SOLUTIONS = "INSERT INTO solutions VALUES(NULL,?,?)"
-INSERT_SOLVES = "INSERT INTO solves VALUES(NULL,?,?,?,?,?)"
+INSERT_SOLVES = "INSERT INTO solves VALUES(NULL,?,?,?,?,?,?,?)"
 
 con = sqlite3.connect(os.path.join(BASE_PATH, "icfpc2016.sqlite3"), check_same_thread=False)
 cur = con.cursor()
@@ -101,7 +101,8 @@ def show_solves(problem_id=None):
 		else:
 			cur.execute("SELECT * FROM solves")
 			for row in cur:
-				print ",".join(map(str, row))
+				#print ",".join(map(str, row))
+				print ",".join(map(str, [row[3], row[6], row[7]]))
 
 def main(args):
 	if len(args) < 2:
