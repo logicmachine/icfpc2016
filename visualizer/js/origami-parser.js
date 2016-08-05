@@ -50,9 +50,9 @@ var parseSolution = function(str){
 	for(var i = 0; i < m; ++i){
 		var k = parseInt(tokens.shift(), 10), poly = [];
 		for(var j = 0; j < k; ++j){
-			poly.push(vertices[parseInt(tokens.shift(), 10)][0]);
+			poly.push(parseInt(tokens.shift(), 10));
 		}
-		polygons.push(new Polygon(poly));
+		polygons.push(poly);
 	}
 	for(var i = 0; i < n; ++i){
 		vertices[i].push(parseVector2(tokens.shift()));

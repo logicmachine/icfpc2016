@@ -10,13 +10,24 @@ $(document).ready(function(){
 			}
 		});
 	}
+
+	var sourceRenderer = new SourceRenderer();
+	var destinationRenderer = new DestinationRenderer();
+
+	sourceRenderer.onselect = function(index){
+		destinationRenderer.enableHilight(index);
+	};
+	sourceRenderer.onunselect = function(index){
+		destinationRenderer.disableHilight(index);
+	};
+
 	register_file_handlers(
 		$("#problem-file"),
 		$("#problem-file-text"),
 		$("#problem-file-browse"),
 		function(data){
 			var problem = parseProblem(data);
-			drawProblem("#destination-svg", problem);
+			destinationRenderer.setProblem(problem);
 		});
 	register_file_handlers(
 		$("#solution-file"),
@@ -24,7 +35,8 @@ $(document).ready(function(){
 		$("#solution-file-browse"),
 		function(data){
 			var solution = parseSolution(data);
-			drawSolution("#source-svg", solution);
+			sourceRenderer.setSolution(solution);
+			destinationRenderer.setSolution(solution);
 		});
 });
 

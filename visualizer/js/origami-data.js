@@ -157,6 +157,10 @@ var Problem = function(silhouette, skelton){
 	this.skelton = [];
 	silhouette.forEach(function(p){ self.silhouette.push(p.clone()); });
 	skelton.forEach(function(s){ self.skelton.push(s.clone()); });
+
+	this.clone = function(){
+		return new Problem(this.silhouette, this.skelton);
+	};
 };
 
 var Solution = function(vertices, polygons){
@@ -166,6 +170,35 @@ var Solution = function(vertices, polygons){
 	var self = this;
 	this.vertices = [];
 	this.polygons = [];
-	vertices.forEach(function(p){ self.vertices.push(p.concat()); });
-	polygons.forEach(function(p){ self.polygons.push(p.clone()); });
+	vertices.forEach(function(p){
+		self.vertices.push([p[0].clone(), p[1].clone()]);
+	});
+	polygons.forEach(function(p){ self.polygons.push(p.concat()); });
+
+	this.clone = function(){
+		return new Solution(this.vertices, this.polygons);
+	};
+
+	this.sourcePolygons = function(){
+		var self = this, polygons = [];
+		this.polygons.forEach(function(indices){
+			var polygon = [];
+			indices.forEach(function(index){
+				polygon.push(self.vertices[index][0].clone());
+			});
+			polygons.push(polygon);
+		});
+		return polygons;
+	};
+	this.destinationPolygons = function(){
+		var self = this, polygons = [];
+		this.polygons.forEach(function(indices){
+			var polygon = [];
+			indices.forEach(function(index){
+				polygon.push(self.vertices[index][1].clone());
+			});
+			polygons.push(polygon);
+		});
+		return polygons;
+	};
 };
