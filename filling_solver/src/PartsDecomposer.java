@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
-public class FillingSolver {
+public class PartsDecomposer {
 
 	ArrayList<Point<Rational>> points = new ArrayList<>();
 	HashMap<Point<Rational>, Integer> pointToIdx = new HashMap<>();
@@ -70,7 +70,8 @@ public class FillingSolver {
 			HashSet<Point<Rational>> pointSet = new HashSet<>();
 			for (int j = 0; j < edges.length; ++j) {
 				if (j == i) continue;
-				Point<Rational> cp = getIntersectPoint(edges[i], edges[j]);
+				Point<Rational> cp = Geometry.getIntersectPoint(points.get(edges[i].p1), points.get(edges[i].p2), points.get(edges[j].p1),
+						points.get(edges[j].p2));
 				if (cp != null && !cp.equals(points.get(edges[i].p1)) && !cp.equals(points.get(edges[i].p2))) {
 					if (!pointToIdx.containsKey(cp)) {
 						pointToIdx.put(cp, points.size());
@@ -101,38 +102,6 @@ public class FillingSolver {
 			}
 		}
 		edges = newEdges.toArray(new Edge[0]);
-	}
-
-	Point<Rational> getIntersectPoint(Edge e1, Edge e2) {
-		Rational x1 = points.get(e1.p1).x;
-		Rational y1 = points.get(e1.p1).y;
-		Rational x2 = points.get(e1.p2).x;
-		Rational y2 = points.get(e1.p2).y;
-		Rational x3 = points.get(e2.p1).x;
-		Rational y3 = points.get(e2.p1).y;
-		Rational x4 = points.get(e2.p2).x;
-		Rational y4 = points.get(e2.p2).y;
-		Rational dx2 = x4.sub(x3);
-		Rational dy2 = y4.sub(y3);
-		Rational s1 = dx2.mul(y1.sub(y3)).sub(dy2.mul(x1.sub(x3)));
-		Rational s2 = dx2.mul(y3.sub(y2)).sub(dy2.mul(x3.sub(x2)));
-		Rational ss = s1.add(s2);
-		if (ss.equals(Rational.ZERO)) return null;
-		Rational cx1 = x1.add(x2.sub(x1).mul(s1).div(ss));
-		Rational cy1 = y1.add(y2.sub(y1).mul(s1).div(ss));
-		if (cx1.compareTo(x1) * cx1.compareTo(x2) > 0) {
-			return null;
-		}
-		if (cy1.compareTo(y1) * cy1.compareTo(y2) > 0) {
-			return null;
-		}
-		if (cx1.compareTo(x3) * cx1.compareTo(x4) > 0) {
-			return null;
-		}
-		if (cy1.compareTo(y3) * cy1.compareTo(y4) > 0) {
-			return null;
-		}
-		return new Point<Rational>(cx1, cy1);
 	}
 
 	void decompositeToParts() {
@@ -182,8 +151,6 @@ public class FillingSolver {
 			}
 			ret.vs.add(cur);
 		}
-		System.out.println(ret.vs);
-
 		return ret;
 	}
 
@@ -226,7 +193,7 @@ public class FillingSolver {
 			Point<Rational> prev = points.get(poly.vs[n - 1]);
 			for (int j = 0; j < n; ++j) {
 				Point<Rational> cur = points.get(poly.vs[j]);
-				if (onLine(ep1, ep2, prev, cur)) {
+				if (Geometry.isOnLine(ep1, ep2, prev, cur)) {
 					return ep1.compareTo(ep2) == prev.compareTo(cur) ? Edge.PositiveSides.LEFT : Edge.PositiveSides.RIGHT;
 				}
 				prev = cur;
@@ -234,52 +201,15 @@ public class FillingSolver {
 		}
 		return Edge.PositiveSides.BOTH;
 	}
-
-	boolean onLine(Point<Rational> pos1, Point<Rational> pos2, Point<Rational> pos3, Point<Rational> pos4) {
-		if (!area2(pos1, pos2, pos3).equals(Rational.ZERO)) return false;
-		if (!area2(pos1, pos2, pos4).equals(Rational.ZERO)) return false;
-		Point<Rational> min1 = pos1.compareTo(pos2) < 0 ? pos1 : pos2;
-		Point<Rational> max1 = pos1.compareTo(pos2) < 0 ? pos2 : pos1;
-		Point<Rational> min2 = pos3.compareTo(pos4) < 0 ? pos3 : pos4;
-		Point<Rational> max2 = pos3.compareTo(pos4) < 0 ? pos4 : pos3;
-		if (max1.compareTo(min2) <= 0) return false;
-		if (min1.compareTo(max2) >= 0) return false;
-		return true;
-	}
-
-	Rational area2(Point<Rational> p1, Point<Rational> p2, Point<Rational> p3) {
-		Rational dx1 = p1.x.sub(p3.x);
-		Rational dy1 = p1.y.sub(p3.y);
-		Rational dx2 = p2.x.sub(p3.x);
-		Rational dy2 = p2.y.sub(p3.y);
-		return dy1.mul(dx2).sub(dx1.mul(dy2));
-	}
-
-	static Point<BigInteger> scaleToInt(Point<Rational> p, BigInteger mul) {
-		return new Point<BigInteger>(scaleToInt(p.x, mul), scaleToInt(p.y, mul));
-	}
-
-	static BigInteger scaleToInt(Rational r, BigInteger mul) {
-		return r.num.multiply(mul.divide(r.den));
-	}
-
-	static BigInteger lcm(BigInteger a, BigInteger b) {
-		return a.divide(a.gcd(b)).multiply(b);
-	}
-
-	public static void main(String[] args) {
-		FillingSolver solver = new FillingSolver();
-		solver.readInput();
-		solver.edgesArrangement();
-		System.out.println(solver.points);
-		System.out.println(Arrays.toString(solver.polygons));
-		System.out.println(Arrays.toString(solver.edges));
-		solver.decompositeToParts();
-	}
 }
 
 class Part {
 	ArrayList<Integer> vs = new ArrayList<>();
+
+	@Override
+	public String toString() {
+		return vs.toString();
+	}
 }
 
 class Edge {
@@ -300,48 +230,4 @@ class Edge {
 	public String toString() {
 		return "[" + p1 + "," + p2 + "] " + sides + " (" + usedForward + ", " + usedBackward + ")";
 	}
-}
-
-class Polygon {
-	int[] vs;
-	boolean ccw;
-
-	@Override
-	public String toString() {
-		return "ccw:" + ccw + " " + Arrays.toString(vs);
-	}
-}
-
-class Point<T extends Comparable<T>> implements Comparable<Point<T>> {
-	T x, y;
-
-	Point(T x, T y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.x.hashCode() * 31 ^ this.y.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		Point other = (Point) obj;
-		return this.x.equals(other.x) && this.y.equals(other.y);
-	}
-
-	@Override
-	public String toString() {
-		return "(" + x + ", " + y + ")";
-	}
-
-	@Override
-	public int compareTo(Point<T> o) {
-		int ret = this.x.compareTo(o.x);
-		if (ret != 0) return ret;
-		return this.y.compareTo(o.y);
-	}
-
 }
