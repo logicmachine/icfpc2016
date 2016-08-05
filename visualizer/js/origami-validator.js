@@ -55,7 +55,18 @@ var SolutionValidator = function(){
 				if(ei.from.equals(ej.to)){ continue; }
 				if(ei.to.equals(ej.from)){ continue; }
 				if(ei.to.equals(ej.to)){ continue; }
-				if(ei.intersect(ej)){ pass = false; }
+				if(ei.intersect(ej)){
+					console.log([
+						[ei.from.x.toNumber(), ei.from.y.toNumber()],
+						[ei.to.x.toNumber(), ei.to.y.toNumber()],
+						[ej.from.x.toNumber(), ej.from.y.toNumber()],
+						[ej.to.x.toNumber(), ej.to.y.toNumber()]]);
+					console.log(ei.ccw(ej.from));
+					console.log(ei.ccw(ej.to));
+					console.log(ej.ccw(ei.from));
+					console.log(ej.ccw(ei.to));
+					pass = false;
+				}
 			}
 		}
 		return pass;
