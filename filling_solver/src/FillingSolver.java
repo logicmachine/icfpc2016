@@ -43,10 +43,10 @@ public class FillingSolver {
 	}
 
 	State rec(State cur) {
-		output(cur);
-		System.out.println(cur.envelop);
-		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
-		System.out.println();
+		//		output(cur);
+		//		System.out.println(cur.envelop);
+		//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
+		//		System.out.println();
 		ArrayList<Part> parts = decomposer.parts;
 		for (int loop = 0; loop < 2; ++loop) {
 			for (int i = 0; i < cur.envelop.size(); ++i) {
@@ -59,10 +59,8 @@ public class FillingSolver {
 					for (int k = 0; k < PS; ++k) {
 						if (part.vs.get(k) != i1) continue;
 						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
-							System.out.println("adding " + i1 + " " + i2);
 							State ns = cur.add(i, part, k);
 							if (ns == null) continue;
-							System.out.println("added " + i1 + " " + i2);
 							if (ns.area.equals(Rational.ONE)) {
 								if (finish(cur)) {
 									return ns;
@@ -181,7 +179,7 @@ public class FillingSolver {
 			if (reverse) {
 				for (int i = 0; i < part.vs.size(); ++i) {
 					int pi = part.vs.get((partIdx - i + PS) % PS);
-					addVertex.add(new Vertex(pi, reflect(p1, p2, t.apply(points.get(pi)))));
+					addVertex.add(new Vertex(pi, reflect(ev1.p, ev2.p, t.apply(points.get(pi)))));
 				}
 			} else {
 				for (int i = 0; i < part.vs.size(); ++i) {
@@ -207,7 +205,6 @@ public class FillingSolver {
 			if (ret.ymax.sub(ret.ymin).compareTo(MAX_SIZE) >= 0) {
 				return null;
 			}
-			System.out.println(ret.xmin + " " + ret.xmax + " " + ret.ymin + " " + ret.ymax);
 			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
 				ret.envelop.add(this.envelop.get(i));
 			}
