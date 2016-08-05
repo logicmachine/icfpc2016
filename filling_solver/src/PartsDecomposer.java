@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class PartsDecomposer {
 
-	ArrayList<Point<Rational>> points = new ArrayList<>();
-	HashMap<Point<Rational>, Integer> pointToIdx = new HashMap<>();
+	ArrayList<Point> points = new ArrayList<>();
+	HashMap<Point, Integer> pointToIdx = new HashMap<>();
 	Polygon[] polygons; // polygons appeard in input data
 	Edge[] edges; // edges split to fragments at all intersect points
 	ArrayList<Part> parts = new ArrayList<>();
@@ -21,12 +21,12 @@ public class PartsDecomposer {
 				int NV = sc.nextInt();
 				polygons[i] = new Polygon();
 				polygons[i].vs = new int[NV];
-				ArrayList<Point<Rational>> polygon = new ArrayList<>();
+				ArrayList<Point> polygon = new ArrayList<>();
 				for (int j = 0; j < NV; ++j) {
 					String[] coord = sc.next().split(",");
 					Rational x = new Rational(coord[0]);
 					Rational y = new Rational(coord[1]);
-					Point<Rational> p = new Point<Rational>(x, y);
+					Point p = new Point(x, y);
 					polygon.add(p);
 					if (!pointToIdx.containsKey(p)) {
 						pointToIdx.put(p, points.size());
@@ -42,7 +42,7 @@ public class PartsDecomposer {
 				String[] pos1 = sc.next().split(",");
 				Rational x1 = new Rational(pos1[0]);
 				Rational y1 = new Rational(pos1[1]);
-				Point<Rational> p1 = new Point<Rational>(x1, y1);
+				Point p1 = new Point(x1, y1);
 				if (!pointToIdx.containsKey(p1)) {
 					pointToIdx.put(p1, points.size());
 					points.add(p1);
@@ -52,7 +52,7 @@ public class PartsDecomposer {
 				String[] pos2 = sc.next().split(",");
 				Rational x2 = new Rational(pos2[0]);
 				Rational y2 = new Rational(pos2[1]);
-				Point<Rational> p2 = new Point<Rational>(x2, y2);
+				Point p2 = new Point(x2, y2);
 				if (!pointToIdx.containsKey(p2)) {
 					pointToIdx.put(p2, points.size());
 					points.add(p2);
@@ -66,10 +66,10 @@ public class PartsDecomposer {
 	void edgesArrangement() {
 		ArrayList<Edge> newEdges = new ArrayList<>();
 		for (int i = 0; i < edges.length; ++i) {
-			HashSet<Point<Rational>> pointSet = new HashSet<>();
+			HashSet<Point> pointSet = new HashSet<>();
 			for (int j = 0; j < edges.length; ++j) {
 				if (j == i) continue;
-				Point<Rational> cp = Geometry.getIntersectPoint(points.get(edges[i].p1), points.get(edges[i].p2), points.get(edges[j].p1),
+				Point cp = Geometry.getIntersectPoint(points.get(edges[i].p1), points.get(edges[i].p2), points.get(edges[j].p1),
 						points.get(edges[j].p2));
 				if (cp != null && !cp.equals(points.get(edges[i].p1)) && !cp.equals(points.get(edges[i].p2))) {
 					if (!pointToIdx.containsKey(cp)) {
@@ -79,18 +79,18 @@ public class PartsDecomposer {
 					pointSet.add(cp);
 				}
 			}
-			ArrayList<Point<Rational>> list = new ArrayList<>(pointSet);
+			ArrayList<Point> list = new ArrayList<>(pointSet);
 			Collections.sort(list);
-			Point<Rational> prev = points.get(edges[i].p1);
+			Point prev = points.get(edges[i].p1);
 			if (points.get(edges[i].p1).compareTo(points.get(edges[i].p2)) < 0) {
 				for (int j = 0; j < list.size(); ++j) {
-					Point<Rational> cur = list.get(j);
+					Point cur = list.get(j);
 					newEdges.add(new Edge(pointToIdx.get(prev), pointToIdx.get(cur)));
 					prev = cur;
 				}
 			} else {
 				for (int j = list.size() - 1; j >= 0; --j) {
-					Point<Rational> cur = list.get(j);
+					Point cur = list.get(j);
 					newEdges.add(new Edge(pointToIdx.get(prev), pointToIdx.get(cur)));
 					prev = cur;
 				}
@@ -157,16 +157,16 @@ public class PartsDecomposer {
 
 	boolean isCcw(Polygon polygon) {
 		Rational sum = Rational.ZERO;
-		Point<Rational> prev = points.get(polygon.vs[polygon.vs.length - 1]);
+		Point prev = points.get(polygon.vs[polygon.vs.length - 1]);
 		for (int i = 0; i < polygon.vs.length; ++i) {
-			Point<Rational> cur = points.get(polygon.vs[i]);
+			Point cur = points.get(polygon.vs[i]);
 			sum = sum.add(cur.y.mul(prev.x).sub(cur.x.mul(prev.y)));
 			prev = cur;
 		}
 		return sum.num.signum() > 0;
 	}
 
-	Rational pseudoCosSq(Point<Rational> p1, Point<Rational> p2, Point<Rational> p3) {
+	Rational pseudoCosSq(Point p1, Point p2, Point p3) {
 		Rational dx1 = p2.x.sub(p1.x);
 		Rational dy1 = p2.y.sub(p1.y);
 		Rational dx2 = p3.x.sub(p2.x);
@@ -186,14 +186,14 @@ public class PartsDecomposer {
 	}
 
 	Edge.PositiveSides findPositiveSides(Edge e) {
-		Point<Rational> ep1 = points.get(e.p1);
-		Point<Rational> ep2 = points.get(e.p2);
+		Point ep1 = points.get(e.p1);
+		Point ep2 = points.get(e.p2);
 		for (int i = 0; i < polygons.length; ++i) {
 			Polygon poly = polygons[i];
 			int n = poly.vs.length;
-			Point<Rational> prev = points.get(poly.vs[n - 1]);
+			Point prev = points.get(poly.vs[n - 1]);
 			for (int j = 0; j < n; ++j) {
-				Point<Rational> cur = points.get(poly.vs[j]);
+				Point cur = points.get(poly.vs[j]);
 				if (Geometry.isOnLine(ep1, ep2, prev, cur)) {
 					return ep1.compareTo(ep2) == prev.compareTo(cur) ? Edge.PositiveSides.LEFT : Edge.PositiveSides.RIGHT;
 				}
@@ -208,12 +208,12 @@ class Part {
 	ArrayList<Integer> vs = new ArrayList<>(); // point indices in ccw order
 	Rational area;
 
-	Part(ArrayList<Integer> vs, ArrayList<Point<Rational>> points) {
+	Part(ArrayList<Integer> vs, ArrayList<Point> points) {
 		this.vs = vs;
 		area = Rational.ZERO;
-		Point<Rational> prev = points.get(vs.get(vs.size() - 1));
+		Point prev = points.get(vs.get(vs.size() - 1));
 		for (int i = 0; i < vs.size(); ++i) {
-			Point<Rational> cur = points.get(vs.get(i));
+			Point cur = points.get(vs.get(i));
 			area = area.add(cur.y.mul(prev.x).sub(cur.x.mul(prev.y)));
 			prev = cur;
 		}

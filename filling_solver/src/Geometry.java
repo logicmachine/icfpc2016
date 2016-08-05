@@ -1,19 +1,20 @@
+import java.math.BigInteger;
 import java.util.Arrays;
 
 public class Geometry {
-	static boolean isOnLine(Point<Rational> pos1, Point<Rational> pos2, Point<Rational> pos3, Point<Rational> pos4) {
+	static boolean isOnLine(Point pos1, Point pos2, Point pos3, Point pos4) {
 		if (!area2(pos1, pos2, pos3).equals(Rational.ZERO)) return false;
 		if (!area2(pos1, pos2, pos4).equals(Rational.ZERO)) return false;
-		Point<Rational> min1 = pos1.compareTo(pos2) < 0 ? pos1 : pos2;
-		Point<Rational> max1 = pos1.compareTo(pos2) < 0 ? pos2 : pos1;
-		Point<Rational> min2 = pos3.compareTo(pos4) < 0 ? pos3 : pos4;
-		Point<Rational> max2 = pos3.compareTo(pos4) < 0 ? pos4 : pos3;
+		Point min1 = pos1.compareTo(pos2) < 0 ? pos1 : pos2;
+		Point max1 = pos1.compareTo(pos2) < 0 ? pos2 : pos1;
+		Point min2 = pos3.compareTo(pos4) < 0 ? pos3 : pos4;
+		Point max2 = pos3.compareTo(pos4) < 0 ? pos4 : pos3;
 		if (max1.compareTo(min2) <= 0) return false;
 		if (min1.compareTo(max2) >= 0) return false;
 		return true;
 	}
 
-	static Rational area2(Point<Rational> p1, Point<Rational> p2, Point<Rational> p3) {
+	static Rational area2(Point p1, Point p2, Point p3) {
 		Rational dx1 = p1.x.sub(p3.x);
 		Rational dy1 = p1.y.sub(p3.y);
 		Rational dx2 = p2.x.sub(p3.x);
@@ -21,7 +22,7 @@ public class Geometry {
 		return dy1.mul(dx2).sub(dx1.mul(dy2));
 	}
 
-	static Point<Rational> getIntersectPoint(Point<Rational> p1, Point<Rational> p2, Point<Rational> p3, Point<Rational> p4) {
+	static Point getIntersectPoint(Point p1, Point p2, Point p3, Point p4) {
 		Rational x1 = p1.x;
 		Rational y1 = p1.y;
 		Rational x2 = p2.x;
@@ -50,7 +51,7 @@ public class Geometry {
 		if (cy1.compareTo(y3) * cy1.compareTo(y4) > 0) {
 			return null;
 		}
-		return new Point<Rational>(cx1, cy1);
+		return new Point(cx1, cy1);
 	}
 
 }
@@ -65,12 +66,26 @@ class Polygon {
 	}
 }
 
-class Point<T extends Comparable<T>> implements Comparable<Point<T>> {
-	T x, y;
+class Point implements Comparable<Point> {
+	Rational x, y;
 
-	Point(T x, T y) {
+	Point(Rational x, Rational y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	String toICFPStr() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(x.num);
+		if (!x.den.equals(BigInteger.ONE)) {
+			sb.append("/" + x.den);
+		}
+		sb.append(",");
+		sb.append(y.num);
+		if (!y.den.equals(BigInteger.ONE)) {
+			sb.append("/" + y.den);
+		}
+		return sb.toString();
 	}
 
 	@Override
@@ -91,7 +106,7 @@ class Point<T extends Comparable<T>> implements Comparable<Point<T>> {
 	}
 
 	@Override
-	public int compareTo(Point<T> o) {
+	public int compareTo(Point o) {
 		int ret = this.x.compareTo(o.x);
 		if (ret != 0) return ret;
 		return this.y.compareTo(o.y);
