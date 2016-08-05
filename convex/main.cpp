@@ -39,7 +39,7 @@ int main(){
 		}),
 		Matrix3x3::identity());
 	while(true){
-		const auto before_size = current.size();
+		bool modified = false;
 		for(int i = 0; i < n; ++i){
 			const auto line = convex.side(i).to_line();
 			const auto inv_refmat =
@@ -49,9 +49,14 @@ int main(){
 			vector<TransposedPolygon> next;
 			for(const auto &tp : current){
 				const auto l = convex_cut(tp.first, line);
-				next.emplace_back(l, tp.second);
+				if(l.area() == Rational()){
+					modified = true;
+				}else{
+					next.emplace_back(l, tp.second);
+				}
 				const auto r = convex_cut(tp.first, Line(line.b, line.a));
 				if(r.area() == Rational()){ continue; }
+				modified = true;
 				vector<Point> reflected(r.size());
 				for(int j = 0; j < r.size(); ++j){
 					reflected[r.size() - 1 - j] = line.reflection(r[j]);
@@ -61,7 +66,7 @@ int main(){
 			}
 			next.swap(current);
 		}
-		if(current.size() == before_size){ break; }
+		if(!modified){ break; }
 	}
 
 	map<Point, int> p2i_table;

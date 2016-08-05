@@ -112,6 +112,10 @@ public:
 		if(m_nume < 0){ return -*this; }
 		return *this;
 	}
+
+	double to_double() const {
+		return static_cast<double>(m_nume) / static_cast<double>(m_deno);
+	}
 };
 
 std::istream &operator>>(std::istream &is, Rational &x){
