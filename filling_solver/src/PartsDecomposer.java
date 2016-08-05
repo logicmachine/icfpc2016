@@ -1,6 +1,5 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -109,9 +108,11 @@ public class PartsDecomposer {
 			Edge e = edges[i];
 			if (!e.usedForward && (e.sides == Edge.PositiveSides.BOTH || e.sides == Edge.PositiveSides.LEFT)) {
 				parts.add(extractPart(e.p1, e.p2));
+				e.usedForward = true;
 			}
 			if (!e.usedBackward && (e.sides == Edge.PositiveSides.BOTH || e.sides == Edge.PositiveSides.RIGHT)) {
 				parts.add(extractPart(e.p2, e.p1));
+				e.usedBackward = true;
 			}
 		}
 	}
