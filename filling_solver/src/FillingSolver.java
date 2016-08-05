@@ -1,10 +1,13 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class FillingSolver {
 
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(9), BigInteger.valueOf(8));
 	PartsDecomposer decomposer;
+	int[] partsUsed;
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -12,21 +15,25 @@ public class FillingSolver {
 
 	void solve() {
 		ArrayList<Part> parts = decomposer.parts;
+		partsUsed = new int[parts.size()];
+		int largestI = 0;
 		Part largest = parts.get(0);
 		for (int i = 1; i < parts.size(); ++i) {
 			if (parts.get(i).area.compareTo(largest.area) > 0) {
 				largest = parts.get(i);
+				largestI = i;
 			}
 		}
 		System.err.println("largest part:" + largest);
+		partsUsed[largestI] = 1;
 
-		State st = new State();
+		ArrayList<Vertex> initialEnvelop = new ArrayList<>();
 		for (int i = 0; i < largest.vs.size(); ++i) {
 			Point p = decomposer.points.get(largest.vs.get(i));
-			st.envelop.add(new Vertex(largest.vs.get(i), p.x, p.y));
+			initialEnvelop.add(new Vertex(largest.vs.get(i), p.x, p.y));
 		}
+		State st = new State(initialEnvelop);
 		st.area = largest.area;
-		st.filledParts.add(new ArrayList<>(st.envelop));
 		State result = rec(st);
 		if (result != null) {
 			output(result);
@@ -36,26 +43,48 @@ public class FillingSolver {
 	}
 
 	State rec(State cur) {
+		output(cur);
+		System.out.println(cur.envelop);
+		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
+		System.out.println();
 		ArrayList<Part> parts = decomposer.parts;
-		for (int i = 0; i < cur.envelop.size(); ++i) {
-			int i1 = cur.envelop.get(i).pIdx;
-			int i2 = cur.envelop.get((i + 1) % cur.envelop.size()).pIdx;
-			for (int j = 0; j < parts.size(); ++j) {
-				Part part = parts.get(j);
-				final int PS = part.vs.size();
-				for (int k = 0; k < PS; ++k) {
-					if (part.vs.get(k) != i1) continue;
-					if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
-						State ns = cur.add(i, part, k);
-						if (ns == null) continue;
-						if (ns.area.equals(Rational.ONE)) return ns;
-						State ans = rec(ns);
-						if (ans != null) return ans;
+		for (int loop = 0; loop < 2; ++loop) {
+			for (int i = 0; i < cur.envelop.size(); ++i) {
+				int i1 = cur.envelop.get(i).pIdx;
+				int i2 = cur.envelop.get((i + 1) % cur.envelop.size()).pIdx;
+				for (int j = 0; j < parts.size(); ++j) {
+					if (partsUsed[j] != 0 && loop == 0) continue;
+					Part part = parts.get(j);
+					final int PS = part.vs.size();
+					for (int k = 0; k < PS; ++k) {
+						if (part.vs.get(k) != i1) continue;
+						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
+							System.out.println("adding " + i1 + " " + i2);
+							State ns = cur.add(i, part, k);
+							if (ns == null) continue;
+							System.out.println("added " + i1 + " " + i2);
+							if (ns.area.equals(Rational.ONE)) {
+								if (finish(cur)) {
+									return ns;
+								} else {
+									continue;
+								}
+							}
+							partsUsed[j]++;
+							State ans = rec(ns);
+							if (ans != null) return ans;
+							partsUsed[j]--;
+						}
 					}
 				}
 			}
 		}
 		return null;
+	}
+
+	boolean finish(State st) {
+		// TODO
+		return true;
 	}
 
 	void output(State st) {
@@ -73,7 +102,7 @@ public class FillingSolver {
 		}
 		System.out.println(ps.length);
 		for (int i = 0; i < ps.length; ++i) {
-			System.out.println(ps[i].toICFPStr());
+			System.out.println(ps[i].transform(st.xmin.negate(), st.ymin.negate()).toICFPStr());
 		}
 		System.out.println(st.filledParts.size());
 		Point[] dest = new Point[map.size()];
@@ -87,7 +116,7 @@ public class FillingSolver {
 			System.out.println();
 		}
 		for (int i = 0; i < dest.length; ++i) {
-			System.out.println(dest[i].toICFPStr());
+			System.out.println(dest[i].transform(st.xmin.negate(), st.ymin.negate()).toICFPStr());
 		}
 	}
 
@@ -121,6 +150,19 @@ public class FillingSolver {
 		ArrayList<ArrayList<Vertex>> filledParts = new ArrayList<>();
 		ArrayList<Vertex> envelop = new ArrayList<>();
 		Rational area;
+		Rational xmin, xmax, ymin, ymax;
+
+		State() {}
+
+		State(ArrayList<Vertex> initialEnvelop) {
+			this.envelop = new ArrayList<>(initialEnvelop);
+			this.filledParts.add(new ArrayList<>(this.envelop));
+			xmin = xmax = this.envelop.get(0).p.x;
+			ymin = ymax = this.envelop.get(0).p.y;
+			for (int i = 1; i < this.envelop.size(); ++i) {
+				updateBBox(this.envelop.get(i).p);
+			}
+		}
 
 		State add(int envIdx, Part part, int partIdx) {
 			final int PS = part.vs.size();
@@ -148,19 +190,47 @@ public class FillingSolver {
 				}
 			}
 			// TODO conflict check
-			// TODO edge merging
-			for (int i = 0; i <= partIdx; ++i) {
+			ret.xmin = this.xmin;
+			ret.xmax = this.xmax;
+			ret.ymin = this.ymin;
+			ret.ymax = this.ymax;
+			for (int i = 0; i <= envIdx; ++i) {
 				ret.envelop.add(this.envelop.get(i));
 			}
 			for (int i = 1; i < PS - 1; ++i) {
 				ret.envelop.add(addVertex.get(i));
+				ret.updateBBox(addVertex.get(i).p);
 			}
-			for (int i = partIdx + 1; i < this.envelop.size(); ++i) {
+			if (ret.xmax.sub(ret.xmin).compareTo(MAX_SIZE) >= 0) {
+				return null;
+			}
+			if (ret.ymax.sub(ret.ymin).compareTo(MAX_SIZE) >= 0) {
+				return null;
+			}
+			System.out.println(ret.xmin + " " + ret.xmax + " " + ret.ymin + " " + ret.ymax);
+			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
 				ret.envelop.add(this.envelop.get(i));
 			}
-			ret.filledParts.addAll(this.filledParts);
+			Point addNext = ret.envelop.get(envIdx + 1).p;
+			Point addPrev = ret.envelop.get((envIdx - 1 + ret.envelop.size()) % ret.envelop.size()).p;
+			if (addNext.equals(addPrev)) {
+				ret.envelop.remove(envIdx);
+				ret.envelop.remove(envIdx);
+			}
+			for (ArrayList<Vertex> vs : this.filledParts) {
+				ret.filledParts.add(new ArrayList<>(vs));
+			}
 			ret.filledParts.add(addVertex);
 			return ret;
+		}
+
+		void updateBBox(Point p) {
+			Rational x = p.x;
+			Rational y = p.y;
+			if (x.compareTo(xmin) < 0) xmin = x;
+			if (x.compareTo(xmax) > 0) xmax = x;
+			if (y.compareTo(ymin) < 0) ymin = y;
+			if (y.compareTo(ymax) > 0) ymax = y;
 		}
 	}
 
@@ -224,8 +294,8 @@ public class FillingSolver {
 	}
 
 	static class Vertex {
-		int pIdx;
-		Point p;
+		final int pIdx;
+		final Point p;
 
 		Vertex(int i, Rational x, Rational y) {
 			this.pIdx = i;
@@ -239,7 +309,7 @@ public class FillingSolver {
 
 		@Override
 		public String toString() {
-			return "[pIdx=" + pIdx + ", x=" + p.x + ", y=" + p.y + "]";
+			return "pi=" + pIdx + "(" + p.x + "," + p.y + ")";
 		}
 	}
 }

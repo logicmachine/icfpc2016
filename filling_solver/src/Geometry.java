@@ -74,6 +74,10 @@ class Point implements Comparable<Point> {
 		this.y = y;
 	}
 
+	Point transform(Rational dx, Rational dy) {
+		return new Point(x.add(dx), y.add(dy));
+	}
+
 	String toICFPStr() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(x.num);
