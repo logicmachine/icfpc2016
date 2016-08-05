@@ -188,7 +188,7 @@ var DestinationRenderer = function(){
 		svg.selectAll("polygon").data([polygons[index]]).enter()
 			.append("polygon")
 			.attr("points", function(polygon){
-				return polygon.map(function(v){
+				return polygon.vertices.map(function(v){
 					return [
 						x_scale(v.x.sub(x_offset).toNumber()),
 						y_scale(v.y.sub(y_offset).toNumber())
