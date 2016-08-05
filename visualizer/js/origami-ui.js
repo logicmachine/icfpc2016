@@ -16,7 +16,6 @@ $(document).ready(function(){
 		$("#problem-file-browse"),
 		function(data){
 			var problem = parseProblem(data);
-			console.log(problem);
 			drawProblem("#destination-svg", problem);
 		});
 	register_file_handlers(
