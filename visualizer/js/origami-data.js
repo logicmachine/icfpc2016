@@ -10,7 +10,7 @@ var Rational = function(nume, deno){
 		nume = -nume;
 		deno = -deno;
 	}
-	var g = gcd(nume, deno);
+	var g = gcd(Math.abs(nume), Math.abs(deno));
 	this.nume = nume / g;
 	this.deno = deno / g;
 
