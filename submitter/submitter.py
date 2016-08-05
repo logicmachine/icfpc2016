@@ -225,12 +225,14 @@ def job_finish(job_id):
 				#rc, o, e = Command(API_SOLUTION % (problem_id, solution_file)).run(None)
 				rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
 				#run_job_task("solution_submit", ["%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)])
-				try:
-					data = json.loads(o)
-					cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], problem_id))
-					con.commit()
-				except:
-					pass
+				for n in range(10):
+					try:
+						data = json.loads(o)
+						cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], data["problem_id"]))
+						con.commit()
+						break
+					except:
+						print >>sys.stderr, "Solution JSON error: retry %d" % (n + 1)
 
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
 		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))

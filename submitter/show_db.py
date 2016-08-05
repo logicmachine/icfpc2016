@@ -69,7 +69,7 @@ def show_jobs(job_id=None):
 		else:
 			cur.execute("SELECT * FROM jobs")
 			for row in cur:
-				print ",".join(map(str, row))
+				print ",".join(map(str, row[-1]))
 	
 
 def show_problems(problem_id=None):
