@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Origami</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/origami.css" rel="stylesheet">
+    <script src="jquery/jquery-3.1.0.min.js"></script>
+    <script src="d3/d3.min.js"></script>
+    <script src="js/origami-data.js"></script>
+    <script src="js/origami-parser.js"></script>
+    <script src="js/origami-renderer.js"></script>
+    <script src="js/origami-ui.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Origami</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid main-container" role="main">
+      <!-- File selectors -->
+      <div class="row-fluid file-selector-grid"><!--
+        --><div class="col-md-1 selector-cell">Problem</div><!--
+        --><div class="col-md-5 selector-cell">
+          <input id="problem-file" type="file" style="display:none">
+          <div class="input-group">
+            <input type="text" id="problem-file-text" class="form-control" placeholder="Select file...">
+            <span class="input-group-btn">
+              <button id="problem-file-browse" type="button" class="btn btn-info">Browse</button>
+            </span>
+          </div>
+        </div><!--
+        --><div class="col-md-1 selector-cell">Solution</div><!--
+        --><div class="col-md-5 selector-cell">
+          <input id="solution-file" type="file" style="display:none">
+          <div class="input-group">
+            <input type="text" id="solution-file-text" class="form-control" placeholder="Select file...">
+            <span class="input-group-btn">
+              <button id="solution-file-browse" type="button" class="btn btn-info">Browse</button>
+            </span>
+          </div>
+        </div><!--
+      --></div>
+
+      <!-- Origami views -->
+      <div class="row-fluid main-row"><!--
+        --><div class="col-md-6 display-column">
+          <h3>Source</h3>
+          <svg id="source-svg" class="display-svg" width="100%"></svg>
+        </div><!--
+        --><div class="col-md-6 display-column">
+          <h3>Destination</h3>
+          <svg id="destination-svg" class="display-svg" width="100%"></svg>
+        </div><!--
+      --></div>
+    </div>
+  </body>
+</html>
