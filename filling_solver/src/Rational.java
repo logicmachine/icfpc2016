@@ -53,6 +53,10 @@ public class Rational implements Comparable<Rational> {
 		return new Rational(this.num.multiply(v.den).subtract(v.num.multiply(this.den)), this.den.multiply(v.den));
 	}
 
+	Rational negate() {
+		return new Rational(this.num.negate(), this.den);
+	}
+
 	public int compareTo(Rational r) {
 		BigInteger n1 = this.num.multiply(r.den);
 		BigInteger n2 = this.den.multiply(r.num);

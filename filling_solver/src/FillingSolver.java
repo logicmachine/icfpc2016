@@ -137,13 +137,52 @@ public class FillingSolver {
 
 	void decompositeToParts() {
 		for (int i = 0; i < edges.length; ++i) {
-
+			Edge e = edges[i];
+			if (!e.usedForward && (e.sides == Edge.PositiveSides.BOTH || e.sides == Edge.PositiveSides.LEFT)) {
+				parts.add(extractPart(e.p1, e.p2));
+			}
+			if (!e.usedBackward && (e.sides == Edge.PositiveSides.BOTH || e.sides == Edge.PositiveSides.RIGHT)) {
+				parts.add(extractPart(e.p2, e.p1));
+			}
 		}
 	}
 
 	Part extractPart(int start, int next) {
 		Part ret = new Part();
+		int prev = start;
 		int cur = next;
+		ret.vs.add(cur);
+		while (cur != start) {
+			Edge cand = null;
+			Rational cosSq = new Rational(BigInteger.valueOf(10), BigInteger.ONE); // smaller is better
+			for (Edge e : edges) {
+				if (e.p1 == cur) {
+					if (e.p2 == prev) continue;
+					Rational cos = pseudoCosSq(points.get(prev), points.get(cur), points.get(e.p2));
+					if (cos.compareTo(cosSq) < 0) {
+						cosSq = cos;
+						cand = e;
+					}
+				} else if (e.p2 == cur) {
+					if (e.p1 == prev) continue;
+					Rational cos = pseudoCosSq(points.get(prev), points.get(cur), points.get(e.p1));
+					if (cos.compareTo(cosSq) < 0) {
+						cosSq = cos;
+						cand = e;
+					}
+				}
+			}
+			prev = cur;
+			if (cand.p1 == cur) {
+				cur = cand.p2;
+				cand.usedForward = true;
+			} else {
+				cur = cand.p1;
+				cand.usedBackward = true;
+			}
+			ret.vs.add(cur);
+		}
+		System.out.println(ret.vs);
 
 		return ret;
 	}
@@ -157,6 +196,25 @@ public class FillingSolver {
 			prev = cur;
 		}
 		return sum.num.signum() > 0;
+	}
+
+	Rational pseudoCosSq(Point<Rational> p1, Point<Rational> p2, Point<Rational> p3) {
+		Rational dx1 = p2.x.sub(p1.x);
+		Rational dy1 = p2.y.sub(p1.y);
+		Rational dx2 = p3.x.sub(p2.x);
+		Rational dy2 = p3.y.sub(p2.y);
+		boolean ccw = dy2.mul(dx1).sub(dx2.mul(dy1)).compareTo(Rational.ZERO) > 0;
+		Rational dot = dx1.mul(dx2).add(dy1.mul(dy2));
+		Rational norm1 = dx1.mul(dx1).add(dy1.mul(dy1));
+		Rational norm2 = dx2.mul(dx2).add(dy2.mul(dy2));
+		Rational cos2 = dot.mul(dot).div(norm1.mul(norm2));
+		if (dot.num.signum() < 0) {
+			cos2 = cos2.negate();
+		}
+		if (!ccw) {
+			cos2 = cos2.negate().add(new Rational(BigInteger.valueOf(3), BigInteger.ONE)); // add bonus
+		}
+		return cos2;
 	}
 
 	Edge.PositiveSides findPositiveSides(Edge e) {
@@ -221,7 +279,7 @@ public class FillingSolver {
 }
 
 class Part {
-	ArrayList<Integer> vs;
+	ArrayList<Integer> vs = new ArrayList<>();
 }
 
 class Edge {
