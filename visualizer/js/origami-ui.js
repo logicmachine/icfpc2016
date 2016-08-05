@@ -37,6 +37,19 @@ $(document).ready(function(){
 			var solution = parseSolution(data);
 			sourceRenderer.setSolution(solution);
 			destinationRenderer.setSolution(solution);
+
+			var validator = new SolutionValidator();
+			var messages = validator.validate(solution);
+			$("#validation-messages").children("div").remove();
+			messages.forEach(function(message){
+				$("#validation-messages").append(
+					"<div class=\"alert alert-danger\" role=\"alert\">" + message + "</div>");
+			});
 		});
+
+	$(window).on("resize", function(){
+		sourceRenderer.redraw();
+		destinationRenderer.redraw();
+	});
 });
 

@@ -23,7 +23,7 @@ var SourceRenderer = function(){
 		svg.selectAll("polygon").data(self.solution.sourcePolygons()).enter()
 			.append("polygon")
 			.attr("points", function(polygon){
-				return polygon.map(function(v){
+				return polygon.vertices.map(function(v){
 					return [
 						x_scale(v.x.toNumber()),
 						y_scale(v.y.toNumber())
@@ -50,6 +50,10 @@ var SourceRenderer = function(){
 
 	this.setSolution = function(solution){
 		this.solution = solution.clone();
+		drawSolution();
+	};
+
+	this.redraw = function(){
 		drawSolution();
 	};
 };
@@ -104,6 +108,7 @@ var DestinationRenderer = function(){
 		return [x_scale, y_scale];
 	};
 	var drawProblem = function(x_offset, y_offset){
+		if(self.problem === null){ return; }
 		var svg = d3.select("#destination-problem-group");
 		svg.selectAll("*").remove();
 		var scales = computeScales(svg), x_scale = scales[0], y_scale = scales[1];
@@ -136,6 +141,7 @@ var DestinationRenderer = function(){
 			.attr("stroke-width", "1");
 	};
 	var drawSolution = function(x_offset, y_offset){
+		if(self.solution === null){ return; }
 		var svg = d3.select("#destination-solution-group");
 		svg.selectAll("*").remove();
 		var scales = computeScales(svg), x_scale = scales[0], y_scale = scales[1];
@@ -143,7 +149,7 @@ var DestinationRenderer = function(){
 		svg.selectAll("polygon").data(self.solution.destinationPolygons()).enter()
 			.append("polygon")
 			.attr("points", function(polygon){
-				return polygon.map(function(v){
+				return polygon.vertices.map(function(v){
 					return [
 						x_scale(v.x.sub(x_offset).toNumber()),
 						y_scale(v.y.sub(y_offset).toNumber())
@@ -164,6 +170,12 @@ var DestinationRenderer = function(){
 	this.setSolution = function(solution){
 		this.solution = solution.clone();
 		var offset = computeOffset();
+		drawSolution(offset[0], offset[1]);
+	};
+
+	this.redraw = function(){
+		var offset = computeOffset();
+		drawProblem(offset[0], offset[1]);
 		drawSolution(offset[0], offset[1]);
 	};
 
