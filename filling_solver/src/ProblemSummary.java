@@ -20,12 +20,12 @@ public class ProblemSummary {
 			String filename = path.toString();
 			Matcher matcher = p.matcher(filename);
 			if (!matcher.matches()) return;
-			System.out.println(filename);
 			ids.add(matcher.group(1));
 			problemSizes.add(Integer.parseInt(matcher.group(2)));
 			solutionSizes.add(Integer.parseInt(matcher.group(3)));
 			String imgFilename = String.format("../problems/img/%s.png", matcher.group(1));
 			if (Files.exists(Paths.get(imgFilename))) return;
+			System.out.println(filename);
 			PartsDecomposer decomposer = new PartsDecomposer();
 			try {
 				decomposer.readInput(new FileInputStream(filename));
