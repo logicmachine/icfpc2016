@@ -33,10 +33,12 @@ import tempfile
 PROBLEMS_PATH = "../problems"
 RESEMBLANCE_CALCULATOR = "../approx/resemblance"
 DB_FILE = "icfpc2016.sqlite3"
-#TIMEOUT = 180.0
-TIMEOUT = 20.0
+TIMEOUT = 180.0
+#TIMEOUT = 15.0
+#TIMEOUT = None
 NUM_RETRY = 5
 MAX_RUNNING = 4
+#MAX_RUNNING = 8
 QUEUE_WAIT = 0.0
 
 API_KEY = "56-c0d0425216599ecb557d45138c644174"
@@ -362,12 +364,14 @@ def main(args):
 				#rc, o, e = perform(API_BLOB % problem["problem_spec_hash"])
 				rc, o, e = Command(API_BLOB % problem["problem_spec_hash"]).run(None)
 				if re.search("html", o):
-					print >>sys.stderr, "Error downloading program: retry %d" % (n + 1)
+					print >>sys.stderr, "Error downloading problem: retry %d" % (n + 1)
+					time.sleep(1.0) # for wait to avoid time-limit
 					continue
 				break
-			f = open(filename, "wb")
-			f.write(o)
-			f.close()
+			if n < 4:
+				f = open(filename, "wb")
+				f.write(o)
+				f.close()
 		f = open(filename)
 		content = f.read()
 		with cur_lock:
