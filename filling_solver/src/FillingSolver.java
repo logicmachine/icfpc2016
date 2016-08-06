@@ -15,8 +15,8 @@ import javax.imageio.ImageIO;
 public class FillingSolver {
 
 	private static final long NO_TIME_LIMIT = -1;
-	//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1000), BigInteger.valueOf(999));
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1415), BigInteger.valueOf(1000));
+	//	static final Rational MAX_SIZE = Rational.ONE;
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14143), BigInteger.valueOf(10000));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
 	int maxBitLength;
@@ -288,10 +288,10 @@ public class FillingSolver {
 				ret.envelop.add(addVertex.get(i));
 				ret.updateBBox(addVertex.get(i).p);
 			}
-			if (ret.xmax.sub(ret.xmin).compareTo(MAX_SIZE) >= 0) {
+			if (ret.xmax.sub(ret.xmin).compareTo(MAX_SIZE) > 0) {
 				return null;
 			}
-			if (ret.ymax.sub(ret.ymin).compareTo(MAX_SIZE) >= 0) {
+			if (ret.ymax.sub(ret.ymin).compareTo(MAX_SIZE) > 0) {
 				return null;
 			}
 			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
