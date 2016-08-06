@@ -346,6 +346,7 @@ def main(args):
 	snapshots = [(snapshot["snapshot_time"], snapshot["snapshot_hash"]) for snapshot in snapshots]
 	snapshots.sort()
 	last_snapshot = snapshots[-1][1]
+	time.sleep(1.0) # for wait to avoid time-limit
 
 	print "Reading problems..."
 	#rc, o, e = perform(API_BLOB % last_snapshot)
