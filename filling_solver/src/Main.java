@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class Main {
 	public static void main(String[] args) {
 		PartsDecomposer decomposer = new PartsDecomposer();
-		decomposer.readInput();
+		decomposer.readInput(System.in);
 		decomposer.edgesArrangement();
 		decomposer.decompositeToParts();
 		System.err.println(decomposer.points);

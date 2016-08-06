@@ -1,9 +1,18 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 public class PartsDecomposer {
 
@@ -13,8 +22,8 @@ public class PartsDecomposer {
 	Edge[] edges; // edges split to fragments at all intersect points
 	ArrayList<Part> parts = new ArrayList<>();
 
-	void readInput() {
-		try (Scanner sc = new Scanner(System.in)) {
+	void readInput(InputStream input) {
+		try (Scanner sc = new Scanner(input)) {
 			int NP = sc.nextInt();
 			polygons = new Polygon[NP];
 			for (int i = 0; i < NP; ++i) {
@@ -202,6 +211,49 @@ public class PartsDecomposer {
 		}
 		return Edge.PositiveSides.BOTH;
 	}
+
+	void outputImages(String filename) {
+		final int SIZE = 600;
+		final int MARGIN = 250;
+		BufferedImage image = new BufferedImage(SIZE + MARGIN, SIZE + MARGIN, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = (Graphics2D) image.getGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		Rational xmin = points.get(parts.get(0).vs.get(0)).x;
+		Rational ymin = points.get(parts.get(0).vs.get(0)).y;
+		for (int i = 0; i < parts.size(); ++i) {
+			Part part = parts.get(i);
+			for (int j = 0; j < part.vs.size(); ++j) {
+				Point p = points.get(part.vs.get(j));
+				if (p.x.compareTo(xmin) < 0) xmin = p.x;
+				if (p.y.compareTo(ymin) < 0) ymin = p.y;
+			}
+		}
+
+		for (int i = 0; i < parts.size(); ++i) {
+			Part part = parts.get(i);
+			int[] xs = new int[part.vs.size()];
+			int[] ys = new int[part.vs.size()];
+			for (int j = 0; j < part.vs.size(); ++j) {
+				Point p = points.get(part.vs.get(j));
+				xs[j] = fitToScale(p.x.sub(xmin), SIZE);
+				ys[j] = SIZE - 1 - fitToScale(p.y.sub(ymin), SIZE) + MARGIN;
+			}
+			g.setColor(new Color(165, 214, 167, 128));
+			g.fillPolygon(xs, ys, xs.length);
+			g.setColor(new Color(27, 94, 32, 192));
+			g.drawPolygon(xs, ys, xs.length);
+		}
+		try {
+			ImageIO.write(image, "png", new File(filename));
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+	}
+
+	int fitToScale(Rational r, int size) {
+		return r.num.multiply(BigInteger.valueOf(size)).divide(r.den).intValue();
+	}
+
 }
 
 class Part {
