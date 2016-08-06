@@ -4,8 +4,8 @@ import sys
 import os
 import re
 import copy
-#import subprocess
-import subprocess32 as subprocess
+import subprocess
+#import subprocess32 as subprocess
 import threading
 import datetime
 import time
@@ -30,14 +30,9 @@ import tempfile
 
 #BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
 #BASE_PATH = ".."
-PROBLEMS_PATH = "../problems"
-RESEMBLANCE_CALCULATOR = "../approx/resemblance"
 DB_FILE = "icfpc2016.sqlite3"
 TIMEOUT = 180.0
-#TIMEOUT = 10.0
-NUM_RETRY = 5
-MAX_RUNNING = 4
-QUEUE_WAIT = 0.0
+#TIMEOUT = 15.0
 
 API_KEY = "56-c0d0425216599ecb557d45138c644174"
 #API_URL = "http://2016sv.icfpcontest.org/api"
@@ -91,12 +86,15 @@ class Command:
 		def target():
 			#self.process = subprocess.Popen(shlex.split(self.cmd.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			#self.stdo, self.stde = self.process.communicate()
+			self.stdo, self.stde = self.process.communicate()
+			"""
+			# using subprocess32
 			try:
 				self.stdo, self.stde = self.process.communicate(timeout=timeout)
 			except subprocess.TimeoutExpired:
 				self.process.kill()
 				self.stdo, self.stde = self.process.communicate()
+			"""
 			self.returncode = self.process.returncode
 		t = threading.Thread(target=target)
 		t.start()
@@ -146,8 +144,3 @@ def main(args):
 	submit_solution(problem_id, content)
 
 if __name__ == "__main__": main(sys.argv)
-
-
-
-
-

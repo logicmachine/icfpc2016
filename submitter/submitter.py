@@ -4,8 +4,8 @@ import sys
 import os
 import re
 import copy
-#import subprocess
-import subprocess32 as subprocess
+import subprocess
+#import subprocess32 as subprocess
 import threading
 import datetime
 import time
@@ -33,8 +33,8 @@ import tempfile
 PROBLEMS_PATH = "../problems"
 RESEMBLANCE_CALCULATOR = "../approx/resemblance"
 DB_FILE = "icfpc2016.sqlite3"
-TIMEOUT = 180.0
-#TIMEOUT = 10.0
+#TIMEOUT = 180.0
+TIMEOUT = 20.0
 NUM_RETRY = 5
 MAX_RUNNING = 4
 QUEUE_WAIT = 0.0
@@ -150,18 +150,24 @@ class Command:
 		def target():
 			#self.process = subprocess.Popen(shlex.split(self.cmd.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			#self.stdo, self.stde = self.process.communicate()
+			self.stdo, self.stde = self.process.communicate()
+			"""
+			# using subprocess32
 			try:
 				self.stdo, self.stde = self.process.communicate(timeout=timeout)
 			except subprocess.TimeoutExpired:
 				self.process.kill()
 				self.stdo, self.stde = self.process.communicate()
+			"""
 			self.returncode = self.process.returncode
 		t = threading.Thread(target=target)
 		t.start()
 		t.join(timeout)
 		if t.is_alive():
 			self.process.terminate()
+			#self.process.pid
+			#os.killpg(os.getpgid(self.process.pid), signal.SIGINT)
+			#os.kill(self.process.pid, signal.SIGINT)
 			#self.process.kill()
 			t.join()
 		return self.returncode, self.stdo, self.stde
