@@ -22,6 +22,7 @@ public class FillingSolver {
 	int maxBitLength;
 	ArrayList<HashSet<Integer>> usedHash = new ArrayList<>();
 	long limitTime;
+	AffineTransform resultMapping = null;
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -117,6 +118,7 @@ public class FillingSolver {
 			if (partsUsed[i] == 0) return false;
 		}
 		// TODO
+		resultMapping = AffineTransform.transform(st.xmin.negate(), st.ymin.negate());
 		return true;
 	}
 
@@ -135,7 +137,7 @@ public class FillingSolver {
 		}
 		System.out.println(ps.length);
 		for (int i = 0; i < ps.length; ++i) {
-			System.out.println(ps[i].transform(st.xmin.negate(), st.ymin.negate()).toICFPStr());
+			System.out.println(resultMapping.apply(ps[i]).toICFPStr());
 		}
 		System.out.println(st.filledParts.size());
 		Point[] dest = new Point[map.size()];
