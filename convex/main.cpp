@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <sstream>
 #include "common/polygon.hpp"
 #include "common/convex.hpp"
 #include "common/matrix3x3.hpp"
@@ -47,11 +48,57 @@ bool fold_polygons(vector<TransposedPolygon> &polygons, const Line &line){
 	return modified;
 }
 
+static std::string
+output(const vector<TransposedPolygon> &current,
+       const Point &shift)
+{
+	std::ostringstream oss;
+	map<Point, int> p2i_table;
+	map<Point, Point> p2p_table;
+	vector<Point> i2p_table;
+	for(const auto &tp : current){
+		const int m = tp.first.size();
+		for(int i = 0; i < m; ++i){
+			const auto &p = tp.first[i];
+			const auto q = tp.second.transform(p);
+			const auto it = p2i_table.find(q);
+			if(it == p2i_table.end()){
+				p2i_table.emplace(q, i2p_table.size());
+				p2p_table.emplace(q, p);
+				i2p_table.push_back(q);
+			}
+		}
+	}
+
+	oss << i2p_table.size() << endl;
+	for(const auto &p : i2p_table){ oss << p.x << "," << p.y << endl; }
+
+	oss << current.size() << endl;
+	for(const auto &tp : current){
+		const int m = tp.first.size();
+		oss << m;
+		for(int i = 0; i < m; ++i){
+			const auto q = tp.second.transform(tp.first[i]);
+			oss << " " << p2i_table[q];
+		}
+		oss << endl;
+	}
+
+	for(const auto &p : i2p_table){
+		const auto v = p2p_table[p] + shift;
+		oss << v.x << "," << v.y << endl;
+	}
+
+	return oss.str();
+}
+
+
 int main(){
 	const auto problem = Problem::load(std::cin);
 	auto convex = destination_convex(problem);
 	const int n = convex.size();
 	Point shift = convex[0], bound = convex[0];
+	std::string prev;
 	for(int i = 0; i < n; ++i){
 		shift.x = min(shift.x, convex[i].x);
 		shift.y = min(shift.y, convex[i].y);
@@ -71,16 +118,26 @@ int main(){
 		}),
 		Matrix3x3::identity());
 
+#define CHECK_LENGTH() {					\
+		std::string result = output(current, shift);	\
+		if (result.size() > 5000) {			\
+			goto quit;				\
+		}						\
+		prev = result;					\
+	}
+
 	Rational cur_width = Rational(1), cur_height = Rational(1);
 	while(cur_width > bound.x){
 		cur_width = max(cur_width / Rational(2), bound.x);
 		fold_polygons(current, Line(
 			Point(cur_width, Rational(0)), Point(cur_width, Rational(1))));
+		CHECK_LENGTH();
 	}
 	while(cur_height > bound.y){
 		cur_height = max(cur_height / Rational(2), bound.y);
 		fold_polygons(current, Line(
 			Point(Rational(1), cur_height), Point(Rational(0), cur_height)));
+		CHECK_LENGTH();
 	}
 
 	while(true){
@@ -88,45 +145,16 @@ int main(){
 		for(int i = 0; i < n; ++i){
 			const auto line = convex.side(i).to_line();
 			if(fold_polygons(current, line)){ modified = true; }
+
+			CHECK_LENGTH();
 		}
+
 		if(!modified){ break; }
 	}
 
-	map<Point, int> p2i_table;
-	map<Point, Point> p2p_table;
-	vector<Point> i2p_table;
-	for(const auto &tp : current){
-		const int m = tp.first.size();
-		for(int i = 0; i < m; ++i){
-			const auto &p = tp.first[i];
-			const auto q = tp.second.transform(p);
-			const auto it = p2i_table.find(q);
-			if(it == p2i_table.end()){
-				p2i_table.emplace(q, i2p_table.size());
-				p2p_table.emplace(q, p);
-				i2p_table.push_back(q);
-			}
-		}
-	}
+quit:
+	std::cout << prev ;
 
-	cout << i2p_table.size() << endl;
-	for(const auto &p : i2p_table){ cout << p.x << "," << p.y << endl; }
-
-	cout << current.size() << endl;
-	for(const auto &tp : current){
-		const int m = tp.first.size();
-		cout << m;
-		for(int i = 0; i < m; ++i){
-			const auto q = tp.second.transform(tp.first[i]);
-			cout << " " << p2i_table[q];
-		}
-		cout << endl;
-	}
-
-	for(const auto &p : i2p_table){
-		const auto v = p2p_table[p] + shift;
-		cout << v.x << "," << v.y << endl;
-	}
 
 	return 0;
 }
