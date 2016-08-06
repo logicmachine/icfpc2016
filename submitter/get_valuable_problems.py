@@ -110,6 +110,8 @@ def main(args):
 
 	data = []
 	problems = json.loads(o)["problems"]
+	hash_problem = collections.defaultdict(list)
+	problem_hash = {}
 	for problem in problems:
 		#print problem["problem_id"], problem["problem_spec_hash"]
 		cnt_perfect = 0
@@ -118,10 +120,27 @@ def main(args):
 				cnt_perfect += 1
 		solution_size = problem["solution_size"]
 		score = solution_size / (1.0 + cnt_perfect)
-		data.append((score, problem["problem_id"], solution_size, cnt_perfect, len(problem["ranking"])))
+		data.append((score, problem["problem_id"], problem["problem_spec_hash"], solution_size, cnt_perfect, len(problem["ranking"])))
+		hash_problem[problem["problem_spec_hash"]].append((problem["problem_id"], score))
+		problem_hash[problem["problem_id"]] = problem["problem_spec_hash"]
 
 	data.sort(reverse=True)
+	memo = []
+	ans = []
 	for v in data:
-		print v[0], v[1]
+		if v[1] in memo: continue
+		score = 0.0
+		problems = []
+		for vv in hash_problem[problem_hash[v[1]]]:
+			problems.append(vv[0])
+			score += vv[1]
+		ans.append((score, tuple(problems)))
+		#print v[0], hash_problem[problem_hash[v[1]]]
+		memo.extend(hash_problem[problem_hash[v[1]]])
+
+	ans = list(set(ans))
+	ans.sort(reverse=True)
+	for xs in ans:
+		print xs[0], xs[1]
 
 if __name__ == "__main__": main(sys.argv)
