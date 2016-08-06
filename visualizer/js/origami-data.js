@@ -101,6 +101,12 @@ var Vector2 = function(x, y){
 	this.sub = function(v){
 		return new Vector2(this.x.sub(v.x), this.y.sub(v.y));
 	};
+	this.mul = function(s){
+		return new Vector2(this.x.mul(s), this.y.mul(s));
+	}
+	this.div = function(s){
+		return new Vector2(this.x.div(s), this.y.div(s));
+	}
 	this.dot = function(v){
 		return this.x.mul(v.x).add(this.y.mul(v.y));
 	};
@@ -127,6 +133,9 @@ var Segment = function(from, to){
 	this.clone = function(){
 		return new Segment(this.from, this.to);
 	};
+	this.toString = function(){
+		return this.from.toString() + " " + this.to.toString();
+	};
 
 	this.ccw = function(v){
 		var a = this.from, b = this.to, c = v;
@@ -139,11 +148,35 @@ var Segment = function(from, to){
 		return 0;
 	};
 
+	this.project = function(v){
+		var nume = v.sub(this.from).dot(this.to.sub(this.from));
+		var deno = this.to.sub(this.from).norm();
+		var t = nume.div(deno);
+		return this.from.add(this.to.sub(this.from).mul(t));
+	};
+	this.reflect = function(v){
+		return v.add(this.project(v).sub(v).mul(new Rational(2)));
+	};
+
+	this.contains = function(v){
+		var x = v.sub(this.from), y = this.to.sub(this.from);
+		if(!x.cross(y).equals(new Rational())){ return false; }
+		if(x.dot(y).compare(y.norm()) > 0){ return false; }
+		if(x.dot(y).compare(new Rational()) < 0){ return false; }
+		return true;
+	};
+
 	this.intersect = function(s){
 		if(this.ccw(s.from) * this.ccw(s.to) > 0){ return false; }
 		if(s.ccw(this.from) * s.ccw(this.to) > 0){ return false; }
 		return true;
 	}
+
+	this.crossing_point = function(s){
+		var x = this.to.sub(this.from).cross(s.to.sub(s.from));
+		var y = this.to.sub(this.from).cross(this.to.sub(s.from));
+		return s.from.add(s.to.sub(s.from).mul(y.div(x)));
+	};
 };
 
 var Polygon = function(vertices){
@@ -185,6 +218,20 @@ var Polygon = function(vertices){
 			}
 		}
 		return true;
+	};
+
+	this.contains = function(v){
+		var result = -1;
+		this.edges().forEach(function(e){
+			var a = e.from.sub(v), b = e.to.sub(v);
+			if(a.y.compare(b.y) > 0){ var t = a; a = b; b = t; }
+			var zero = new Rational();
+			if(a.y.compare(zero) <= 0 && b.y.compare(zero) > 0 && a.cross(b).compare(zero) < 0){
+				result = -result;
+			}
+			if(a.cross(b).equals(zero) && a.dot(b).compare(zero) <= 0){ result = 0; }
+		});
+		return result;
 	};
 };
 

@@ -128,7 +128,7 @@ static Input load_input(std::istream &ins)
             std::string xs, ys;
 
             getline(ins, xs, ',');
-            getline(ins, ys);e
+            getline(ins, ys);
 
 #ifdef USE_DOUBLE
             val_t px(get_double(mpval_t(xs)));
@@ -319,9 +319,13 @@ compare(cairo_surface_t *s0,
     cr.or_count = 0;
     cr.and_count = 0;
 
+//#pragma omp parallel for
     for (int yi=0; yi<h; yi++) {
         uint32_t *l0 = (uint32_t*)(p0 + stride0 * yi);
         uint32_t *l1 = (uint32_t*)(p1 + stride1 * yi);
+
+        long long or_count = 0;
+        long long and_count = 0;
 
         for (int xi=0; xi<w; xi++) {
             bool v0 = !!l0[xi];
@@ -331,11 +335,17 @@ compare(cairo_surface_t *s0,
             bool and_val = v0 && v1;
 
             if (or_val) {
-                cr.or_count++;
+                or_count++;
             }
             if (and_val) {
-                cr.and_count++;
+                and_count++;
             }
+        }
+
+//#pragma omp critical
+        {
+            cr.or_count += or_count;
+            cr.and_count += and_count;
         }
     }
 
@@ -372,8 +382,8 @@ main(int argc, char **argv)
     render_result(ref, input_data);
     render_result(answer, answer_data);
 
-    cairo_surface_write_to_png(ref, "ref.png");
-    cairo_surface_write_to_png(answer, "answer.png");
+    //cairo_surface_write_to_png(ref, "ref.png");
+    //cairo_surface_write_to_png(answer, "answer.png");
 
     CompareResult cr = compare(ref, answer);
 

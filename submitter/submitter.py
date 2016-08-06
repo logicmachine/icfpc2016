@@ -5,6 +5,7 @@ import os
 import re
 import copy
 import subprocess
+#import subprocess32 as subprocess
 import threading
 import datetime
 import time
@@ -25,13 +26,20 @@ import pprint
 import collections
 import sqlite3
 import cgi
+import tempfile
 
 #BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
 #BASE_PATH = ".."
 PROBLEMS_PATH = "../problems"
+RESEMBLANCE_CALCULATOR = "../approx/resemblance"
 DB_FILE = "icfpc2016.sqlite3"
-TIMEOUT = 180.0
+#TIMEOUT = 180.0
+TIMEOUT = 15.0
+#TIMEOUT = None
+NUM_RETRY = 5
 MAX_RUNNING = 4
+#MAX_RUNNING = 8
+QUEUE_WAIT = 0.0
 
 API_KEY = "56-c0d0425216599ecb557d45138c644174"
 #API_URL = "http://2016sv.icfpcontest.org/api"
@@ -99,6 +107,7 @@ class QueueThread(threading.Thread):
 				[priority, job_id, commands] = heapq.heappop(self.queue)
 				t = run_job(job_id,commands)
 				self.threads[job_id] = t
+				time.sleep(QUEUE_WAIT)
 			self.lock.release()
 			time.sleep(0.1)
 
@@ -142,14 +151,28 @@ class Command:
 	def run(self, timeout):
 		def target():
 			#self.process = subprocess.Popen(shlex.split(self.cmd.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setsid)
 			self.stdo, self.stde = self.process.communicate()
+			"""
+			# using subprocess32
+			try:
+				self.stdo, self.stde = self.process.communicate(timeout=timeout)
+			except subprocess.TimeoutExpired:
+				self.process.kill()
+				self.stdo, self.stde = self.process.communicate()
+			"""
 			self.returncode = self.process.returncode
 		t = threading.Thread(target=target)
 		t.start()
 		t.join(timeout)
 		if t.is_alive():
 			self.process.terminate()
+			#os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
+			os.killpg(self.process.pid, signal.SIGTERM)
+			#self.process.pid
+			#os.killpg(os.getpgid(self.process.pid), signal.SIGINT)
+			#os.kill(self.process.pid, signal.SIGINT)
+			#self.process.kill()
 			t.join()
 		return self.returncode, self.stdo, self.stde
 
@@ -213,7 +236,18 @@ def job_finish(job_id):
 		content += o
 	queue_thread.remove(job_id)
 
+	dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
+	cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
+	con.commit()
+
+	solution_tempfile = tempfile.NamedTemporaryFile()
+	f = open(solution_tempfile.name, "wb")
+	f.write(content)
+	f.close()
+	is_solved = False
 	with cur_lock:
+		cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
+		problem = cur.fetchone()[0]
 		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
 		row = cur.fetchone()
 		if row:
@@ -223,25 +257,91 @@ def job_finish(job_id):
 				solver = data[1]
 				problem_id = int(data[2])
 				solution_size = len(content.replace(" ", "").replace("\n", ""))
-				cur.execute(INSERT_SOLVES, (job_id, solver, problem_id, content, solution_size, 0.0, ""))
-				con.commit()
+				is_solved = True
 
-				for n in range(10):
-					#rc, o, e = Command(API_SOLUTION % (problem_id, solution_file)).run(None)
-					rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
-					#run_job_task("solution_submit", ["%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)])
-					try:
-						data = json.loads(o)
-						cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], data["problem_id"]))
-						con.commit()
+	if not is_solved: return
+		
+	problem_tempfile = tempfile.NamedTemporaryFile()
+	f2 = open(problem_tempfile.name, "wb")
+	f2.write(problem)
+	f2.close()
+	rc, o, e = Command("%s %s %s" % (RESEMBLANCE_CALCULATOR, problem_tempfile.name, solution_tempfile.name)).run(None)
+	calc_resemblance = float(o.strip()) if (o.strip().count(".") <= 1 and o.strip().replace(".", "").isdigit()) else 0.0
+
+	with cur_lock:
+		"""
+		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
+		row = cur.fetchone()
+		if row:
+			task_type = row[0]
+			data = task_type.split(":")
+			if len(data) == 3 and data[0] == "solver":
+				solver = data[1]
+				problem_id = int(data[2])
+				solution_size = len(content.replace(" ", "").replace("\n", ""))
+		"""
+
+		"""
+				solution_tempfile = tempfile.NamedTemporaryFile()
+				f = open(solution_tempfile.name, "wb")
+				f.write(content)
+				f.close()
+				cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
+				problem = cur.fetchone()[0]
+				problem_tempfile = tempfile.NamedTemporaryFile()
+				f2 = open(problem_tempfile.name, "wb")
+				f2.write(problem)
+				f2.close()
+				rc, o, e = Command("%s %s %s" % (RESEMBLANCE_CALCULATOR, problem_tempfile.name, solution_tempfile.name)).run(None)
+				calc_resemblance = float(o.strip()) if (o.strip().count(".") <= 1 and o.strip().replace(".", "").isdigit()) else 0.0
+		"""
+
+		if is_solved:
+			if True:
+				cur.execute("SELECT resemblance, size FROM solves WHERE problem_id=?", (problem_id,))
+				do_calc = True
+				for row in cur:
+					prev_resemblance = row[0]
+					if prev_resemblance == 1.0 and int(row[1]) <= int(solution_size):
+						do_calc = False
 						break
-					except:
-						print >>sys.stderr, "Solution JSON error: retry %d" % (n + 1)
-						time.sleep(1.0)
+					if row[0] + 0.001 > calc_resemblance and row[0] != 1.0:
+						do_calc = False
+						break
 
+				if do_calc and solution_size <= 5000:
+					cur.execute(INSERT_SOLVES, (job_id, solver, problem_id, content, solution_size, 0.0, ""))
+					con.commit()
+	
+					for n in range(NUM_RETRY):
+						#rc, o, e = Command(API_SOLUTION % (problem_id, solution_file)).run(None)
+						rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
+						#run_job_task("solution_submit", ["%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)])
+						try:
+							data = json.loads(o)
+							if not data["ok"]:
+								if re.search("Can not submit a solution to an own problem", data["error"]):
+									print >>sys.stderr, "%d %s: skipped." % (problem_id, data["error"])
+									break
+								print >>sys.stderr, "%d %s: retry %d" % (problem_id, data["error"], (n + 1))
+								time.sleep(1.0)
+								continue
+							cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], data["problem_id"]))
+							con.commit()
+							break
+						except:
+							print >>sys.stderr, "%d solution JSON error: retry %d" % (problem_id, (n + 1))
+							time.sleep(1.0)
+				else:
+					if not do_calc:
+						print >>sys.stderr, "%d prev_resemblance = %f, calc_resemblance = %f." % (problem_id, prev_resemblance, calc_resemblance)
+					elif solution_size > 5000:
+						print >>sys.stderr, "%d solution size is >5000." % problem_id
+		"""
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
 		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
 		con.commit()
+		"""
 
 def run_job_task(task_type, commands):
 	with cur_lock:
@@ -289,6 +389,7 @@ def main(args):
 	snapshots = [(snapshot["snapshot_time"], snapshot["snapshot_hash"]) for snapshot in snapshots]
 	snapshots.sort()
 	last_snapshot = snapshots[-1][1]
+	time.sleep(1.0) # for wait to avoid time-limit
 
 	print "Reading problems..."
 	#rc, o, e = perform(API_BLOB % last_snapshot)
@@ -300,11 +401,18 @@ def main(args):
 		#filename = os.path.join(BASE_PATH, "problems", filename)
 		filename = os.path.join(PROBLEMS_PATH, filename)
 		if not os.path.isfile(filename):
-			#rc, o, e = perform(API_BLOB % problem["problem_spec_hash"])
-			rc, o, e = Command(API_BLOB % problem["problem_spec_hash"]).run(None)
-			f = open(filename, "wb")
-			f.write(o)
-			f.close()
+			for n in range(NUM_RETRY):
+				#rc, o, e = perform(API_BLOB % problem["problem_spec_hash"])
+				rc, o, e = Command(API_BLOB % problem["problem_spec_hash"]).run(None)
+				if re.search("html", o):
+					print >>sys.stderr, "Error downloading problem: retry %d" % (n + 1)
+					time.sleep(1.0) # for wait to avoid time-limit
+					continue
+				break
+			if n < 4:
+				f = open(filename, "wb")
+				f.write(o)
+				f.close()
 		f = open(filename)
 		content = f.read()
 		with cur_lock:
