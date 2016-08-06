@@ -16,13 +16,13 @@ public class FillingSolver {
 
 	private static final long NO_TIME_LIMIT = -1;
 	//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1000), BigInteger.valueOf(999));
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14), BigInteger.valueOf(10));
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1415), BigInteger.valueOf(1000));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
 	int maxBitLength;
 	ArrayList<HashSet<Integer>> usedHash = new ArrayList<>();
 	long limitTime;
-	AffineTransform resultMapping = null;
+	AffineTransform resultMapping = new AffineTransform(Rational.ONE, Rational.ZERO, Rational.ZERO, Rational.ONE);
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -71,10 +71,11 @@ public class FillingSolver {
 	}
 
 	State rec(State cur) {
-		//				output(cur);
-		//				System.out.println(cur.envelop);
-		//				System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
-		//				System.out.println();
+		//		output(cur);
+		//		System.out.println(cur.envelop);
+		//		System.out.println("area:" + cur.area);
+		//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
+		//		System.out.println();
 		if (limitTime != NO_TIME_LIMIT && System.currentTimeMillis() > limitTime) return null;
 		while (usedHash.size() <= cur.envelop.size()) {
 			usedHash.add(new HashSet<Integer>());
@@ -101,7 +102,7 @@ public class FillingSolver {
 							if (ns == null) continue;
 							//							System.out.println("added " + i1 + " " + i2);
 							if (ns.area.equals(Rational.ONE)) {
-								if (finish(cur)) {
+								if (finish(ns)) {
 									return ns;
 								} else {
 									continue;
@@ -412,7 +413,6 @@ public class FillingSolver {
 					}
 				}
 			}
-
 		}
 
 		boolean isFlipped(ArrayList<Vertex> part) {
