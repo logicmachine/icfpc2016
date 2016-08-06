@@ -31,7 +31,7 @@
       <div class="row-fluid file-selector-grid"><!--
         --><div class="col-md-1 selector-cell">Problem</div><!--
         --><div class="col-md-5 selector-cell">
-          <input id="problem-file" type="file" style="display:none">
+          <input id="problem-file" type="file" style="display:none" multiple>
           <div class="input-group">
             <input type="text" id="problem-file-text" class="form-control" placeholder="Select file...">
             <span class="input-group-btn">
@@ -46,6 +46,7 @@
             <input type="text" id="solution-file-text" class="form-control" placeholder="Select file...">
             <span class="input-group-btn">
               <button id="solution-file-browse" type="button" class="btn btn-info">Browse</button>
+              <button id="solution-file-reload" type="button" class="btn">Reload</button>
             </span>
           </div>
         </div><!--
