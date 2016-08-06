@@ -33,8 +33,8 @@ import tempfile
 PROBLEMS_PATH = "../problems"
 RESEMBLANCE_CALCULATOR = "../approx/resemblance"
 DB_FILE = "icfpc2016.sqlite3"
-TIMEOUT = 180.0
-#TIMEOUT = 15.0
+#TIMEOUT = 180.0
+TIMEOUT = 15.0
 #TIMEOUT = None
 NUM_RETRY = 5
 MAX_RUNNING = 4
@@ -151,7 +151,7 @@ class Command:
 	def run(self, timeout):
 		def target():
 			#self.process = subprocess.Popen(shlex.split(self.cmd.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setsid)
 			self.stdo, self.stde = self.process.communicate()
 			"""
 			# using subprocess32
@@ -167,6 +167,8 @@ class Command:
 		t.join(timeout)
 		if t.is_alive():
 			self.process.terminate()
+			#os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
+			os.killpg(self.process.pid, signal.SIGTERM)
 			#self.process.pid
 			#os.killpg(os.getpgid(self.process.pid), signal.SIGINT)
 			#os.kill(self.process.pid, signal.SIGINT)
@@ -234,7 +236,18 @@ def job_finish(job_id):
 		content += o
 	queue_thread.remove(job_id)
 
+	dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
+	cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
+	con.commit()
+
+	solution_tempfile = tempfile.NamedTemporaryFile()
+	f = open(solution_tempfile.name, "wb")
+	f.write(content)
+	f.close()
+	is_solved = False
 	with cur_lock:
+		cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
+		problem = cur.fetchone()[0]
 		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
 		row = cur.fetchone()
 		if row:
@@ -244,7 +257,31 @@ def job_finish(job_id):
 				solver = data[1]
 				problem_id = int(data[2])
 				solution_size = len(content.replace(" ", "").replace("\n", ""))
+				is_solved = True
 
+	if not is_solved: return
+		
+	problem_tempfile = tempfile.NamedTemporaryFile()
+	f2 = open(problem_tempfile.name, "wb")
+	f2.write(problem)
+	f2.close()
+	rc, o, e = Command("%s %s %s" % (RESEMBLANCE_CALCULATOR, problem_tempfile.name, solution_tempfile.name)).run(None)
+	calc_resemblance = float(o.strip()) if (o.strip().count(".") <= 1 and o.strip().replace(".", "").isdigit()) else 0.0
+
+	with cur_lock:
+		"""
+		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
+		row = cur.fetchone()
+		if row:
+			task_type = row[0]
+			data = task_type.split(":")
+			if len(data) == 3 and data[0] == "solver":
+				solver = data[1]
+				problem_id = int(data[2])
+				solution_size = len(content.replace(" ", "").replace("\n", ""))
+		"""
+
+		"""
 				solution_tempfile = tempfile.NamedTemporaryFile()
 				f = open(solution_tempfile.name, "wb")
 				f.write(content)
@@ -257,7 +294,10 @@ def job_finish(job_id):
 				f2.close()
 				rc, o, e = Command("%s %s %s" % (RESEMBLANCE_CALCULATOR, problem_tempfile.name, solution_tempfile.name)).run(None)
 				calc_resemblance = float(o.strip()) if (o.strip().count(".") <= 1 and o.strip().replace(".", "").isdigit()) else 0.0
-				
+		"""
+
+		if is_solved:
+			if True:
 				cur.execute("SELECT resemblance, size FROM solves WHERE problem_id=?", (problem_id,))
 				do_calc = True
 				for row in cur:
@@ -297,10 +337,11 @@ def job_finish(job_id):
 						print >>sys.stderr, "%d prev_resemblance = %f, calc_resemblance = %f." % (problem_id, prev_resemblance, calc_resemblance)
 					elif solution_size > 5000:
 						print >>sys.stderr, "%d solution size is >5000." % problem_id
-
+		"""
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
 		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
 		con.commit()
+		"""
 
 def run_job_task(task_type, commands):
 	with cur_lock:
