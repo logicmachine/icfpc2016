@@ -15,8 +15,8 @@ import javax.imageio.ImageIO;
 public class FillingSolver {
 
 	private static final long NO_TIME_LIMIT = -1;
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1000), BigInteger.valueOf(999));
-	//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14), BigInteger.valueOf(10));
+	//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1000), BigInteger.valueOf(999));
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14), BigInteger.valueOf(10));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
 	int maxBitLength;
@@ -55,7 +55,12 @@ public class FillingSolver {
 		}
 		State st = new State(initialEnvelop);
 		st.area = largest.area;
-		State result = rec(st);
+		State result;
+		if (st.area.equals(Rational.ONE)) {
+			result = finish(st) ? st : null;
+		} else {
+			result = rec(st);
+		}
 		if (result != null) {
 			result.shrink();
 			output(result);
@@ -118,8 +123,52 @@ public class FillingSolver {
 		for (int i = 0; i < partsUsed.length; ++i) {
 			if (partsUsed[i] == 0) return false;
 		}
-		// TODO
-		resultMapping = AffineTransform.transform(st.xmin.negate(), st.ymin.negate());
+		int start = -1;
+		final int NP = st.envelop.size();
+		for (int i = 0; i < NP; ++i) {
+			Point p1 = st.envelop.get(i).p;
+			Point p2 = st.envelop.get((i + 1) % NP).p;
+			Point p3 = st.envelop.get((i + 2) % NP).p;
+			Rational dx1 = p2.x.sub(p1.x);
+			Rational dy1 = p2.y.sub(p1.y);
+			Rational dx2 = p3.x.sub(p2.x);
+			Rational dy2 = p3.y.sub(p2.y);
+			if (!dy1.mul(dx2).sub(dx1.mul(dy2)).equals(Rational.ZERO)) {
+				if (!dx1.mul(dx2).add(dy1.mul(dy2)).equals(Rational.ZERO)) {
+					return false;
+				}
+				start = i;
+				break;
+			}
+		}
+		Point sp = st.envelop.get(start).p;
+		Point tp1 = sp;
+		Point tp2 = null;
+		for (int i = 1; i < NP; ++i) {
+			Point cp = st.envelop.get((start + i) % NP).p;
+			Point np = st.envelop.get((start + i + 1) % NP).p;
+			Rational dx1 = cp.x.sub(sp.x);
+			Rational dy1 = cp.y.sub(sp.y);
+			Rational dx2 = np.x.sub(cp.x);
+			Rational dy2 = np.y.sub(cp.y);
+			if (!dy1.mul(dx2).sub(dx1.mul(dy2)).equals(Rational.ZERO)) {
+				if (!dx1.mul(dx2).add(dy1.mul(dy2)).equals(Rational.ZERO)) {
+					return false;
+				}
+				if (!dx1.mul(dx1).add(dy1.mul(dy1)).equals(Rational.ONE)) {
+					return false;
+				}
+				if (tp2 == null) tp2 = cp;
+				sp = cp;
+			}
+		}
+		System.out.println("target points:" + tp1 + " " + tp2);
+		if (tp1.x.equals(tp2.x) || tp1.y.equals(tp2.y)) {
+			resultMapping = AffineTransform.transform(st.xmin.negate(), st.ymin.negate());
+		} else {
+			resultMapping = getTransform(tp1, tp2, new Point(Rational.ZERO, Rational.ZERO), new Point(Rational.ONE, Rational.ZERO));
+		}
+		System.out.println("map:" + resultMapping);
 		return true;
 	}
 
@@ -294,9 +343,6 @@ public class FillingSolver {
 					if (cross != null) {
 						return true;
 					}
-					// TODO parallel line
-					//					if (!f1.equals(cross) && !t1.equals(cross)) return true;
-					//					if (!f2.equals(cross) && !t2.equals(cross)) return true;
 				}
 			}
 			return false;
@@ -312,7 +358,7 @@ public class FillingSolver {
 		}
 
 		void shrink() {
-			// merge adjecent same rotational order parts
+			// merge adjacent same rotational order parts
 			for (int i = 0; i < filledParts.size(); ++i) {
 				ArrayList<Vertex> basePart = filledParts.get(i);
 				boolean baseFlip = isFlipped(basePart);
@@ -350,7 +396,7 @@ public class FillingSolver {
 				}
 			}
 
-			// merge collinear adjecent edges
+			// merge collinear adjacent edges
 			for (int i = 0; i < filledParts.size(); ++i) {
 				ArrayList<Vertex> part = filledParts.get(i);
 				for (int j = 0; j < part.size(); ++j) {
