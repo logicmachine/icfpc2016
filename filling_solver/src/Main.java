@@ -6,10 +6,10 @@ public class Main {
 		decomposer.readInput();
 		decomposer.edgesArrangement();
 		decomposer.decompositeToParts();
-		System.out.println(decomposer.points);
-		System.out.println(Arrays.toString(decomposer.polygons));
-		System.out.println(Arrays.toString(decomposer.edges));
-		System.out.println(decomposer.parts);
+		System.err.println(decomposer.points);
+		System.err.println(Arrays.toString(decomposer.polygons));
+		System.err.println(Arrays.toString(decomposer.edges));
+		System.err.println(decomposer.parts);
 		FillingSolver solver = new FillingSolver(decomposer);
 		solver.solve();
 	}
