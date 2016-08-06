@@ -66,11 +66,9 @@ var StateManager = function(){
 		var valid = true;
 		current.segments.forEach(function(s){
 			if(mirror.contains(s.from) && mirror.contains(s.to)){
-				var t = s.clone();
-				next.segments.push(t);
+				next.segments.push(s.clone());
 			}else if(polygon.contains(s.from) < 0 || polygon.contains(s.to) < 0){
-				var t = s.clone();
-				next.segments.push(t);
+				next.segments.push(s.clone());
 			}else{
 				var t = s.clone();
 				next.segments.push(t);
@@ -86,11 +84,8 @@ var StateManager = function(){
 				next.pointMap.set(u.to.toString(), d);
 			}
 		});
-		if(!valid){
-			console.log("invalid unfolding!");
-		}else{
-			this.history.push(next);
-		}
+		if(!valid){ console.log("maybe invalid"); }
+		this.history.push(next);
 	};
 
 	this.selectSegment = function(segment){
