@@ -54,10 +54,10 @@ public class FillingSolver {
 	}
 
 	State rec(State cur) {
-		//		output(cur);
-		//		System.out.println(cur.envelop);
-		//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
-		//		System.out.println();
+//		output(cur);
+//		System.out.println(cur.envelop);
+//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
+//		System.out.println();
 		ArrayList<Part> parts = decomposer.parts;
 		for (int loop = 0; loop < 2; ++loop) {
 			for (int i = 0; i < parts.size(); ++i) {
@@ -70,8 +70,10 @@ public class FillingSolver {
 					for (int k = 0; k < PS; ++k) {
 						if (part.vs.get(k) != i1) continue;
 						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
+//							System.out.println("adding " + i1 + " " + i2);
 							State ns = cur.add(j, part, k);
 							if (ns == null) continue;
+//							System.out.println("added " + i1 + " " + i2);
 							if (ns.area.equals(Rational.ONE)) {
 								if (finish(cur)) {
 									return ns;
@@ -200,9 +202,6 @@ public class FillingSolver {
 					addVertex.add(new Vertex(pi, addP));
 				}
 			}
-			if (conflict(addVertex)) {
-				return null;
-			}
 			ret.xmin = this.xmin;
 			ret.xmax = this.xmax;
 			ret.ymin = this.ymin;
@@ -237,6 +236,9 @@ public class FillingSolver {
 					}
 				}
 			}
+			if (conflict()) {
+				return null;
+			}
 
 			for (ArrayList<Vertex> vs : this.filledParts) {
 				ret.filledParts.add(new ArrayList<>(vs));
@@ -245,20 +247,23 @@ public class FillingSolver {
 			return ret;
 		}
 
-		boolean conflict(ArrayList<Vertex> vs) {
-			for (int i = 0; i < vs.size(); ++i) {
-				Point f1 = vs.get(i).p;
-				Point t1 = vs.get((i + i) % vs.size()).p;
-				for (int j = 0; j < envelop.size(); ++j) {
-					Point f2 = envelop.get(j).p;
-					Point t2 = envelop.get((j + 1) % envelop.size()).p;
+		boolean conflict() {
+			for (int i = 0; i < envelop.size(); ++i) {
+				Point f1 = envelop.get(i).p;
+				Point t1 = envelop.get((i + 1) % envelop.size()).p;
+				for (int j = 2; j < envelop.size() - 1; ++j) {
+					Point f2 = envelop.get((i + j) % envelop.size()).p;
+					Point t2 = envelop.get((i + j + 1) % envelop.size()).p;
 					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
-					if (cross == null) {
-						// TODO parallel line
-						continue;
+					if (cross != null) {
+						return true;
 					}
-					if (!f1.equals(cross) && !t1.equals(cross)) return true;
-					if (!f2.equals(cross) && !t2.equals(cross)) return true;
+					//					if (cross == null) {
+					//						// TODO parallel line
+					//						continue;
+					//					}
+					//					if (!f1.equals(cross) && !t1.equals(cross)) return true;
+					//					if (!f2.equals(cross) && !t2.equals(cross)) return true;
 				}
 			}
 			return false;
