@@ -1,31 +1,41 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
 
 public class FillingSolver {
 
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(9), BigInteger.valueOf(8));
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(100), BigInteger.valueOf(99));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
+	int maxBitLength;
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
+		for (Point p : decomposer.points) {
+			maxBitLength = Math.max(maxBitLength, p.x.den.bitLength());
+			maxBitLength = Math.max(maxBitLength, p.y.den.bitLength());
+		}
+		maxBitLength += 2;
 	}
 
 	void solve() {
 		ArrayList<Part> parts = decomposer.parts;
+		Collections.sort(parts, (Part l, Part r) -> {
+			return r.area.compareTo(l.area);
+		});
 		partsUsed = new int[parts.size()];
-		int largestI = 0;
 		Part largest = parts.get(0);
-		for (int i = 1; i < parts.size(); ++i) {
-			if (parts.get(i).area.compareTo(largest.area) > 0) {
-				largest = parts.get(i);
-				largestI = i;
-			}
-		}
 		System.err.println("largest part:" + largest);
-		partsUsed[largestI] = 1;
+		partsUsed[0] = 1;
 
 		ArrayList<Vertex> initialEnvelop = new ArrayList<>();
 		for (int i = 0; i < largest.vs.size(); ++i) {
@@ -37,6 +47,7 @@ public class FillingSolver {
 		State result = rec(st);
 		if (result != null) {
 			output(result);
+			result.outputImages();
 		} else {
 			System.out.println("failed");
 		}
@@ -49,17 +60,17 @@ public class FillingSolver {
 		//		System.out.println();
 		ArrayList<Part> parts = decomposer.parts;
 		for (int loop = 0; loop < 2; ++loop) {
-			for (int i = 0; i < cur.envelop.size(); ++i) {
-				int i1 = cur.envelop.get(i).pIdx;
-				int i2 = cur.envelop.get((i + 1) % cur.envelop.size()).pIdx;
-				for (int j = 0; j < parts.size(); ++j) {
-					if (partsUsed[j] != 0 && loop == 0) continue;
-					Part part = parts.get(j);
-					final int PS = part.vs.size();
+			for (int i = 0; i < parts.size(); ++i) {
+				if (partsUsed[i] != 0 && loop == 0) continue;
+				Part part = parts.get(i);
+				final int PS = part.vs.size();
+				for (int j = 0; j < cur.envelop.size(); ++j) {
+					int i1 = cur.envelop.get(j).pIdx;
+					int i2 = cur.envelop.get((j + 1) % cur.envelop.size()).pIdx;
 					for (int k = 0; k < PS; ++k) {
 						if (part.vs.get(k) != i1) continue;
 						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
-							State ns = cur.add(i, part, k);
+							State ns = cur.add(j, part, k);
 							if (ns == null) continue;
 							if (ns.area.equals(Rational.ONE)) {
 								if (finish(cur)) {
@@ -68,10 +79,10 @@ public class FillingSolver {
 									continue;
 								}
 							}
-							partsUsed[j]++;
+							partsUsed[i]++;
 							State ans = rec(ns);
 							if (ans != null) return ans;
-							partsUsed[j]--;
+							partsUsed[i]--;
 						}
 					}
 				}
@@ -109,7 +120,7 @@ public class FillingSolver {
 			for (Vertex v : vs) {
 				int idx = map.get(v.p);
 				System.out.print(" " + idx);
-				dest[idx] = v.p;
+				dest[idx] = decomposer.points.get(v.pIdx);
 			}
 			System.out.println();
 		}
@@ -184,10 +195,14 @@ public class FillingSolver {
 			} else {
 				for (int i = 0; i < part.vs.size(); ++i) {
 					int pi = part.vs.get((i + partIdx) % PS);
-					addVertex.add(new Vertex(pi, t.apply(points.get(pi))));
+					Point addP = t.apply(points.get(pi));
+					if (addP.x.den.bitLength() > maxBitLength || addP.y.den.bitLength() > maxBitLength) return null;
+					addVertex.add(new Vertex(pi, addP));
 				}
 			}
-			// TODO conflict check
+			if (conflict(addVertex)) {
+				return null;
+			}
 			ret.xmin = this.xmin;
 			ret.xmax = this.xmax;
 			ret.ymin = this.ymin;
@@ -208,17 +223,45 @@ public class FillingSolver {
 			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
 				ret.envelop.add(this.envelop.get(i));
 			}
-			Point addNext = ret.envelop.get(envIdx + 1).p;
-			Point addPrev = ret.envelop.get((envIdx - 1 + ret.envelop.size()) % ret.envelop.size()).p;
-			if (addNext.equals(addPrev)) {
-				ret.envelop.remove(envIdx);
-				ret.envelop.remove(envIdx);
+			{
+				// remove matching edges
+				Point prev = ret.envelop.get(ret.envelop.size() - 1).p;
+				for (int i = 0; i < ret.envelop.size(); ++i) {
+					Point cur = ret.envelop.get(i).p;
+					Point next = ret.envelop.get((i + 1) % ret.envelop.size()).p;
+					if (prev.equals(next)) {
+						ret.envelop.remove(i);
+						ret.envelop.remove(i == ret.envelop.size() ? 0 : i);
+					} else {
+						prev = cur;
+					}
+				}
 			}
+
 			for (ArrayList<Vertex> vs : this.filledParts) {
 				ret.filledParts.add(new ArrayList<>(vs));
 			}
 			ret.filledParts.add(addVertex);
 			return ret;
+		}
+
+		boolean conflict(ArrayList<Vertex> vs) {
+			for (int i = 0; i < vs.size(); ++i) {
+				Point f1 = vs.get(i).p;
+				Point t1 = vs.get((i + i) % vs.size()).p;
+				for (int j = 0; j < envelop.size(); ++j) {
+					Point f2 = envelop.get(j).p;
+					Point t2 = envelop.get((j + 1) % envelop.size()).p;
+					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
+					if (cross == null) {
+						// TODO parallel line
+						continue;
+					}
+					if (!f1.equals(cross) && !t1.equals(cross)) return true;
+					if (!f2.equals(cross) && !t2.equals(cross)) return true;
+				}
+			}
+			return false;
 		}
 
 		void updateBBox(Point p) {
@@ -229,65 +272,39 @@ public class FillingSolver {
 			if (y.compareTo(ymin) < 0) ymin = y;
 			if (y.compareTo(ymax) > 0) ymax = y;
 		}
-	}
 
-	static class AffineTransform {
-		Rational[][] mat = new Rational[3][3];
-
-		AffineTransform() {}
-
-		AffineTransform(Rational m00, Rational m01, Rational m10, Rational m11) {
-			mat[0][2] = mat[1][2] = mat[2][0] = mat[2][1] = Rational.ZERO;
-			mat[2][2] = Rational.ONE;
-			mat[0][0] = m00;
-			mat[0][1] = m01;
-			mat[1][0] = m10;
-			mat[1][1] = m11;
-		}
-
-		static AffineTransform transform(Rational dx, Rational dy) {
-			AffineTransform ret = new AffineTransform();
-			ret.mat[0][0] = ret.mat[1][1] = ret.mat[2][2] = Rational.ONE;
-			ret.mat[0][1] = ret.mat[1][0] = ret.mat[2][0] = ret.mat[2][1] = Rational.ZERO;
-			ret.mat[0][2] = dx;
-			ret.mat[1][2] = dy;
-			return ret;
-		}
-
-		static AffineTransform rot(Rational cos, Rational sin) {
-			AffineTransform ret = new AffineTransform();
-			ret.mat[2][2] = Rational.ONE;
-			ret.mat[0][1] = ret.mat[0][2] = ret.mat[1][0] = ret.mat[1][2] = ret.mat[2][0] = ret.mat[2][1] = Rational.ZERO;
-			ret.mat[0][0] = ret.mat[1][1] = cos;
-			ret.mat[0][1] = sin;
-			ret.mat[1][0] = sin.negate();
-			return ret;
-		}
-
-		AffineTransform apply(AffineTransform t) {
-			AffineTransform ret = new AffineTransform();
-			for (int i = 0; i < 3; ++i) {
-				for (int j = 0; j < 3; ++j) {
-					ret.mat[i][j] = Rational.ZERO;
-					for (int k = 0; k < 3; ++k) {
-						ret.mat[i][j] = ret.mat[i][j].add(t.mat[i][k].mul(this.mat[k][j]));
+		void outputImages() {
+			final int SIZE = 800;
+			final int MARGIN = 20;
+			for (int i = 1; i <= filledParts.size(); ++i) {
+				BufferedImage image = new BufferedImage(SIZE + MARGIN * 2, SIZE + MARGIN * 2, BufferedImage.TYPE_INT_ARGB);
+				Graphics2D g = (Graphics2D) image.getGraphics();
+				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				for (int j = 0; j < i; ++j) {
+					ArrayList<Vertex> part = filledParts.get(j);
+					int[] xs = new int[part.size()];
+					int[] ys = new int[part.size()];
+					for (int k = 0; k < part.size(); ++k) {
+						Point p = part.get(k).p;
+						xs[k] = fitToScale(p.x.sub(xmin), SIZE) + MARGIN;
+						ys[k] = SIZE - fitToScale(p.y.sub(ymin), SIZE) + MARGIN;
 					}
+					g.setColor(new Color(165, 214, 167, 128));
+					g.fillPolygon(xs, ys, xs.length);
+					g.setColor(new Color(27, 94, 32, 192));
+					g.drawPolygon(xs, ys, xs.length);
+				}
+				try {
+					ImageIO.write(image, "png", new File(String.format("img/%04d.png", i)));
+				} catch (IOException e) {
+					System.err.println(e);
 				}
 			}
-			return ret;
 		}
 
-		Point apply(Point p) {
-			Rational nx = mat[0][0].mul(p.x).add(mat[0][1].mul(p.y)).add(mat[0][2]);
-			Rational ny = mat[1][0].mul(p.x).add(mat[1][1].mul(p.y)).add(mat[1][2]);
-			return new Point(nx, ny);
+		int fitToScale(Rational r, int size) {
+			return r.num.multiply(BigInteger.valueOf(size)).divide(r.den).intValue();
 		}
-
-		@Override
-		public String toString() {
-			return "AffineTransform: " + Arrays.deepToString(mat);
-		}
-
 	}
 
 	static class Vertex {
