@@ -64,7 +64,7 @@ public class FillingSolver {
 		if (result != null) {
 			result.shrink();
 			output(result);
-			result.outputImages();
+			//			result.outputImages();
 		} else {
 			System.out.println("failed");
 		}
