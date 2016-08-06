@@ -222,21 +222,31 @@ public class FillingSolver {
 			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
 				ret.envelop.add(this.envelop.get(i));
 			}
+			int addCount = PS - 2;
+			int addPos = envIdx + 1;
 			{
 				// remove matching edges
-				Vertex prev = ret.envelop.get(ret.envelop.size() - 1);
-				for (int i = 0; i < ret.envelop.size(); ++i) {
-					Vertex cur = ret.envelop.get(i);
-					Vertex next = ret.envelop.get((i + 1) % ret.envelop.size());
-					if (prev.equals(next)) {
-						ret.envelop.remove(i);
-						ret.envelop.remove(i == ret.envelop.size() ? 0 : i);
+				while (addCount > 0) { // backward
+					if (ret.envelop.get(addPos).equals(ret.envelop.get((addPos - 2 + ret.envelop.size()) % ret.envelop.size()))) {
+						ret.envelop.remove(addPos);
+						ret.envelop.remove(addPos == 0 ? ret.envelop.size() - 1 : addPos - 1);
+						if (addPos > 0) addPos--;
+						--addCount;
 					} else {
-						prev = cur;
+						break;
+					}
+				}
+				while (addCount > 0) { // forward
+					if (ret.envelop.get(addPos + addCount - 1).equals(ret.envelop.get((addPos + addCount + 1) % ret.envelop.size()))) {
+						ret.envelop.remove((addPos + addCount) % ret.envelop.size());
+						ret.envelop.remove((addPos + addCount) % ret.envelop.size());
+						--addCount;
+					} else {
+						break;
 					}
 				}
 			}
-			if (ret.conflict()) {
+			if (ret.conflict(addPos, addCount)) {
 				return null;
 			}
 
@@ -247,24 +257,18 @@ public class FillingSolver {
 			return ret;
 		}
 
-		boolean conflict() {
-			for (int i = 0; i < envelop.size(); ++i) {
-				Point f1 = envelop.get(i).p;
-				Point t1 = envelop.get((i + 1) % envelop.size()).p;
-				for (int j = 2; j < envelop.size() - 1; ++j) {
-					Point f2 = envelop.get((i + j) % envelop.size()).p;
-					Point t2 = envelop.get((i + j + 1) % envelop.size()).p;
+		boolean conflict(int addPos, int addCount) {
+			for (int i = 0; i <= addCount; ++i) {
+				Point f1 = envelop.get((addPos + i + envelop.size() - 1) % envelop.size()).p;
+				Point t1 = envelop.get((addPos + i) % envelop.size()).p;
+				for (int j = 1; j < envelop.size() - 2; ++j) {
+					Point f2 = envelop.get((addPos + i + j) % envelop.size()).p;
+					Point t2 = envelop.get((addPos + i + j + 1) % envelop.size()).p;
 					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
-					//					if (i == 8 && j == 2) {
-					//						System.out.println(envelop.size() + " " + f1 + " " + t1 + " " + f2 + " " + t2 + " " + cross);
-					//					}
 					if (cross != null) {
 						return true;
 					}
-					//					if (cross == null) {
-					//						// TODO parallel line
-					//						continue;
-					//					}
+					// TODO parallel line
 					//					if (!f1.equals(cross) && !t1.equals(cross)) return true;
 					//					if (!f2.equals(cross) && !t2.equals(cross)) return true;
 				}
