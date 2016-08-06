@@ -14,12 +14,14 @@ import javax.imageio.ImageIO;
 
 public class FillingSolver {
 
+	private static final long NO_TIME_LIMIT = -1;
 	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1000), BigInteger.valueOf(999));
-//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14), BigInteger.valueOf(10));
+	//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14), BigInteger.valueOf(10));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
 	int maxBitLength;
 	ArrayList<HashSet<Integer>> usedHash = new ArrayList<>();
+	long limitTime;
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -30,7 +32,12 @@ public class FillingSolver {
 		maxBitLength += 2;
 	}
 
-	void solve() {
+	/**
+	 * @param timelimitMs time limit in microseconds, or 0 (no limit)
+	 */
+	void solve(int timelimitMs) {
+		limitTime = timelimitMs == 0 ? NO_TIME_LIMIT : System.currentTimeMillis() + timelimitMs;
+
 		ArrayList<Part> parts = decomposer.parts;
 		Collections.sort(parts, (Part l, Part r) -> {
 			return r.area.compareTo(l.area);
@@ -61,6 +68,7 @@ public class FillingSolver {
 		//				System.out.println(cur.envelop);
 		//				System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
 		//				System.out.println();
+		if (limitTime != NO_TIME_LIMIT && System.currentTimeMillis() > limitTime) return null;
 		while (usedHash.size() <= cur.envelop.size()) {
 			usedHash.add(new HashSet<Integer>());
 		}
