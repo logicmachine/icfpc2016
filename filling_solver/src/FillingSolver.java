@@ -1,15 +1,29 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.imageio.ImageIO;
+
 public class FillingSolver {
 
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(9), BigInteger.valueOf(8));
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(100), BigInteger.valueOf(99));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
+	int maxBitLength;
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
+		for (Point p : decomposer.points) {
+			maxBitLength = Math.max(maxBitLength, p.x.den.bitLength());
+			maxBitLength = Math.max(maxBitLength, p.y.den.bitLength());
+		}
+		maxBitLength += 2;
 	}
 
 	void solve() {
@@ -36,6 +50,7 @@ public class FillingSolver {
 		State result = rec(st);
 		if (result != null) {
 			output(result);
+			result.outputImages();
 		} else {
 			System.out.println("failed");
 		}
@@ -183,10 +198,14 @@ public class FillingSolver {
 			} else {
 				for (int i = 0; i < part.vs.size(); ++i) {
 					int pi = part.vs.get((i + partIdx) % PS);
-					addVertex.add(new Vertex(pi, t.apply(points.get(pi))));
+					Point addP = t.apply(points.get(pi));
+					if (addP.x.den.bitLength() > maxBitLength || addP.y.den.bitLength() > maxBitLength) return null;
+					addVertex.add(new Vertex(pi, addP));
 				}
 			}
-			// TODO conflict check
+			if (conflict(addVertex)) {
+				return null;
+			}
 			ret.xmin = this.xmin;
 			ret.xmax = this.xmax;
 			ret.ymin = this.ymin;
@@ -229,6 +248,25 @@ public class FillingSolver {
 			return ret;
 		}
 
+		boolean conflict(ArrayList<Vertex> vs) {
+			for (int i = 0; i < vs.size(); ++i) {
+				Point f1 = vs.get(i).p;
+				Point t1 = vs.get((i + i) % vs.size()).p;
+				for (int j = 0; j < envelop.size(); ++j) {
+					Point f2 = envelop.get(j).p;
+					Point t2 = envelop.get((j + 1) % envelop.size()).p;
+					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
+					if (cross == null) {
+						// TODO parallel line
+						continue;
+					}
+					if (!f1.equals(cross) && !t1.equals(cross)) return true;
+					if (!f2.equals(cross) && !t2.equals(cross)) return true;
+				}
+			}
+			return false;
+		}
+
 		void updateBBox(Point p) {
 			Rational x = p.x;
 			Rational y = p.y;
@@ -236,6 +274,39 @@ public class FillingSolver {
 			if (x.compareTo(xmax) > 0) xmax = x;
 			if (y.compareTo(ymin) < 0) ymin = y;
 			if (y.compareTo(ymax) > 0) ymax = y;
+		}
+
+		void outputImages() {
+			final int SIZE = 800;
+			final int MARGIN = 20;
+			for (int i = 1; i <= filledParts.size(); ++i) {
+				BufferedImage image = new BufferedImage(SIZE + MARGIN * 2, SIZE + MARGIN * 2, BufferedImage.TYPE_INT_ARGB);
+				Graphics2D g = (Graphics2D) image.getGraphics();
+				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON);
+				for (int j = 0; j < i; ++j) {
+					ArrayList<Vertex> part = filledParts.get(j);
+					int[] xs = new int[part.size()];
+					int[] ys = new int[part.size()];
+					for (int k = 0; k < part.size(); ++k) {
+						Point p = part.get(k).p;
+						xs[k] = fitToScale(p.x.sub(xmin), SIZE) + MARGIN;
+						ys[k] = SIZE - fitToScale(p.y.sub(ymin), SIZE) + MARGIN;
+					}
+					g.setColor(new Color(165, 214, 167, 128));
+					g.fillPolygon(xs, ys, xs.length);
+					g.setColor(new Color(27, 94, 32, 192));
+					g.drawPolygon(xs, ys, xs.length);
+				}
+				try {
+					ImageIO.write(image, "png", new File(String.format("img/%04d.png", i)));
+				} catch (IOException e) {
+					System.err.println(e);
+				}
+			}
+		}
+
+		int fitToScale(Rational r, int size) {
+			return r.num.multiply(BigInteger.valueOf(size)).divide(r.den).intValue();
 		}
 	}
 
