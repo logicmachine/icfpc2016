@@ -1,6 +1,5 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class FillingSolver {
@@ -229,65 +228,6 @@ public class FillingSolver {
 			if (y.compareTo(ymin) < 0) ymin = y;
 			if (y.compareTo(ymax) > 0) ymax = y;
 		}
-	}
-
-	static class AffineTransform {
-		Rational[][] mat = new Rational[3][3];
-
-		AffineTransform() {}
-
-		AffineTransform(Rational m00, Rational m01, Rational m10, Rational m11) {
-			mat[0][2] = mat[1][2] = mat[2][0] = mat[2][1] = Rational.ZERO;
-			mat[2][2] = Rational.ONE;
-			mat[0][0] = m00;
-			mat[0][1] = m01;
-			mat[1][0] = m10;
-			mat[1][1] = m11;
-		}
-
-		static AffineTransform transform(Rational dx, Rational dy) {
-			AffineTransform ret = new AffineTransform();
-			ret.mat[0][0] = ret.mat[1][1] = ret.mat[2][2] = Rational.ONE;
-			ret.mat[0][1] = ret.mat[1][0] = ret.mat[2][0] = ret.mat[2][1] = Rational.ZERO;
-			ret.mat[0][2] = dx;
-			ret.mat[1][2] = dy;
-			return ret;
-		}
-
-		static AffineTransform rot(Rational cos, Rational sin) {
-			AffineTransform ret = new AffineTransform();
-			ret.mat[2][2] = Rational.ONE;
-			ret.mat[0][1] = ret.mat[0][2] = ret.mat[1][0] = ret.mat[1][2] = ret.mat[2][0] = ret.mat[2][1] = Rational.ZERO;
-			ret.mat[0][0] = ret.mat[1][1] = cos;
-			ret.mat[0][1] = sin;
-			ret.mat[1][0] = sin.negate();
-			return ret;
-		}
-
-		AffineTransform apply(AffineTransform t) {
-			AffineTransform ret = new AffineTransform();
-			for (int i = 0; i < 3; ++i) {
-				for (int j = 0; j < 3; ++j) {
-					ret.mat[i][j] = Rational.ZERO;
-					for (int k = 0; k < 3; ++k) {
-						ret.mat[i][j] = ret.mat[i][j].add(t.mat[i][k].mul(this.mat[k][j]));
-					}
-				}
-			}
-			return ret;
-		}
-
-		Point apply(Point p) {
-			Rational nx = mat[0][0].mul(p.x).add(mat[0][1].mul(p.y)).add(mat[0][2]);
-			Rational ny = mat[1][0].mul(p.x).add(mat[1][1].mul(p.y)).add(mat[1][2]);
-			return new Point(nx, ny);
-		}
-
-		@Override
-		public String toString() {
-			return "AffineTransform: " + Arrays.deepToString(mat);
-		}
-
 	}
 
 	static class Vertex {
