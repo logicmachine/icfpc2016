@@ -48,6 +48,9 @@ public:
 	{
 		m_points.erase(
 			std::unique(m_points.begin(), m_points.end()), m_points.end());
+		while(!m_points.empty() && m_points.front() == m_points.back()){
+			m_points.pop_back();
+		}
 	}
 	/**
 	 *  @brief コンストラクタ
@@ -61,6 +64,9 @@ public:
 	{
 		m_points.erase(
 			std::unique(m_points.begin(), m_points.end()), m_points.end());
+		while(!m_points.empty() && m_points.front() == m_points.back()){
+			m_points.pop_back();
+		}
 	}
 
 	/**

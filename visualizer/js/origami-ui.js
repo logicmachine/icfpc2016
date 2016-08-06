@@ -1,16 +1,35 @@
-$(document).ready(function(){
-	function register_file_handlers(file, text, button, callback){
-		button.click(function(){ file.click(); });
-		file.change(function(e){
-			text.val($(this).val());
-			if(e.target.files.length > 0){
-				var reader = new FileReader(e.target.files[0]);
-				reader.onload = function(e){ callback(e.target.result); };
-				reader.readAsText(e.target.files[0]);
-			}
-		});
-	}
+var ProblemManager = function(){
+	this.default_file = null;
+	this.files = { };
 
+	var name2id = function(name){
+		if(typeof name !== 'string'){ return null; }
+		var matches = name.match(/\d+/);
+		if(matches.length > 0){
+			return parseInt(matches[0], 10);
+		}else{
+			return null;
+		}
+	};
+
+	this.open = function(files){
+		this.default_file = null;
+		this.files = { };
+		for(var i = 0; i < files.length; ++i){
+			var file = files[i];
+			this.default_file = file;
+			this.files[name2id(file.name)] = file;
+		}
+	};
+	this.load = function(name){
+		var id = name2id(name);
+		if(this.files[id] === undefined){ return this.default_file; }
+		return this.files[id];
+	};
+};
+
+$(document).ready(function(){
+	var problemManager = new ProblemManager();
 	var sourceRenderer = new SourceRenderer();
 	var destinationRenderer = new DestinationRenderer();
 
@@ -21,22 +40,46 @@ $(document).ready(function(){
 		destinationRenderer.disableHilight(index);
 	};
 
-	register_file_handlers(
-		$("#problem-file"),
-		$("#problem-file-text"),
-		$("#problem-file-browse"),
-		function(data){
+	var loadProblem = function(file){
+		if(file === null){
+			destinationRenderer.setProblem(new Problem());
+			return;
+		}
+		var reader = new FileReader(file);
+		reader.onload = function(e){
+			var data = e.target.result;
 			var problem = parseProblem(data);
 			destinationRenderer.setProblem(problem);
-		});
-	register_file_handlers(
-		$("#solution-file"),
-		$("#solution-file-text"),
-		$("#solution-file-browse"),
-		function(data){
+		};
+		reader.readAsText(file);
+	};
+	$("#problem-file-browse").click(function(){ $("#problem-file").click(); });
+	$("#problem-file").change(function(e){
+		var file_element = $("#problem-file");
+		var files = file_element.prop("files");
+		if(files.length > 1){
+			$("#problem-file-text").val("(multiple files)");
+		}else if(files.length == 1){
+			$("#problem-file-text").val(files[0].name);
+		}else{
+			$("#problem-file-text").val("");
+		}
+		problemManager.open(files);
+		loadProblem(problemManager.load());
+	});
+
+	var loadSolution = function(){
+		var file_element = $("#solution-file");
+		var files = file_element.prop("files");
+		$("#solution-file-text").val(file_element.val());
+		if(files.length == 0){ return; }
+		var reader = new FileReader(files[0]);
+		reader.onload = function(e){
+			var data = e.target.result;
 			var solution = parseSolution(data);
 			sourceRenderer.setSolution(solution);
 			destinationRenderer.setSolution(solution);
+			loadProblem(problemManager.load(files[0].name));
 
 			var validator = new SolutionValidator();
 			var messages = validator.validate(solution);
@@ -45,7 +88,12 @@ $(document).ready(function(){
 				$("#validation-messages").append(
 					"<div class=\"alert alert-danger\" role=\"alert\">" + message + "</div>");
 			});
-		});
+		};
+		reader.readAsText(files[0]);
+	};
+	$("#solution-file-browse").click(function(){ $("#solution-file").click(); });
+	$("#solution-file").change(function(){ loadSolution(); });
+	$("#solution-file-reload").click(function(){ loadSolution(); });
 
 	$(window).on("resize", function(){
 		sourceRenderer.redraw();
