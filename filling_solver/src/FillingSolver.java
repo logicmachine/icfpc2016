@@ -90,6 +90,7 @@ public class FillingSolver {
 			for (int i = 0; i < parts.size(); ++i) {
 				if (partsUsed[i] != 0 && loop == 0) continue;
 				Part part = parts.get(i);
+				if (cur.area.add(part.area).compareTo(Rational.ONE) > 0) continue;
 				final int PS = part.vs.size();
 				for (int j = 0; j < cur.envelop.size(); ++j) {
 					int i1 = cur.envelop.get(j).pIdx;
@@ -139,7 +140,7 @@ public class FillingSolver {
 				if (!dx1.mul(dx2).add(dy1.mul(dy2)).equals(Rational.ZERO)) {
 					return false;
 				}
-				start = i;
+				start = (i + 1) % NP;
 				break;
 			}
 		}
