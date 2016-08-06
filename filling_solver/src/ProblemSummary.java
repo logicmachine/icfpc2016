@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +38,15 @@ public class ProblemSummary {
 			decomposer.outputImages(imgFilename);
 		});
 
+		HashMap<Integer, Double> scores = new HashMap<>();
+		for (String line : Files.readAllLines(Paths.get("../submitter/submit_results.txt"))) { // need local env...
+			String[] elems = line.split(",");
+			if (elems[0].equals("solve_id")) continue; // header
+			int id = Integer.parseInt(elems[0]);
+			double s = Double.parseDouble(elems[1]);
+			scores.put(id, s);
+		}
+
 		try (PrintWriter writer = new PrintWriter(new FileOutputStream("../problems/summary.html"))) {
 			writer.println("<!DOCTYPE html>");
 			writer.println("<html>");
@@ -51,13 +61,16 @@ public class ProblemSummary {
 			writer.println("<thead><tr><th>id</th><th>our score</th><th>prob size</th><th>sol size</th><th>image</th></tr></thead>");
 			writer.println("<tbody>");
 			for (int i = 0; i < ids.size(); ++i) {
-				String id = ids.get(i);
+				String idStr = ids.get(i);
+				int id = Integer.parseInt(idStr);
 				writer.println("<tr>");
-				writer.println(String.format("<td><a name=\"%s\" href=\"http://2016sv.icfpcontest.org/problem/view/%d\">%s</td>", id, Integer.parseInt(id), id));
-				writer.println(String.format("<td>%.4f</td>", 0.0));
+				writer
+						.println(String.format("<td><a name=\"%s\" href=\"http://2016sv.icfpcontest.org/problem/view/%d\">%s</td>", idStr, id, idStr));
+				double score = scores.containsKey(id) ? scores.get(id) : 0.0;
+				writer.println(String.format("<td>%.4f</td>", score));
 				writer.println(String.format("<td>%d</td>", problemSizes.get(i)));
 				writer.println(String.format("<td>%d</td>", solutionSizes.get(i)));
-				writer.println(String.format("<td><img src=\"img/%s.png\" height=400px /></td>", id));
+				writer.println(String.format("<td><img src=\"img/%s.png\" height=400px /></td>", idStr));
 				writer.println("</tr>");
 			}
 			writer.println("</tbody>");
