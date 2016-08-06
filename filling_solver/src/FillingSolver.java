@@ -8,15 +8,18 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.imageio.ImageIO;
 
 public class FillingSolver {
 
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(100), BigInteger.valueOf(99));
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1000), BigInteger.valueOf(999));
+//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14), BigInteger.valueOf(10));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
 	int maxBitLength;
+	ArrayList<HashSet<Integer>> usedHash = new ArrayList<>();
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -58,6 +61,14 @@ public class FillingSolver {
 		//				System.out.println(cur.envelop);
 		//				System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
 		//				System.out.println();
+		while (usedHash.size() <= cur.envelop.size()) {
+			usedHash.add(new HashSet<Integer>());
+		}
+		int hash = cur.envelop.hashCode();
+		if (usedHash.get(cur.envelop.size()).contains(hash)) {
+			return null;
+		}
+		usedHash.get(cur.envelop.size()).add(hash);
 		ArrayList<Part> parts = decomposer.parts;
 		for (int loop = 0; loop < 2; ++loop) {
 			for (int i = 0; i < parts.size(); ++i) {
@@ -240,7 +251,8 @@ public class FillingSolver {
 					}
 				}
 				while (addCount > 0) { // forward
-					if (ret.envelop.get(addPos + addCount - 1).equals(ret.envelop.get((addPos + addCount + 1) % ret.envelop.size()))) {
+					if (ret.envelop.get((addPos + addCount - 1) % ret.envelop.size())
+							.equals(ret.envelop.get((addPos + addCount + 1) % ret.envelop.size()))) {
 						ret.envelop.remove((addPos + addCount) % ret.envelop.size());
 						ret.envelop.remove((addPos + addCount) % ret.envelop.size());
 						--addCount;
@@ -338,11 +350,7 @@ public class FillingSolver {
 
 		@Override
 		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((p == null) ? 0 : p.hashCode());
-			result = prime * result + pIdx;
-			return result;
+			return p.hashCode() ^ pIdx;
 		}
 
 		@Override
