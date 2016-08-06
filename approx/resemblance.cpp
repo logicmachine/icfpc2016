@@ -128,7 +128,7 @@ static Input load_input(std::istream &ins)
             std::string xs, ys;
 
             getline(ins, xs, ',');
-            getline(ins, ys);e
+            getline(ins, ys);
 
 #ifdef USE_DOUBLE
             val_t px(get_double(mpval_t(xs)));
