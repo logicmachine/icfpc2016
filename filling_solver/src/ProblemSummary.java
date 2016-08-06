@@ -1,11 +1,11 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +29,7 @@ public class ProblemSummary {
 			PartsDecomposer decomposer = new PartsDecomposer();
 			try {
 				decomposer.readInput(new FileInputStream(filename));
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				System.err.println(e);
 				return;
 			}
@@ -37,6 +37,15 @@ public class ProblemSummary {
 			decomposer.decompositeToParts();
 			decomposer.outputImages(imgFilename);
 		});
+
+		HashMap<Integer, Double> scores = new HashMap<>();
+		for (String line : Files.readAllLines(Paths.get("../submitter/submit_results.txt"))) { // need local env...
+			String[] elems = line.split(",");
+			if (elems[0].equals("solve_id")) continue; // header
+			int id = Integer.parseInt(elems[0]);
+			double s = Double.parseDouble(elems[1]);
+			scores.put(id, s);
+		}
 
 		try (PrintWriter writer = new PrintWriter(new FileOutputStream("../problems/summary.html"))) {
 			writer.println("<!DOCTYPE html>");
@@ -49,15 +58,19 @@ public class ProblemSummary {
 			writer.println("<body><div class=\"container\">");
 			writer.println("<div class=\"page-header\"><h1>ICFPC2016 problems</h1></div>");
 			writer.println("<table class=\"table table-bordered\">");
-			writer.println("<thead><tr><th>id</th><th>problem size</th><th>solution size</th><th>image</th></tr></thead>");
+			writer.println("<thead><tr><th>id</th><th>our score</th><th>prob size</th><th>sol size</th><th>image</th></tr></thead>");
 			writer.println("<tbody>");
 			for (int i = 0; i < ids.size(); ++i) {
-				String id = ids.get(i);
+				String idStr = ids.get(i);
+				int id = Integer.parseInt(idStr);
 				writer.println("<tr>");
-				writer.println(String.format("<td><a href=\"http://2016sv.icfpcontest.org/problem/view/%d\">%s</td>", Integer.parseInt(id), id));
+				writer
+						.println(String.format("<td><a name=\"%s\" href=\"http://2016sv.icfpcontest.org/problem/view/%d\">%s</td>", idStr, id, idStr));
+				double score = scores.containsKey(id) ? scores.get(id) : 0.0;
+				writer.println(String.format("<td>%.4f</td>", score));
 				writer.println(String.format("<td>%d</td>", problemSizes.get(i)));
 				writer.println(String.format("<td>%d</td>", solutionSizes.get(i)));
-				writer.println(String.format("<td><img src=\"img/%s.png\" height=400px /></td>", id));
+				writer.println(String.format("<td><img src=\"img/%s.png\" height=400px /></td>", idStr));
 				writer.println("</tr>");
 			}
 			writer.println("</tbody>");
