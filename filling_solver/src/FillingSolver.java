@@ -94,6 +94,9 @@ public class FillingSolver {
 	}
 
 	boolean finish(State st) {
+		for (int i = 0; i < partsUsed.length; ++i) {
+			if (partsUsed[i] == 0) return false;
+		}
 		// TODO
 		return true;
 	}
