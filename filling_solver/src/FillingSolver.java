@@ -8,15 +8,18 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.imageio.ImageIO;
 
 public class FillingSolver {
 
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(100), BigInteger.valueOf(99));
+	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(1000), BigInteger.valueOf(999));
+//	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14), BigInteger.valueOf(10));
 	PartsDecomposer decomposer;
 	int[] partsUsed;
 	int maxBitLength;
+	ArrayList<HashSet<Integer>> usedHash = new ArrayList<>();
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -54,10 +57,18 @@ public class FillingSolver {
 	}
 
 	State rec(State cur) {
-		//		output(cur);
-		//		System.out.println(cur.envelop);
-		//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
-		//		System.out.println();
+		//				output(cur);
+		//				System.out.println(cur.envelop);
+		//				System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
+		//				System.out.println();
+		while (usedHash.size() <= cur.envelop.size()) {
+			usedHash.add(new HashSet<Integer>());
+		}
+		int hash = cur.envelop.hashCode();
+		if (usedHash.get(cur.envelop.size()).contains(hash)) {
+			return null;
+		}
+		usedHash.get(cur.envelop.size()).add(hash);
 		ArrayList<Part> parts = decomposer.parts;
 		for (int loop = 0; loop < 2; ++loop) {
 			for (int i = 0; i < parts.size(); ++i) {
@@ -70,8 +81,10 @@ public class FillingSolver {
 					for (int k = 0; k < PS; ++k) {
 						if (part.vs.get(k) != i1) continue;
 						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
+							//							System.out.println("adding " + i1 + " " + i2);
 							State ns = cur.add(j, part, k);
 							if (ns == null) continue;
+							//							System.out.println("added " + i1 + " " + i2);
 							if (ns.area.equals(Rational.ONE)) {
 								if (finish(cur)) {
 									return ns;
@@ -92,6 +105,9 @@ public class FillingSolver {
 	}
 
 	boolean finish(State st) {
+		for (int i = 0; i < partsUsed.length; ++i) {
+			if (partsUsed[i] == 0) return false;
+		}
 		// TODO
 		return true;
 	}
@@ -125,7 +141,7 @@ public class FillingSolver {
 			System.out.println();
 		}
 		for (int i = 0; i < dest.length; ++i) {
-			System.out.println(dest[i].transform(st.xmin.negate(), st.ymin.negate()).toICFPStr());
+			System.out.println(dest[i].toICFPStr());
 		}
 	}
 
@@ -200,9 +216,6 @@ public class FillingSolver {
 					addVertex.add(new Vertex(pi, addP));
 				}
 			}
-			if (conflict(addVertex)) {
-				return null;
-			}
 			ret.xmin = this.xmin;
 			ret.xmax = this.xmax;
 			ret.ymin = this.ymin;
@@ -223,19 +236,33 @@ public class FillingSolver {
 			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
 				ret.envelop.add(this.envelop.get(i));
 			}
+			int addCount = PS - 2;
+			int addPos = envIdx + 1;
 			{
 				// remove matching edges
-				Point prev = ret.envelop.get(ret.envelop.size() - 1).p;
-				for (int i = 0; i < ret.envelop.size(); ++i) {
-					Point cur = ret.envelop.get(i).p;
-					Point next = ret.envelop.get((i + 1) % ret.envelop.size()).p;
-					if (prev.equals(next)) {
-						ret.envelop.remove(i);
-						ret.envelop.remove(i == ret.envelop.size() ? 0 : i);
+				while (addCount > 0) { // backward
+					if (ret.envelop.get(addPos).equals(ret.envelop.get((addPos - 2 + ret.envelop.size()) % ret.envelop.size()))) {
+						ret.envelop.remove(addPos);
+						ret.envelop.remove(addPos == 0 ? ret.envelop.size() - 1 : addPos - 1);
+						if (addPos > 0) addPos--;
+						--addCount;
 					} else {
-						prev = cur;
+						break;
 					}
 				}
+				while (addCount > 0) { // forward
+					if (ret.envelop.get((addPos + addCount - 1) % ret.envelop.size())
+							.equals(ret.envelop.get((addPos + addCount + 1) % ret.envelop.size()))) {
+						ret.envelop.remove((addPos + addCount) % ret.envelop.size());
+						ret.envelop.remove((addPos + addCount) % ret.envelop.size());
+						--addCount;
+					} else {
+						break;
+					}
+				}
+			}
+			if (ret.conflict(addPos, addCount)) {
+				return null;
 			}
 
 			for (ArrayList<Vertex> vs : this.filledParts) {
@@ -245,20 +272,20 @@ public class FillingSolver {
 			return ret;
 		}
 
-		boolean conflict(ArrayList<Vertex> vs) {
-			for (int i = 0; i < vs.size(); ++i) {
-				Point f1 = vs.get(i).p;
-				Point t1 = vs.get((i + i) % vs.size()).p;
-				for (int j = 0; j < envelop.size(); ++j) {
-					Point f2 = envelop.get(j).p;
-					Point t2 = envelop.get((j + 1) % envelop.size()).p;
+		boolean conflict(int addPos, int addCount) {
+			for (int i = 0; i <= addCount; ++i) {
+				Point f1 = envelop.get((addPos + i + envelop.size() - 1) % envelop.size()).p;
+				Point t1 = envelop.get((addPos + i) % envelop.size()).p;
+				for (int j = 1; j < envelop.size() - 2; ++j) {
+					Point f2 = envelop.get((addPos + i + j) % envelop.size()).p;
+					Point t2 = envelop.get((addPos + i + j + 1) % envelop.size()).p;
 					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
-					if (cross == null) {
-						// TODO parallel line
-						continue;
+					if (cross != null) {
+						return true;
 					}
-					if (!f1.equals(cross) && !t1.equals(cross)) return true;
-					if (!f2.equals(cross) && !t2.equals(cross)) return true;
+					// TODO parallel line
+					//					if (!f1.equals(cross) && !t1.equals(cross)) return true;
+					//					if (!f2.equals(cross) && !t2.equals(cross)) return true;
 				}
 			}
 			return false;
@@ -319,6 +346,18 @@ public class FillingSolver {
 		Vertex(int i, Point p) {
 			this.pIdx = i;
 			this.p = p;
+		}
+
+		@Override
+		public int hashCode() {
+			return p.hashCode() ^ pIdx;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) return true;
+			Vertex other = (Vertex) obj;
+			return pIdx == other.pIdx && p.equals(other.p);
 		}
 
 		@Override

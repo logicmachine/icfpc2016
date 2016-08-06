@@ -37,8 +37,9 @@ public class Geometry {
 		Rational s2 = dx2.mul(y3.sub(y2)).sub(dy2.mul(x3.sub(x2)));
 		Rational ss = s1.add(s2);
 		if (ss.equals(Rational.ZERO)) return null;
-		Rational cx1 = x1.add(x2.sub(x1).mul(s1).div(ss));
-		Rational cy1 = y1.add(y2.sub(y1).mul(s1).div(ss));
+		Rational sr = s1.div(ss);
+		Rational cx1 = x1.add(x2.sub(x1).mul(sr));
+		Rational cy1 = y1.add(y2.sub(y1).mul(sr));
 		if (cx1.compareTo(x1) * cx1.compareTo(x2) > 0) {
 			return null;
 		}
