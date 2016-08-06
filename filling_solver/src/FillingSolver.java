@@ -125,7 +125,7 @@ public class FillingSolver {
 			System.out.println();
 		}
 		for (int i = 0; i < dest.length; ++i) {
-			System.out.println(dest[i].transform(st.xmin.negate(), st.ymin.negate()).toICFPStr());
+			System.out.println(dest[i].toICFPStr());
 		}
 	}
 
