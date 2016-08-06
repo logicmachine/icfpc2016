@@ -15,12 +15,13 @@ import javax.imageio.ImageIO;
 public class FillingSolver {
 
 	private static final long NO_TIME_LIMIT = -1;
-	//	static final Rational MAX_SIZE = Rational.ONE;
-	static final Rational MAX_SIZE = new Rational(BigInteger.valueOf(14143), BigInteger.valueOf(10000));
+	private static final Rational MAX_BBOX_SIZE_PERPENDICULAR = Rational.ONE;
+	private static final Rational MAX_BBOX_SIZE_GENERAL = new Rational(BigInteger.valueOf(14143), BigInteger.valueOf(10000));
+	Rational maxBboxSize = MAX_BBOX_SIZE_GENERAL;
 	PartsDecomposer decomposer;
 	int[] partsUsed;
 	int maxBitLength;
-	ArrayList<HashSet<Integer>> usedHash = new ArrayList<>();
+	ArrayList<HashSet<Integer>> usedHash;
 	long limitTime;
 	AffineTransform resultMapping = new AffineTransform(Rational.ONE, Rational.ZERO, Rational.ZERO, Rational.ONE);
 
@@ -37,15 +38,30 @@ public class FillingSolver {
 	 * @param timelimitMs time limit in microseconds, or 0 (no limit)
 	 */
 	void solve(int timelimitMs) {
-		limitTime = timelimitMs == 0 ? NO_TIME_LIMIT : System.currentTimeMillis() + timelimitMs;
-
+		long realLimit = timelimitMs == 0 ? NO_TIME_LIMIT : System.currentTimeMillis() + timelimitMs;
 		ArrayList<Part> parts = decomposer.parts;
 		Collections.sort(parts, (Part l, Part r) -> {
 			return r.area.compareTo(l.area);
 		});
-		partsUsed = new int[parts.size()];
-		Part largest = parts.get(0);
-		System.err.println("largest part:" + largest);
+		System.err.println("largest part:" + parts.get(0));
+
+		limitTime = System.currentTimeMillis() + (timelimitMs == 0 ? 5000 : Math.min(5000, timelimitMs / 3));
+		maxBboxSize = MAX_BBOX_SIZE_PERPENDICULAR;
+		boolean result = solveInner();
+		if (result) return;
+		System.err.println("failed perpendicular");
+		limitTime = realLimit;
+		maxBboxSize = MAX_BBOX_SIZE_GENERAL;
+		result = solveInner();
+		if (!result) {
+			System.out.println("failed");
+		}
+	}
+
+	private boolean solveInner() {
+		partsUsed = new int[decomposer.parts.size()];
+		usedHash = new ArrayList<>();
+		Part largest = decomposer.parts.get(0);
 		partsUsed[0] = 1;
 
 		ArrayList<Vertex> initialEnvelop = new ArrayList<>();
@@ -65,8 +81,9 @@ public class FillingSolver {
 			result.shrink();
 			output(result);
 			//			result.outputImages();
+			return true;
 		} else {
-			System.out.println("failed");
+			return false;
 		}
 	}
 
@@ -288,10 +305,10 @@ public class FillingSolver {
 				ret.envelop.add(addVertex.get(i));
 				ret.updateBBox(addVertex.get(i).p);
 			}
-			if (ret.xmax.sub(ret.xmin).compareTo(MAX_SIZE) > 0) {
+			if (ret.xmax.sub(ret.xmin).compareTo(maxBboxSize) > 0) {
 				return null;
 			}
-			if (ret.ymax.sub(ret.ymin).compareTo(MAX_SIZE) > 0) {
+			if (ret.ymax.sub(ret.ymin).compareTo(maxBboxSize) > 0) {
 				return null;
 			}
 			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
