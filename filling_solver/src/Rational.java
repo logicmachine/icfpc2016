@@ -38,6 +38,8 @@ public class Rational implements Comparable<Rational> {
 	}
 
 	Rational mul(Rational v) {
+		if (v.num.equals(BigInteger.ZERO)) return Rational.ZERO;
+		if (v.equals(Rational.ONE)) return this;
 		return new Rational(this.num.multiply(v.num), this.den.multiply(v.den));
 	}
 
@@ -46,10 +48,12 @@ public class Rational implements Comparable<Rational> {
 	}
 
 	Rational add(Rational v) {
+		if (v.num.equals(BigInteger.ZERO)) return this;
 		return new Rational(this.num.multiply(v.den).add(v.num.multiply(this.den)), this.den.multiply(v.den));
 	}
 
 	Rational sub(Rational v) {
+		if (v.num.equals(BigInteger.ZERO)) return this;
 		return new Rational(this.num.multiply(v.den).subtract(v.num.multiply(this.den)), this.den.multiply(v.den));
 	}
 
