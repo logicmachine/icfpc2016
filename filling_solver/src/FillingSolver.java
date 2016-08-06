@@ -162,13 +162,11 @@ public class FillingSolver {
 				sp = cp;
 			}
 		}
-		System.out.println("target points:" + tp1 + " " + tp2);
 		if (tp1.x.equals(tp2.x) || tp1.y.equals(tp2.y)) {
 			resultMapping = AffineTransform.transform(st.xmin.negate(), st.ymin.negate());
 		} else {
 			resultMapping = getTransform(tp1, tp2, new Point(Rational.ZERO, Rational.ZERO), new Point(Rational.ONE, Rational.ZERO));
 		}
-		System.out.println("map:" + resultMapping);
 		return true;
 	}
 
