@@ -101,14 +101,15 @@ public class FillingSolver {
 							State ns = cur.add(j, part, k);
 							if (ns == null) continue;
 							//							System.out.println("added " + i1 + " " + i2);
+							partsUsed[i]++;
 							if (ns.area.equals(Rational.ONE)) {
 								if (finish(ns)) {
 									return ns;
 								} else {
+									partsUsed[i]--;
 									continue;
 								}
 							}
-							partsUsed[i]++;
 							State ans = rec(ns);
 							if (ans != null) return ans;
 							partsUsed[i]--;
