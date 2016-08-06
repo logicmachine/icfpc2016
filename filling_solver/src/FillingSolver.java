@@ -54,10 +54,10 @@ public class FillingSolver {
 	}
 
 	State rec(State cur) {
-//		output(cur);
-//		System.out.println(cur.envelop);
-//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
-//		System.out.println();
+		//				output(cur);
+		//				System.out.println(cur.envelop);
+		//				System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
+		//				System.out.println();
 		ArrayList<Part> parts = decomposer.parts;
 		for (int loop = 0; loop < 2; ++loop) {
 			for (int i = 0; i < parts.size(); ++i) {
@@ -70,10 +70,10 @@ public class FillingSolver {
 					for (int k = 0; k < PS; ++k) {
 						if (part.vs.get(k) != i1) continue;
 						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
-//							System.out.println("adding " + i1 + " " + i2);
+							//							System.out.println("adding " + i1 + " " + i2);
 							State ns = cur.add(j, part, k);
 							if (ns == null) continue;
-//							System.out.println("added " + i1 + " " + i2);
+							//							System.out.println("added " + i1 + " " + i2);
 							if (ns.area.equals(Rational.ONE)) {
 								if (finish(cur)) {
 									return ns;
@@ -224,10 +224,10 @@ public class FillingSolver {
 			}
 			{
 				// remove matching edges
-				Point prev = ret.envelop.get(ret.envelop.size() - 1).p;
+				Vertex prev = ret.envelop.get(ret.envelop.size() - 1);
 				for (int i = 0; i < ret.envelop.size(); ++i) {
-					Point cur = ret.envelop.get(i).p;
-					Point next = ret.envelop.get((i + 1) % ret.envelop.size()).p;
+					Vertex cur = ret.envelop.get(i);
+					Vertex next = ret.envelop.get((i + 1) % ret.envelop.size());
 					if (prev.equals(next)) {
 						ret.envelop.remove(i);
 						ret.envelop.remove(i == ret.envelop.size() ? 0 : i);
@@ -236,7 +236,7 @@ public class FillingSolver {
 					}
 				}
 			}
-			if (conflict()) {
+			if (ret.conflict()) {
 				return null;
 			}
 
@@ -255,6 +255,9 @@ public class FillingSolver {
 					Point f2 = envelop.get((i + j) % envelop.size()).p;
 					Point t2 = envelop.get((i + j + 1) % envelop.size()).p;
 					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
+					//					if (i == 8 && j == 2) {
+					//						System.out.println(envelop.size() + " " + f1 + " " + t1 + " " + f2 + " " + t2 + " " + cross);
+					//					}
 					if (cross != null) {
 						return true;
 					}
@@ -324,6 +327,22 @@ public class FillingSolver {
 		Vertex(int i, Point p) {
 			this.pIdx = i;
 			this.p = p;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((p == null) ? 0 : p.hashCode());
+			result = prime * result + pIdx;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) return true;
+			Vertex other = (Vertex) obj;
+			return pIdx == other.pIdx && p.equals(other.p);
 		}
 
 		@Override
