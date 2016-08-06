@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -28,17 +29,13 @@ public class FillingSolver {
 
 	void solve() {
 		ArrayList<Part> parts = decomposer.parts;
+		Collections.sort(parts, (Part l, Part r) -> {
+			return r.area.compareTo(l.area);
+		});
 		partsUsed = new int[parts.size()];
-		int largestI = 0;
 		Part largest = parts.get(0);
-		for (int i = 1; i < parts.size(); ++i) {
-			if (parts.get(i).area.compareTo(largest.area) > 0) {
-				largest = parts.get(i);
-				largestI = i;
-			}
-		}
 		System.err.println("largest part:" + largest);
-		partsUsed[largestI] = 1;
+		partsUsed[0] = 1;
 
 		ArrayList<Vertex> initialEnvelop = new ArrayList<>();
 		for (int i = 0; i < largest.vs.size(); ++i) {
@@ -63,17 +60,17 @@ public class FillingSolver {
 		//		System.out.println();
 		ArrayList<Part> parts = decomposer.parts;
 		for (int loop = 0; loop < 2; ++loop) {
-			for (int i = 0; i < cur.envelop.size(); ++i) {
-				int i1 = cur.envelop.get(i).pIdx;
-				int i2 = cur.envelop.get((i + 1) % cur.envelop.size()).pIdx;
-				for (int j = 0; j < parts.size(); ++j) {
-					if (partsUsed[j] != 0 && loop == 0) continue;
-					Part part = parts.get(j);
-					final int PS = part.vs.size();
+			for (int i = 0; i < parts.size(); ++i) {
+				if (partsUsed[i] != 0 && loop == 0) continue;
+				Part part = parts.get(i);
+				final int PS = part.vs.size();
+				for (int j = 0; j < cur.envelop.size(); ++j) {
+					int i1 = cur.envelop.get(j).pIdx;
+					int i2 = cur.envelop.get((j + 1) % cur.envelop.size()).pIdx;
 					for (int k = 0; k < PS; ++k) {
 						if (part.vs.get(k) != i1) continue;
 						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
-							State ns = cur.add(i, part, k);
+							State ns = cur.add(j, part, k);
 							if (ns == null) continue;
 							if (ns.area.equals(Rational.ONE)) {
 								if (finish(cur)) {
@@ -82,10 +79,10 @@ public class FillingSolver {
 									continue;
 								}
 							}
-							partsUsed[j]++;
+							partsUsed[i]++;
 							State ans = rec(ns);
 							if (ans != null) return ans;
-							partsUsed[j]--;
+							partsUsed[i]--;
 						}
 					}
 				}
@@ -123,7 +120,7 @@ public class FillingSolver {
 			for (Vertex v : vs) {
 				int idx = map.get(v.p);
 				System.out.print(" " + idx);
-				dest[idx] = v.p;
+				dest[idx] = decomposer.points.get(v.pIdx);
 			}
 			System.out.println();
 		}
@@ -282,7 +279,7 @@ public class FillingSolver {
 			for (int i = 1; i <= filledParts.size(); ++i) {
 				BufferedImage image = new BufferedImage(SIZE + MARGIN * 2, SIZE + MARGIN * 2, BufferedImage.TYPE_INT_ARGB);
 				Graphics2D g = (Graphics2D) image.getGraphics();
-				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON);
+				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				for (int j = 0; j < i; ++j) {
 					ArrayList<Vertex> part = filledParts.get(j);
 					int[] xs = new int[part.size()];
