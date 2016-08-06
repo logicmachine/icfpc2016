@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class Main {
 	public static void main(String[] args) {
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> System.err.println("Run Shutdown Hook.")));
 		PartsDecomposer decomposer = new PartsDecomposer();
 		decomposer.readInput(System.in);
 		decomposer.edgesArrangement();
