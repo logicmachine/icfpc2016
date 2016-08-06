@@ -207,12 +207,21 @@ public class FillingSolver {
 			for (int i = envIdx + 1; i < this.envelop.size(); ++i) {
 				ret.envelop.add(this.envelop.get(i));
 			}
-			Point addNext = ret.envelop.get(envIdx + 1).p;
-			Point addPrev = ret.envelop.get((envIdx - 1 + ret.envelop.size()) % ret.envelop.size()).p;
-			if (addNext.equals(addPrev)) {
-				ret.envelop.remove(envIdx);
-				ret.envelop.remove(envIdx);
+			{
+				// remove matching edges
+				Point prev = ret.envelop.get(ret.envelop.size() - 1).p;
+				for (int i = 0; i < ret.envelop.size(); ++i) {
+					Point cur = ret.envelop.get(i).p;
+					Point next = ret.envelop.get((i + 1) % ret.envelop.size()).p;
+					if (prev.equals(next)) {
+						ret.envelop.remove(i);
+						ret.envelop.remove(i == ret.envelop.size() ? 0 : i);
+					} else {
+						prev = cur;
+					}
+				}
 			}
+
 			for (ArrayList<Vertex> vs : this.filledParts) {
 				ret.filledParts.add(new ArrayList<>(vs));
 			}
