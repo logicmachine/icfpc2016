@@ -112,8 +112,13 @@ def main(args):
 		filename = "problem_%05d_%05d_%05d.txt" % (problem["problem_id"], problem["problem_size"], problem["solution_size"])
 		filename = os.path.join(PROBLEMS_PATH, filename)
 		if not os.path.isfile(filename):
-			#rc, o, e = perform(API_BLOB % problem["problem_spec_hash"])
-			rc, o, e = Command(API_BLOB % problem["problem_spec_hash"]).run(None)
+			for n in range(NUM_RETRY):
+				#rc, o, e = perform(API_BLOB % problem["problem_spec_hash"])
+				rc, o, e = Command(API_BLOB % problem["problem_spec_hash"]).run(None)
+				if re.search("html", o):
+					print >>sys.stderr, "Error downloading program: retry %d" % (i + 1)
+					continue
+				break
 			f = open(filename, "wb")
 			f.write(o)
 			f.close()
