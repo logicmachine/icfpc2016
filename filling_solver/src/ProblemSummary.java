@@ -1,5 +1,4 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -29,7 +28,7 @@ public class ProblemSummary {
 			PartsDecomposer decomposer = new PartsDecomposer();
 			try {
 				decomposer.readInput(new FileInputStream(filename));
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				System.err.println(e);
 				return;
 			}
@@ -49,12 +48,13 @@ public class ProblemSummary {
 			writer.println("<body><div class=\"container\">");
 			writer.println("<div class=\"page-header\"><h1>ICFPC2016 problems</h1></div>");
 			writer.println("<table class=\"table table-bordered\">");
-			writer.println("<thead><tr><th>id</th><th>problem size</th><th>solution size</th><th>image</th></tr></thead>");
+			writer.println("<thead><tr><th>id</th><th>our score</th><th>prob size</th><th>sol size</th><th>image</th></tr></thead>");
 			writer.println("<tbody>");
 			for (int i = 0; i < ids.size(); ++i) {
 				String id = ids.get(i);
 				writer.println("<tr>");
-				writer.println(String.format("<td><a href=\"http://2016sv.icfpcontest.org/problem/view/%d\">%s</td>", Integer.parseInt(id), id));
+				writer.println(String.format("<td><a name=\"%s\" href=\"http://2016sv.icfpcontest.org/problem/view/%d\">%s</td>", id, Integer.parseInt(id), id));
+				writer.println(String.format("<td>%.4f</td>", 0.0));
 				writer.println(String.format("<td>%d</td>", problemSizes.get(i)));
 				writer.println(String.format("<td>%d</td>", solutionSizes.get(i)));
 				writer.println(String.format("<td><img src=\"img/%s.png\" height=400px /></td>", id));
