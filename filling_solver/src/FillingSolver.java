@@ -57,6 +57,7 @@ public class FillingSolver {
 		st.area = largest.area;
 		State result = rec(st);
 		if (result != null) {
+			result.shrink();
 			output(result);
 			result.outputImages();
 		} else {
@@ -308,6 +309,90 @@ public class FillingSolver {
 			if (x.compareTo(xmax) > 0) xmax = x;
 			if (y.compareTo(ymin) < 0) ymin = y;
 			if (y.compareTo(ymax) > 0) ymax = y;
+		}
+
+		void shrink() {
+			// merge adjecent same rotational order parts
+			for (int i = 0; i < filledParts.size(); ++i) {
+				ArrayList<Vertex> basePart = filledParts.get(i);
+				boolean baseFlip = isFlipped(basePart);
+				for (int j = i + 1; j < filledParts.size(); ++j) {
+					ArrayList<Vertex> sidePart = filledParts.get(j);
+					boolean sideFlip = isFlipped(sidePart);
+					if (baseFlip != sideFlip) continue;
+					int baseIdx = -1;
+					int sideIdx = -1;
+					OUT: for (int k = 0; k < basePart.size(); ++k) {
+						Vertex v1 = basePart.get(k);
+						Vertex v2 = basePart.get((k + 1) % basePart.size());
+						for (int l = 0; l < sidePart.size(); ++l) {
+							if (v2.equals(sidePart.get(l)) && v1.equals(sidePart.get((l + 1) % sidePart.size()))) {
+								baseIdx = k;
+								sideIdx = l;
+								break OUT;
+							}
+						}
+					}
+					if (baseIdx == -1) continue;
+					// merge sidePart to basePart
+					for (int k = 2; k < sidePart.size(); ++k) {
+						basePart.add(baseIdx + k - 1, sidePart.get((sideIdx + k) % sidePart.size()));
+					}
+					for (int k = 0; k < basePart.size() && basePart.size() > 3; ++k) {
+						if (basePart.get(k).equals(basePart.get((k + 2) % basePart.size()))) {
+							basePart.remove(k);
+							basePart.remove(k == basePart.size() ? 0 : k);
+							--k;
+						}
+					}
+					filledParts.remove(j);
+					--j;
+				}
+			}
+
+			// merge collinear adjecent edges
+			for (int i = 0; i < filledParts.size(); ++i) {
+				ArrayList<Vertex> part = filledParts.get(i);
+				for (int j = 0; j < part.size(); ++j) {
+					Point p1 = part.get(j).p;
+					Point p2 = part.get((j + 1) % part.size()).p;
+					Point p3 = part.get((j + 2) % part.size()).p;
+					Rational dx1 = p2.x.sub(p1.x);
+					Rational dy1 = p2.y.sub(p1.y);
+					Rational dx2 = p3.x.sub(p2.x);
+					Rational dy2 = p3.y.sub(p2.y);
+					if (dy1.mul(dx2).sub(dx1.mul(dy2)).equals(Rational.ZERO)) {
+						// remove the mid point
+						part.remove(j == part.size() - 1 ? 0 : j + 1);
+						--j;
+					}
+				}
+			}
+
+		}
+
+		boolean isFlipped(ArrayList<Vertex> part) {
+			ArrayList<Part> origParts = decomposer.parts;
+			for (int i = 0; i < origParts.size(); ++i) {
+				Part origPart = origParts.get(i);
+				if (part.size() != origPart.vs.size()) continue;
+				int idx = 0;
+				for (int j = 0; j < part.size(); ++j) {
+					if (origPart.vs.get(j) == part.get(0).pIdx) {
+						idx = j;
+						break;
+					}
+				}
+				boolean match = true;
+				for (int j = 1; j < part.size(); ++j) {
+					if (part.get(j).pIdx != origPart.vs.get((idx + j) % origPart.vs.size())) {
+						match = false;
+						break;
+					}
+				}
+				if (match) return false;
+			}
+			return true;
 		}
 
 		void outputImages() {
