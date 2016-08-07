@@ -41,6 +41,9 @@ TIMEOUT = 180.0
 NUM_RETRY = 5
 MAX_RUNNING = 4
 QUEUE_WAIT = 0.0
+#SOLUTIONS_PATH = "/home/futatsugi/Dropbox/develop/fixstars/contests/icfpc"
+SOLUTIONS_PATH = "/home/futatsugi/develop/contests/icfpc/icfpc2016/submitter/solutions"
+
 
 API_KEY = "56-c0d0425216599ecb557d45138c644174"
 #API_URL = "http://2016sv.icfpcontest.org/api"
@@ -146,13 +149,20 @@ def main(args):
 		#print problem["problem_id"], problem["problem_spec_hash"]
 		cnt_perfect = 0
 		for team in problem["ranking"]:
-			if team["resemblance"] == 1.0:
+			if int(team["resemblance"]) == 1:
 				cnt_perfect += 1
 		solution_size = problem["solution_size"]
 		score = solution_size / (2.0 + cnt_perfect)
 		data.append((score, problem["problem_id"], problem["problem_spec_hash"], solution_size, cnt_perfect, len(problem["ranking"])))
 		hash_problem[problem["problem_spec_hash"]].append((problem["problem_id"], score))
 		problem_hash[problem["problem_id"]] = problem["problem_spec_hash"]
+
+	solved_solutions = []
+	solution_files = os.listdir(SOLUTIONS_PATH)
+	for fname in solution_files:
+		m = re.search("(\d+)\.txt", fname)
+		if m:
+			solved_solutions.append(int(m.group(1)))
 
 	data.sort(reverse=True)
 	memo = []
@@ -168,7 +178,8 @@ def main(args):
 			owners_.append(problem_owner[vv[0]])
 			teams_.append(teams[problem_owner[vv[0]]])
 			score += vv[1]
-		ans.append((score, tuple(problems_), tuple(teams_)))
+		if not (set(problems_) & set(solved_solutions)):
+			ans.append((score, tuple(problems_), tuple(teams_)))
 		#print v[0], hash_problem[problem_hash[v[1]]]
 		memo.extend(hash_problem[problem_hash[v[1]]])
 
