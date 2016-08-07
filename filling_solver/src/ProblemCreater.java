@@ -1,5 +1,6 @@
-import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class ProblemCreater {
 	static final int[] NY = { 1, 0, -1, 0 };
 	int foldCount = 1;
 	Random rnd = new Random();
+	long seed;
 	int S;
 	ArrayList<ArrayList<ArrayList<ArrayList<Panel>>>> panels = new ArrayList<>();
 	int xmin, xmax, ymin, ymax;
@@ -20,8 +22,13 @@ public class ProblemCreater {
 	HashMap<Pos, Pos> posMap = new HashMap<>(); // src -> dst
 	ArrayList<ArrayList<Integer>> srcShape = new ArrayList<>();
 
+	ProblemCreater(int size, int foldCount) {
+		this(size, foldCount, new Random().nextLong());
+	}
+
 	ProblemCreater(int size, int foldCount, long seed) {
-		System.err.println("seed:" + seed);
+		//		System.err.println("seed:" + seed);
+		this.seed = seed;
 		this.S = size;
 		xmin = ymin = S;
 		xmax = ymax = S * 2;
@@ -42,33 +49,31 @@ public class ProblemCreater {
 		}
 	}
 
-	void output(OutputStream stm) {
-		try (PrintWriter writer = new PrintWriter(stm)) {
-			//			System.err.println("p2i:" + p2i);
-			//			System.err.println("posMap:" + posMap);
-			Pos[] dstPs = new Pos[p2i.size()];
-			Pos[] srcPs = new Pos[p2i.size()];
-			for (Pos p : p2i.keySet()) {
-				int idx = p2i.get(p);
-				srcPs[idx] = p;
-				dstPs[idx] = posMap.get(p);
+	void output(PrintWriter writer) {
+		//			System.err.println("p2i:" + p2i);
+		//			System.err.println("posMap:" + posMap);
+		Pos[] dstPs = new Pos[p2i.size()];
+		Pos[] srcPs = new Pos[p2i.size()];
+		for (Pos p : p2i.keySet()) {
+			int idx = p2i.get(p);
+			srcPs[idx] = p;
+			dstPs[idx] = posMap.get(p);
+		}
+		writer.println(srcPs.length);
+		for (int i = 0; i < srcPs.length; ++i) {
+			outputPos(writer, new Pos(srcPs[i].x - 2 * S, srcPs[i].y - 2 * S));
+		}
+		writer.println(srcShape.size());
+		for (int i = 0; i < srcShape.size(); ++i) {
+			ArrayList<Integer> shape = srcShape.get(i);
+			writer.print(shape.size());
+			for (int j = 0; j < shape.size(); ++j) {
+				writer.print(" " + shape.get(j));
 			}
-			writer.println(srcPs.length);
-			for (int i = 0; i < srcPs.length; ++i) {
-				outputPos(writer, new Pos(srcPs[i].x - 2 * S, srcPs[i].y - 2 * S));
-			}
-			writer.println(srcShape.size());
-			for (int i = 0; i < srcShape.size(); ++i) {
-				ArrayList<Integer> shape = srcShape.get(i);
-				writer.print(shape.size());
-				for (int j = 0; j < shape.size(); ++j) {
-					writer.print(" " + shape.get(j));
-				}
-				writer.println();
-			}
-			for (int i = 0; i < srcPs.length; ++i) {
-				outputPos(writer, dstPs[i]);
-			}
+			writer.println();
+		}
+		for (int i = 0; i < srcPs.length; ++i) {
+			outputPos(writer, dstPs[i]);
 		}
 	}
 
@@ -118,14 +123,18 @@ public class ProblemCreater {
 
 	void create() {
 		for (int i = 0; i < foldCount; ++i) {
-			int type = rnd.nextInt(6);
+			if (xmax - xmin == 1 && ymax - ymin == 1) {
+				System.err.println("too small");
+				break;
+			}
+			int type = rnd.nextInt(4);
 			if (type == 0) {
 				if (xmax - xmin == 1) {
 					--i;
 					continue;
 				}
 				int flipX = rnd.nextInt(xmax - xmin - 1) + xmin + 1;
-				System.err.println("flipX:" + flipX);
+				//				System.err.println("flipX:" + flipX);
 				flipHorizontal(flipX, i + 1);
 			} else if (type == 1) {
 				if (ymax - ymin == 1) {
@@ -133,9 +142,9 @@ public class ProblemCreater {
 					continue;
 				}
 				int flipY = rnd.nextInt(ymax - ymin - 1) + ymin + 1;
-				System.err.println("flipY:" + flipY);
+				//				System.err.println("flipY:" + flipY);
 				flipVertical(flipY, i + 1);
-			} else if (type <= 3) {
+			} else if (type <= 2) {
 				int maxS = xmax - ymin;
 				int minS = xmin - ymax;
 				if (maxS - minS <= 2) {
@@ -143,7 +152,7 @@ public class ProblemCreater {
 					continue;
 				}
 				int flipS = rnd.nextInt(maxS - minS - 2) + minS + 1;
-				System.err.println("flipS:" + flipS);
+				//				System.err.println("flipS:" + flipS);
 				flipSlash(flipS, i + 1);
 			} else {
 				int maxB = xmax + ymax;
@@ -153,13 +162,86 @@ public class ProblemCreater {
 					continue;
 				}
 				int flipB = rnd.nextInt(maxB - minB - 2) + minB + 1;
-				System.err.println("flipB:" + flipB);
+				//				System.err.println("flipB:" + flipB);
 				flipBackslash(flipB, i + 1);
 			}
 			updateBBox();
 			//			debug();
 		}
-		compose();
+	}
+
+	double evaluate() {
+		double len = 0;
+		double area = 0;
+		ArrayList<Segment> segs = new ArrayList<>();
+		for (int i = ymin; i < ymax; ++i) {
+			for (int j = xmin; j < xmax; ++j) {
+				for (int k = 0; k < 4; ++k) {
+					ArrayList<Panel> subcell = panels.get(i).get(j).get(k);
+					if (!subcell.isEmpty()) {
+						area += 0.25;
+						if (panels.get(i).get(j).get((k + 1) % 4).isEmpty()) {
+							segs.add(getLeftSeg(j, i, k, false));
+							len += Math.sqrt(2) / 2;
+						}
+						if (panels.get(i).get(j).get((k + 3) % 4).isEmpty()) {
+							segs.add(getRightSeg(j, i, k, false));
+							len += Math.sqrt(2) / 2;
+						}
+						if (panels.get(i + NY[k]).get(j + NX[k]).get((k + 2) % 4).isEmpty()) {
+							segs.add(getBottomSeg(j, i, k, false));
+							len += 1;
+						}
+					}
+				}
+			}
+		}
+		ArrayList<Pos> ps = new ArrayList<>();
+		int cx = segs.get(0).x2;
+		int cy = segs.get(0).y2;
+		ps.add(new Pos(cx, cy));
+		boolean[] used = new boolean[segs.size()];
+		used[0] = true;
+		for (int i = 1; i < segs.size(); ++i) {
+			int nx = -1;
+			int ny = -1;
+			for (int j = 1; j < segs.size(); ++j) {
+				if (used[j]) continue;
+				if (segs.get(j).x1 == cx && segs.get(j).y1 == cy) {
+					nx = segs.get(j).x2;
+					ny = segs.get(j).y2;
+					used[j] = true;
+					break;
+				} else if (segs.get(j).x2 == cx && segs.get(j).y2 == cy) {
+					nx = segs.get(j).x1;
+					ny = segs.get(j).y1;
+					used[j] = true;
+					break;
+				}
+			}
+			ps.add(new Pos(nx, ny));
+			if (ps.size() > 2) {
+				int dx1 = ps.get(ps.size() - 2).x - ps.get(ps.size() - 3).x;
+				int dy1 = ps.get(ps.size() - 2).y - ps.get(ps.size() - 3).y;
+				int dx2 = nx - ps.get(ps.size() - 2).x;
+				int dy2 = ny - ps.get(ps.size() - 2).y;
+				if (dy1 * dx2 - dx1 * dy2 == 0) {
+					ps.remove(ps.size() - 2);
+				}
+			}
+			cx = nx;
+			cy = ny;
+		}
+		{
+			int dx1 = ps.get(0).x - ps.get(ps.size() - 1).x;
+			int dy1 = ps.get(0).y - ps.get(ps.size() - 1).y;
+			int dx2 = ps.get(1).x - ps.get(0).x;
+			int dy2 = ps.get(1).y - ps.get(0).y;
+			if (dy1 * dx2 - dx1 * dy2 == 0) {
+				ps.remove(0);
+			}
+		}
+		return ps.size() * ps.size() * S + len - Math.sqrt(area);
 	}
 
 	void compose() {
@@ -261,6 +343,7 @@ public class ProblemCreater {
 	void registerResultShape(ArrayList<Segment> dstS, ArrayList<Segment> srcS) {
 		//		System.err.println(dstS);
 		//		System.err.println(srcS);
+
 		ArrayList<Pos> srcPos = new ArrayList<>();
 		ArrayList<Pos> dstPos = new ArrayList<>();
 		boolean[] used = new boolean[dstS.size()];
@@ -298,6 +381,16 @@ public class ProblemCreater {
 					dstPos.remove(dstPos.size() - 2);
 					srcPos.remove(srcPos.size() - 2);
 				}
+			}
+		}
+		{
+			int dx1 = dstPos.get(dstPos.size() - 1).x - dstPos.get(dstPos.size() - 2).x;
+			int dy1 = dstPos.get(dstPos.size() - 1).y - dstPos.get(dstPos.size() - 2).y;
+			int dx2 = dstPos.get(0).x - dstPos.get(dstPos.size() - 1).x;
+			int dy2 = dstPos.get(0).y - dstPos.get(dstPos.size() - 1).y;
+			if (dy1 * dx2 - dx1 * dy2 == 0) {
+				dstPos.remove(dstPos.size() - 1);
+				srcPos.remove(srcPos.size() - 1);
 			}
 		}
 		{
@@ -541,13 +634,35 @@ public class ProblemCreater {
 	}
 
 	public static void main(String[] args) {
-		long seed = new Random().nextLong();
-		if (args.length > 0) {
-			seed = Long.parseLong(args[0]);
+		long startTime = System.currentTimeMillis();
+		String bestResult = null;
+		double bestValue = Double.NEGATIVE_INFINITY;
+		while (true) {
+			if (System.currentTimeMillis() - startTime > 10000) {
+				break;
+			}
+			ProblemCreater creater = new ProblemCreater(15, 9);
+			creater.create();
+			double value = creater.evaluate();
+			creater.compose();
+			StringWriter writer = new StringWriter();
+			creater.output(new PrintWriter(writer));
+			String result = writer.toString();
+			int solSize = result.length();
+			for (int i = 0; i < result.length(); ++i) {
+				if (Character.isWhitespace(result.charAt(i))) {
+					solSize--;
+				}
+			}
+			value -= solSize * creater.S / 16.0;
+			if (value > bestValue) {
+				bestResult = result;
+				bestValue = value;
+				System.err.println("bestValue:" + bestValue + " seed:" + creater.seed);
+			}
 		}
-		ProblemCreater creater = new ProblemCreater(15, 9, seed);
-		creater.create();
-		creater.output(System.out);
+		System.out.println(bestResult);
+
 		//		while (true) {
 		//			long seed = new Random().nextLong();
 		//			if (args.length > 0) {
@@ -556,7 +671,7 @@ public class ProblemCreater {
 		//			ProblemCreater creater = new ProblemCreater(12, 12, seed);
 		//			creater.create();
 		//			if (!creater.validate()) {
-		//				creater.output(System.out);
+		//				creater.output(new PrintWriter(System.out));
 		//				break;
 		//			}
 		//		}
