@@ -41,6 +41,7 @@ NUM_RETRY = 5
 MAX_RUNNING = 6
 QUEUE_WAIT = 0.0
 SKIP_PERFECT = True
+#SKIP_PERFECT = False
 
 API_KEY = "56-c0d0425216599ecb557d45138c644174"
 #API_URL = "http://2016sv.icfpcontest.org/api"
@@ -219,7 +220,7 @@ def run_job(job_id, commands):
 							resemblance = 0.0
 							for row in cur:
 								resemblance = max(row[0], resemblance)
-							if resemblance == 1.0:
+							if resemblance == 1:
 								self.commands = []
 
 				rc = 0 # returncode
@@ -249,27 +250,31 @@ def job_finish(job_id):
 		content += o
 	queue_thread.remove(job_id)
 
+	problem_id = -1
 	is_solved = False
 	with cur_lock:
 		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
 		row = cur.fetchone()
-		if row and content:
+		if row:
 			task_type = row[0]
 			data = task_type.split(":")
 			if len(data) == 3 and data[0] == "solver":
 				solver = data[1]
 				problem_id = int(data[2])
-				solution_size = len(content.replace(" ", "").replace("\n", ""))
-				is_solved = True
+				if content:
+					solution_size = len(content.replace(" ", "").replace("\n", ""))
+					is_solved = True
 
-				cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
-				problem = cur.fetchone()[0]
+					cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
+					problem = cur.fetchone()[0]
 
 		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
 		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
 		con.commit()
 
-	if not is_solved: return
+	if not is_solved:
+		print >>sys.stderr, "%d canceled." % problem_id
+		return
 		
 	solution_tempfile = tempfile.NamedTemporaryFile()
 	f = open(solution_tempfile.name, "wb")
@@ -313,6 +318,7 @@ def job_finish(job_id):
 
 		if is_solved:
 			if True:
+				prev_resemblance = 0.0
 				cur.execute("SELECT resemblance, size FROM solves WHERE problem_id=?", (problem_id,))
 				do_calc = True
 				for row in cur:
@@ -325,6 +331,8 @@ def job_finish(job_id):
 						break
 
 				if do_calc and solution_size <= 5000:
+					print >>sys.stderr, "%d prev_resemblance = %f, calc_resemblance = %f : submitting..." % (problem_id, prev_resemblance, calc_resemblance)
+
 					cur.execute(INSERT_SOLVES, (job_id, solver, problem_id, content, solution_size, 0.0, ""))
 					con.commit()
 	
@@ -371,7 +379,8 @@ def solve_problems(solver):
 		cur.execute("SELECT problem_id, content FROM problems")
 		problems = [(row[0], row[1]) for row in cur]
 
-	for problem_id, problem in problems:
+	#for problem_id, problem in problems:
+	for problem_id, problem in problems[::-1]:
 		run_job_task("solver:%s:%d" %(solver, problem_id), ["%s <<EOF\n%s\nEOF\n" % (solver, problem)])
 
 def cleanup_db():
