@@ -116,23 +116,31 @@ public class FillingSolver {
 		usedHash.get(cur.envelop.size()).add(hash);
 		ArrayList<Part> parts = decomposer.parts;
 		ArrayList<SearchCand> cands = new ArrayList<>();
+		final int ES = cur.envelop.size();
+		int[] isColinear = new int[ES];
+		for (int i = 0; i < ES; ++i) {
+			if (Geometry.isColinear(cur.envelop.get((i + ES - 1) % ES).p, cur.envelop.get(i).p, cur.envelop.get((i + 1) % ES).p)) {
+				isColinear[i] = 1;
+			}
+		}
 		for (int i = 0; i < parts.size(); ++i) {
 			Part part = parts.get(i);
 			if (cur.area.add(part.area).compareTo(Rational.ONE) > 0) continue;
 			final int PS = part.vs.size();
-			for (int j = 0; j < cur.envelop.size(); ++j) {
+			for (int j = 0; j < ES; ++j) {
 				int i1 = cur.envelop.get(j).pIdx;
-				int i2 = cur.envelop.get((j + 1) % cur.envelop.size()).pIdx;
+				int i2 = cur.envelop.get((j + 1) % ES).pIdx;
+				int destroyColinearLine = isColinear[j] + isColinear[(j + 1) % ES];
 				for (int k = 0; k < PS; ++k) {
 					if (part.vs.get(k) != i1) continue;
 					if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
-						int score = 0;
+						int score = -50 * destroyColinearLine;
 						if (partsUsed[i] == 0) score += 20 * (cur.filledParts.size() + 1) / partsUsed.length;
 						score += part.area.num.shiftLeft(6).divide(part.area.den).intValue();
 						{
 							Vertex prevEnvV = cur.envelop.get(j);
-							Vertex baseEnvV = cur.envelop.get((j + 1) % cur.envelop.size());
-							Vertex nextEnvV = cur.envelop.get((j + 2) % cur.envelop.size());
+							Vertex baseEnvV = cur.envelop.get((j + 1) % ES);
+							Vertex nextEnvV = cur.envelop.get((j + 2) % ES);
 							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
 							Rational partCosSq;
 							ArrayList<Point> points = decomposer.points;
@@ -148,9 +156,9 @@ public class FillingSolver {
 							}
 						}
 						{
-							Vertex prevEnvV = cur.envelop.get((j + 1) % cur.envelop.size());
+							Vertex prevEnvV = cur.envelop.get((j + 1) % ES);
 							Vertex baseEnvV = cur.envelop.get(j);
-							Vertex nextEnvV = cur.envelop.get((j + cur.envelop.size() - 1) % cur.envelop.size());
+							Vertex nextEnvV = cur.envelop.get((j + ES - 1) % ES);
 							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
 							Rational partCosSq;
 							ArrayList<Point> points = decomposer.points;
@@ -540,13 +548,14 @@ public class FillingSolver {
 			for (int i = 0; i < origParts.size(); ++i) {
 				Part origPart = origParts.get(i);
 				if (part.size() != origPart.vs.size()) continue;
-				int idx = 0;
+				int idx = -1;
 				for (int j = 0; j < part.size(); ++j) {
 					if (origPart.vs.get(j) == part.get(0).pIdx) {
 						idx = j;
 						break;
 					}
 				}
+				if (idx == -1) continue;
 				boolean match = true;
 				for (int j = 1; j < part.size(); ++j) {
 					if (part.get(j).pIdx != origPart.vs.get((idx + j) % origPart.vs.size())) {

@@ -20,6 +20,16 @@ public class Rational implements Comparable<Rational> {
 		}
 	}
 
+	Rational(BigInteger n, BigInteger d, boolean noneedGcd) {
+		if (n.equals(BigInteger.ZERO)) {
+			num = BigInteger.ZERO;
+			den = BigInteger.ONE;
+		} else {
+			num = n;
+			den = d;
+		}
+	}
+
 	Rational(String str) {
 		String[] numden = str.split("/");
 		BigInteger n = new BigInteger(numden[0]);
@@ -58,7 +68,7 @@ public class Rational implements Comparable<Rational> {
 	}
 
 	Rational negate() {
-		return new Rational(this.num.negate(), this.den);
+		return new Rational(this.num.negate(), this.den, false);
 	}
 
 	public int compareTo(Rational r) {
