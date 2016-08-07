@@ -34,12 +34,13 @@ PROBLEMS_PATH = "../problems"
 RESEMBLANCE_CALCULATOR = "../approx/resemblance"
 DB_FILE = "icfpc2016.sqlite3"
 #TIMEOUT = 180.0
-TIMEOUT = 15.0
+TIMEOUT = 40.0
 #TIMEOUT = None
 NUM_RETRY = 5
-MAX_RUNNING = 4
-#MAX_RUNNING = 8
+#MAX_RUNNING = 4
+MAX_RUNNING = 6
 QUEUE_WAIT = 0.0
+SKIP_PERFECT = True
 
 API_KEY = "56-c0d0425216599ecb557d45138c644174"
 #API_URL = "http://2016sv.icfpcontest.org/api"
@@ -209,6 +210,18 @@ def run_job(job_id, commands):
 					if row and row[0] == "submitted":
 						cur.execute("UPDATE jobs SET start_time=?, status='running' WHERE job_id=?", (dt, self.job_id))
 						con.commit()
+
+					if SKIP_PERFECT:
+						xs = task_type.split(":")
+						if len(xs) == 3:
+							problem_id = int(xs[2])
+							cur.execute("SELECT resemblance, size FROM solves WHERE problem_id=?", (problem_id,))
+							resemblance = 0.0
+							for row in cur:
+								resemblance = max(row[0], resemblance)
+							if resemblance == 1.0:
+								self.commands = []
+
 				rc = 0 # returncode
 				for command in self.commands:
 					#returncode, stdo, stde = perform(command)
@@ -236,21 +249,11 @@ def job_finish(job_id):
 		content += o
 	queue_thread.remove(job_id)
 
-	dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
-	cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
-	con.commit()
-
-	solution_tempfile = tempfile.NamedTemporaryFile()
-	f = open(solution_tempfile.name, "wb")
-	f.write(content)
-	f.close()
 	is_solved = False
 	with cur_lock:
-		cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
-		problem = cur.fetchone()[0]
 		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
 		row = cur.fetchone()
-		if row:
+		if row and content:
 			task_type = row[0]
 			data = task_type.split(":")
 			if len(data) == 3 and data[0] == "solver":
@@ -259,8 +262,20 @@ def job_finish(job_id):
 				solution_size = len(content.replace(" ", "").replace("\n", ""))
 				is_solved = True
 
+				cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
+				problem = cur.fetchone()[0]
+
+		dt = datetime.datetime.utcnow().isoformat().split(".")[0] + "Z"
+		cur.execute("UPDATE jobs SET end_time=?, status=?, content=? WHERE job_id=?", (dt, "complete", content, job_id))
+		con.commit()
+
 	if not is_solved: return
 		
+	solution_tempfile = tempfile.NamedTemporaryFile()
+	f = open(solution_tempfile.name, "wb")
+	f.write(content)
+	f.close()
+
 	problem_tempfile = tempfile.NamedTemporaryFile()
 	f2 = open(problem_tempfile.name, "wb")
 	f2.write(problem)
