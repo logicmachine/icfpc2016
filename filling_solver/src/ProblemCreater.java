@@ -43,8 +43,8 @@ public class ProblemCreater {
 
 	void output(OutputStream stm) {
 		try (PrintWriter writer = new PrintWriter(stm)) {
-			System.err.println("p2i:" + p2i);
-			System.err.println("posMap:" + posMap);
+//			System.err.println("p2i:" + p2i);
+//			System.err.println("posMap:" + posMap);
 			Pos[] dstPs = new Pos[p2i.size()];
 			Pos[] srcPs = new Pos[p2i.size()];
 			for (Pos p : p2i.keySet()) {
@@ -94,7 +94,7 @@ public class ProblemCreater {
 
 	void create() {
 		for (int i = 0; i < foldCount; ++i) {
-			int type = rnd.nextInt(2);
+			int type = rnd.nextInt(4);
 			if (type == 0) {
 				if (xmax - xmin == 1) {
 					--i;
@@ -111,9 +111,21 @@ public class ProblemCreater {
 				int flipY = rnd.nextInt(ymax - ymin - 1) + ymin + 1;
 				System.err.println("flipY:" + flipY);
 				flipVertical(flipY, i + 1);
+			} else if (type == 2) {
+				int maxS = xmax - ymin;
+				int minS = xmin - ymax;
+				int flipS = rnd.nextInt(maxS - minS - 2) + minS + 1;
+				System.err.println("flipS:" + flipS);
+				flipSlash(flipS, i + 1);
+			} else if (type == 3) {
+				int maxB = xmax + ymax;
+				int minB = xmin + ymin;
+				int flipB = rnd.nextInt(maxB - minB - 2) + minB + 1;
+				System.err.println("flipB:" + flipB);
+				flipBackslash(flipB, i + 1);
 			}
 			updateBBox();
-//			debug();
+			//			debug();
 		}
 		compose();
 	}
@@ -348,7 +360,7 @@ public class ProblemCreater {
 	}
 
 	void flipHorizontal(int x, int level) {
-		if (x < (xmin + xmax) / 2) { // left -> right
+		if (x * 2 < xmin + xmax) { // left -> right
 			for (int i = xmin; i < x; ++i) {
 				for (int j = ymin; j < ymax; ++j) {
 					for (int k = 0; k < 4; ++k) {
@@ -378,7 +390,7 @@ public class ProblemCreater {
 	}
 
 	void flipVertical(int y, int level) {
-		if (y < (ymin + ymax) / 2) { // bottom -> top
+		if (y * 2 < ymin + ymax) { // bottom -> top
 			for (int i = ymin; i < y; ++i) {
 				for (int j = xmin; j < xmax; ++j) {
 					for (int k = 0; k < 4; ++k) {
@@ -407,8 +419,104 @@ public class ProblemCreater {
 		}
 	}
 
+	void flipSlash(int s, int level) {
+		if (s * 2 < (xmax - ymin) + (xmin - ymax)) { // topleft -> bottomright
+			for (int x = xmin; x < xmax; ++x) {
+				for (int y = x - s + 1; y < ymax; ++y) {
+					for (int k = 0; k < 4; ++k) {
+						ArrayList<Panel> subcell = panels.get(y).get(x).get(k);
+						for (Panel p : subcell) {
+							ArrayList<Panel> to = panels.get(x - s).get(y + s).get(k ^ 1);
+							to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+						}
+						subcell.clear();
+					}
+				}
+				for (int k : new int[] { 0, 3 }) {
+					ArrayList<Panel> subcell = panels.get(x - s).get(x).get(k);
+					for (Panel p : subcell) {
+						ArrayList<Panel> to = panels.get(x - s).get((x - s) + s).get(k ^ 1);
+						to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+					}
+					subcell.clear();
+				}
+			}
+		} else { // bottomright -> topleft
+			for (int x = xmin; x < xmax; ++x) {
+				for (int y = ymin; y < x - s; ++y) {
+					for (int k = 0; k < 4; ++k) {
+						ArrayList<Panel> subcell = panels.get(y).get(x).get(k);
+						for (Panel p : subcell) {
+							ArrayList<Panel> to = panels.get(x - s).get(y + s).get(k ^ 1);
+							to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+						}
+						subcell.clear();
+					}
+				}
+				for (int k : new int[] { 1, 2 }) {
+					ArrayList<Panel> subcell = panels.get(x - s).get(x).get(k);
+					for (Panel p : subcell) {
+						ArrayList<Panel> to = panels.get(x - s).get((x - s) + s).get(k ^ 1);
+						to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+					}
+					subcell.clear();
+				}
+			}
+		}
+	}
+
+	void flipBackslash(int s, int level) {
+		if (s * 2 < (xmax + ymax) + (xmin + ymin)) { // bottomleft -> topright
+			for (int x = xmin; x < xmax; ++x) {
+				for (int y = ymin; y < s - x; ++y) {
+					for (int k = 0; k < 4; ++k) {
+						ArrayList<Panel> subcell = panels.get(y).get(x).get(k);
+						for (Panel p : subcell) {
+							ArrayList<Panel> to = panels.get(s - x).get(s - y).get(k ^ 3);
+							to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+						}
+						subcell.clear();
+					}
+				}
+				for (int k : new int[] { 2, 3 }) {
+					ArrayList<Panel> subcell = panels.get(s - x).get(x).get(k);
+					for (Panel p : subcell) {
+						ArrayList<Panel> to = panels.get(s - x).get(s - (s - x)).get(k ^ 3);
+						to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+					}
+					subcell.clear();
+				}
+			}
+		} else { // topright -> bottomleft
+			for (int x = xmin; x < xmax; ++x) {
+				for (int y = s - x + 1; y < ymax; ++y) {
+					for (int k = 0; k < 4; ++k) {
+						ArrayList<Panel> subcell = panels.get(y).get(x).get(k);
+						for (Panel p : subcell) {
+							ArrayList<Panel> to = panels.get(s - x).get(s - y).get(k ^ 3);
+							to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+						}
+						subcell.clear();
+					}
+				}
+				for (int k : new int[] { 0, 1 }) {
+					ArrayList<Panel> subcell = panels.get(s - x).get(x).get(k);
+					for (Panel p : subcell) {
+						ArrayList<Panel> to = panels.get(s - x).get(s - (s - x)).get(k ^ 3);
+						to.add(new Panel(p.x, p.y, p.d, p.l + (1 << level), !p.flip));
+					}
+					subcell.clear();
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) {
-		ProblemCreater creater = new ProblemCreater(30, 2, 1);
+		long seed = new Random().nextLong();
+		if (args.length > 0) {
+			seed = Long.parseLong(args[0]);
+		}
+		ProblemCreater creater = new ProblemCreater(12, 10, seed);
 		creater.create();
 		creater.output(System.out);
 	}
