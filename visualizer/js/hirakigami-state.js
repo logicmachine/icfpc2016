@@ -5,7 +5,7 @@ var UnfoldState = function(){
 	this.clone = function(){
 		var state = new UnfoldState();
 		this.segments.forEach(function(s){
-			var t = s.clone();
+			var t = s.clone(); t.mark = s.mark;
 			state.segments.push(t);
 		});
 		this.pointMap.forEach(function(v, k){
@@ -55,7 +55,7 @@ var StateManager = function(){
 		return this.history[this.history.length - 1];
 	};
 
-	this.selectPolygon = function(vertices){
+	this.selectPolygon = function(vertices, allFlip){
 		var polygon = new Polygon(vertices);
 		var mirror = new Segment(vertices[vertices.length - 1], vertices[0]);
 		var current = this.history[this.history.length - 1];
@@ -66,18 +66,21 @@ var StateManager = function(){
 		var valid = true;
 		current.segments.forEach(function(s){
 			if(mirror.contains(s.from) && mirror.contains(s.to)){
-				next.segments.push(s.clone());
-			}else if(polygon.contains(s.from) < 0 || polygon.contains(s.to) < 0){
-				next.segments.push(s.clone());
-			}else{
-				var t = s.clone();
+				var t = s.clone(); t.mark = true;
 				next.segments.push(t);
-				var u = new Segment(mirror.reflect(s.from), b = mirror.reflect(s.to));
+			}else if(polygon.contains(s.from) < 0 || polygon.contains(s.to) < 0){
+				var t = s.clone(); t.mark = s.mark;
+				next.segments.push(t);
+			}else{
+				var t = s.clone(); t.mark = s.mark;
+				if(!allFlip){ next.segments.push(t); }
+				var u = new Segment(mirror.reflect(s.from), mirror.reflect(s.to));
+				u.mark = s.mark;
 				next.segments.push(u);
 				var a = next.pointMap.get(u.from.toString());
 				var b = next.pointMap.get(u.to.toString());
-				var c = next.pointMap.get(t.from.toString());
-				var d = next.pointMap.get(t.to.toString());
+				var c = next.pointMap.get(s.from.toString());
+				var d = next.pointMap.get(s.to.toString());
 				if(a !== undefined && !a.equals(c)){ valid = false; }
 				if(b !== undefined && !b.equals(d)){ valid = false; }
 				next.pointMap.set(u.from.toString(), c);
@@ -104,23 +107,26 @@ var StateManager = function(){
 			}else if(from_contains){
 				var key = s.from.toString();
 				var c = intersectMap.get(key);
+				var p = s.to.clone(); p.mark = s.mark;
 				if(c === undefined){
-					intersectMap.set(key, [s.to]);
+					intersectMap.set(key, [p]);
 				}else{
-					c.push(s.to);
+					c.push(p);
 				}
 				fromSet.push(s);
 			}else if(to_contains){
 				var key = s.to.toString();
 				var c = intersectMap.get(key);
+				var p = s.from.clone(); p.mark = s.mark;
 				if(c === undefined){
-					intersectMap.set(key, [s.from]);
+					intersectMap.set(key, [p]);
 				}else{
-					c.push(s.from);
+					c.push(p);
 				}
 				toSet.push(s);
 			}else{
-				next.segments.push(s.clone());
+				var t = s.clone(); t.mark = s.mark;
+				next.segments.push(t);
 			}
 		});
 		var doneSet = new Set();
@@ -128,22 +134,28 @@ var StateManager = function(){
 			var k = s.from.toString(), c = intersectMap.get(k);
 			if(c.length == 2 && (new Segment(c[0], c[1])).ccw(s.from) == 0){
 				if(!doneSet.has(k)){
-					next.segments.push(new Segment(c[0], c[1]));
+					var t = new Segment(c[0], c[1]);
+					t.mark = c[0].mark & c[1].mark;
+					next.segments.push(t);
 					doneSet.add(k);
 				}
 			}else{
-				next.segments.push(s);
+				var t = s.clone(); t.mark = s.mark;
+				next.segments.push(t);
 			}
 		});
 		toSet.forEach(function(s){
 			var k = s.to.toString(), c = intersectMap.get(k);
 			if(c.length == 2 && (new Segment(c[0], c[1])).ccw(s.to) == 0){
 				if(!doneSet.has(k)){
-					next.segments.push(new Segment(c[0], c[1]));
+					var t = new Segment(c[0], c[1]);
+					t.mark = c[0].mark & c[1].mark;
+					next.segments.push(t);
 					doneSet.add(k);
 				}
 			}else{
-				next.segments.push(s);
+				var t = s.clone(); t.mark = s.mark;
+				next.segments.push(t);
 			}
 		});
 		this.history.push(next);
