@@ -21,6 +21,7 @@ public class ProblemCreater {
 	ArrayList<ArrayList<Integer>> srcShape = new ArrayList<>();
 
 	ProblemCreater(int size, int foldCount, long seed) {
+		System.err.println("seed:" + seed);
 		this.S = size;
 		xmin = ymin = S;
 		xmax = ymax = S * 2;
@@ -43,8 +44,8 @@ public class ProblemCreater {
 
 	void output(OutputStream stm) {
 		try (PrintWriter writer = new PrintWriter(stm)) {
-//			System.err.println("p2i:" + p2i);
-//			System.err.println("posMap:" + posMap);
+			//			System.err.println("p2i:" + p2i);
+			//			System.err.println("posMap:" + posMap);
 			Pos[] dstPs = new Pos[p2i.size()];
 			Pos[] srcPs = new Pos[p2i.size()];
 			for (Pos p : p2i.keySet()) {
@@ -78,6 +79,29 @@ public class ProblemCreater {
 		writer.println(p.toICFPStr());
 	}
 
+	boolean validate() {
+		int sum = 0;
+		Pos[] srcPos = new Pos[p2i.size()];
+		for (Pos p : p2i.keySet()) {
+			srcPos[p2i.get(p)] = p;
+		}
+		for (ArrayList<Integer> shape : srcShape) {
+			int csum = 0;
+			for (int i = 0; i < shape.size(); ++i) {
+				Pos p1 = srcPos[shape.get(i)];
+				Pos p2 = srcPos[shape.get((i + 1) % shape.size())];
+				csum += p1.y * p2.x - p1.x * p2.y;
+			}
+			sum += Math.abs(csum);
+		}
+		System.err.println("sum:" + sum);
+		if (sum != 2 * S * S * 4) {
+			debug();
+			return false;
+		}
+		return true;
+	}
+
 	void debug() {
 		for (int y = ymin; y < ymax; ++y) {
 			for (int x = xmin; x < xmax; ++x) {
@@ -94,7 +118,7 @@ public class ProblemCreater {
 
 	void create() {
 		for (int i = 0; i < foldCount; ++i) {
-			int type = rnd.nextInt(4);
+			int type = rnd.nextInt(6);
 			if (type == 0) {
 				if (xmax - xmin == 1) {
 					--i;
@@ -111,15 +135,23 @@ public class ProblemCreater {
 				int flipY = rnd.nextInt(ymax - ymin - 1) + ymin + 1;
 				System.err.println("flipY:" + flipY);
 				flipVertical(flipY, i + 1);
-			} else if (type == 2) {
+			} else if (type <= 3) {
 				int maxS = xmax - ymin;
 				int minS = xmin - ymax;
+				if (maxS - minS <= 2) {
+					--i;
+					continue;
+				}
 				int flipS = rnd.nextInt(maxS - minS - 2) + minS + 1;
 				System.err.println("flipS:" + flipS);
 				flipSlash(flipS, i + 1);
-			} else if (type == 3) {
+			} else {
 				int maxB = xmax + ymax;
 				int minB = xmin + ymin;
+				if (maxB - minB <= 2) {
+					--i;
+					continue;
+				}
 				int flipB = rnd.nextInt(maxB - minB - 2) + minB + 1;
 				System.err.println("flipB:" + flipB);
 				flipBackslash(flipB, i + 1);
@@ -174,7 +206,6 @@ public class ProblemCreater {
 					}
 				}
 				if (!found) {
-					//					System.err.println("right:" + cy + " " + cx + " " + cd + " " + cl + " " + cp);
 					cs.add(getRightSeg(cx, cy, cd, false));
 					os.add(getRightSeg(cp.x, cp.y, cp.d, cp.flip));
 				}
@@ -196,7 +227,6 @@ public class ProblemCreater {
 					}
 				}
 				if (!found) {
-					//					System.err.println("left:" + cy + " " + cx + " " + cd + " " + cl + " " + cp);
 					cs.add(getLeftSeg(cx, cy, cd, false));
 					os.add(getLeftSeg(cp.x, cp.y, cp.d, cp.flip));
 				}
@@ -220,7 +250,6 @@ public class ProblemCreater {
 					}
 				}
 				if (!found) {
-					//					System.err.println("bottom:" + cy + " " + cx + " " + cd + " " + cl + " " + cp);
 					cs.add(getBottomSeg(cx, cy, cd, false));
 					os.add(getBottomSeg(cp.x, cp.y, cp.d, cp.flip));
 				}
@@ -317,7 +346,7 @@ public class ProblemCreater {
 	}
 
 	void updateBBox() {
-		OUT: for (int i = xmin; i < xmax; ++i) {
+		OUT: for (int i = 0;; ++i) {
 			for (int j = 0; j < 3 * S; ++j) {
 				for (int k = 0; k < 4; ++k) {
 					if (!panels.get(j).get(i).get(k).isEmpty()) {
@@ -327,7 +356,7 @@ public class ProblemCreater {
 				}
 			}
 		}
-		OUT: for (int i = xmax - 1; i >= xmin; --i) {
+		OUT: for (int i = 3 * S - 1;; --i) {
 			for (int j = 0; j < 3 * S; ++j) {
 				for (int k = 0; k < 4; ++k) {
 					if (!panels.get(j).get(i).get(k).isEmpty()) {
@@ -337,7 +366,7 @@ public class ProblemCreater {
 				}
 			}
 		}
-		OUT: for (int i = ymin; i < ymax; ++i) {
+		OUT: for (int i = 0;; ++i) {
 			for (int j = 0; j < 3 * S; ++j) {
 				for (int k = 0; k < 4; ++k) {
 					if (!panels.get(i).get(j).get(k).isEmpty()) {
@@ -347,7 +376,7 @@ public class ProblemCreater {
 				}
 			}
 		}
-		OUT: for (int i = ymax - 1; i >= ymin; --i) {
+		OUT: for (int i = 3 * S - 1;; --i) {
 			for (int j = 0; j < 3 * S; ++j) {
 				for (int k = 0; k < 4; ++k) {
 					if (!panels.get(i).get(j).get(k).isEmpty()) {
@@ -516,9 +545,21 @@ public class ProblemCreater {
 		if (args.length > 0) {
 			seed = Long.parseLong(args[0]);
 		}
-		ProblemCreater creater = new ProblemCreater(12, 10, seed);
+		ProblemCreater creater = new ProblemCreater(15, 9, seed);
 		creater.create();
 		creater.output(System.out);
+		//		while (true) {
+		//			long seed = new Random().nextLong();
+		//			if (args.length > 0) {
+		//				seed = Long.parseLong(args[0]);
+		//			}
+		//			ProblemCreater creater = new ProblemCreater(12, 12, seed);
+		//			creater.create();
+		//			if (!creater.validate()) {
+		//				creater.output(System.out);
+		//				break;
+		//			}
+		//		}
 	}
 
 }
