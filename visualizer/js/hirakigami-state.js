@@ -95,9 +95,13 @@ var StateManager = function(){
 			next.pointMap.set(k, v);
 		});
 		var intersectMap = new Map();
+		var fromSet = [], toSet = [];
 		current.segments.forEach(function(s){
-			if(segment.contains(s.from) && segment.contains(s.to)){ return; }
-			if(segment.contains(s.from)){
+			var from_contains = segment.contains(s.from);
+			var to_contains   = segment.contains(s.to);
+			if(from_contains && to_contains){
+				return;
+			}else if(from_contains){
 				var key = s.from.toString();
 				var c = intersectMap.get(key);
 				if(c === undefined){
@@ -105,7 +109,8 @@ var StateManager = function(){
 				}else{
 					c.push(s.to);
 				}
-			}else if(segment.contains(s.to)){
+				fromSet.push(s);
+			}else if(to_contains){
 				var key = s.to.toString();
 				var c = intersectMap.get(key);
 				if(c === undefined){
@@ -113,33 +118,32 @@ var StateManager = function(){
 				}else{
 					c.push(s.from);
 				}
+				toSet.push(s);
+			}else{
+				next.segments.push(s.clone());
 			}
 		});
 		var doneSet = new Set();
-		current.segments.forEach(function(s){
-			if(segment.contains(s.from) && segment.contains(s.to)){ return; }
-			if(segment.contains(s.from)){
-				var k = s.from.toString(), c = intersectMap.get(k);
-				if(c.length == 2 && (new Segment(c[0], c[1])).ccw(s.from) == 0){
-					if(!doneSet.has(k)){
-						next.segments.push(new Segment(c[0], c[1]));
-						doneSet.add(k);
-					}
-				}else{
-					next.segments.push(s);
-				}
-			}else if(segment.contains(s.to)){
-				var k = s.to.toString(), c = intersectMap.get(k);
-				if(c.length == 2 && (new Segment(c[0], c[1])).ccw(s.to) == 0){
-					if(!doneSet.has(k)){
-						next.segments.push(new Segment(c[0], c[1]));
-						doneSet.add(k);
-					}
-				}else{
-					next.segments.push(s);
+		fromSet.forEach(function(s){
+			var k = s.from.toString(), c = intersectMap.get(k);
+			if(c.length == 2 && (new Segment(c[0], c[1])).ccw(s.from) == 0){
+				if(!doneSet.has(k)){
+					next.segments.push(new Segment(c[0], c[1]));
+					doneSet.add(k);
 				}
 			}else{
-				next.segments.push(s.clone());
+				next.segments.push(s);
+			}
+		});
+		toSet.forEach(function(s){
+			var k = s.to.toString(), c = intersectMap.get(k);
+			if(c.length == 2 && (new Segment(c[0], c[1])).ccw(s.to) == 0){
+				if(!doneSet.has(k)){
+					next.segments.push(new Segment(c[0], c[1]));
+					doneSet.add(k);
+				}
+			}else{
+				next.segments.push(s);
 			}
 		});
 		this.history.push(next);
@@ -210,7 +214,6 @@ var StateManager = function(){
 			doneSet.add(s.toString());
 			var last = s.clone(), poly = [ indexMap.get(s.to.toString()) ];
 			while(!last.to.equals(s.from)){
-console.log(last.toString());
 				var next = last.to.add(last.to.sub(last.from)), modified = false;
 				state.segments.forEach(function(t){
 					var select = function(a, b){
@@ -221,8 +224,8 @@ console.log(last.toString());
 						modified = true;
 						return b;
 					};
-					if(last.to.equals(t.from)){ next = select(next, t.to); console.log("?", t.to.toString(), next.toString()); }
-					if(last.to.equals(t.to)){ next = select(next, t.from); console.log("?", t.from.toString(), next.toString()); }
+					if(last.to.equals(t.from)){ next = select(next, t.to); }
+					if(last.to.equals(t.to)){ next = select(next, t.from); }
 				});
 				if(!modified){
 					poly = [];
@@ -233,7 +236,6 @@ console.log(last.toString());
 				doneSet.add(last.toString());
 				poly.push(indexMap.get(next.toString()));
 			}
-console.log(poly);
 			if(poly.length >= 3){
 				solutionPolygons.push(poly);
 			}
