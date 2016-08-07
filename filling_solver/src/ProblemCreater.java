@@ -1,6 +1,5 @@
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +72,7 @@ public class ProblemCreater {
 			writer.println();
 		}
 		for (int i = 0; i < srcPs.length; ++i) {
-			outputPos(writer, dstPs[i]);
+			outputPos(writer, new Pos(dstPs[i].x - 2 * S, dstPs[i].y - 2 * S));
 		}
 	}
 
@@ -634,6 +633,31 @@ public class ProblemCreater {
 	}
 
 	public static void main(String[] args) {
+		if (args.length > 0) {
+			int size = 15;
+			int foldCount = 9;
+			long seed = 1;
+			for (int i = 0; i < args.length; ++i) {
+				if (args[i].equals("-seed")) {
+					seed = Long.parseLong(args[i + 1]);
+					++i;
+				} else if (args[i].equals("-size")) {
+					size = Integer.parseInt(args[i + 1]);
+					++i;
+				} else if (args[i].equals("-count")) {
+					foldCount = Integer.parseInt(args[i + 1]);
+					++i;
+				}
+			}
+			ProblemCreater creater = new ProblemCreater(size, foldCount, seed);
+			creater.create();
+			creater.compose();
+			try (PrintWriter writer = new PrintWriter(System.out)) {
+				creater.output(writer);
+			}
+			return;
+		}
+
 		long startTime = System.currentTimeMillis();
 		String bestResult = null;
 		double bestValue = Double.NEGATIVE_INFINITY;
