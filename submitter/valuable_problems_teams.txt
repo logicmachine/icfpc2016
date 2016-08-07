@@ -160,6 +160,7 @@
 1080.500000 : 5048 : Cult of the Bound Variable
 1071.500000 : 5613 : 301
 1068.000000 : 3840 : THIRTEEN
+1052.250000 : 4813 4895 5573 : unfold, unfold, unfold
 1045.500000 : 5364 : Stanfy+
 1040.000000 : 5591 : 301
 1037.500000 : 5154 : Coding Monkeys
@@ -223,7 +224,6 @@
 860.000000 : 5565 : codingteam
 856.500000 : 4988 : Cult of the Bound Variable
 855.500000 : 4388 : jabber.ru
-855.000000 : 748 : Lens d'Ulm
 853.500000 : 4380 : Zygohistomorphic Preproxenomorph
 850.000000 : 4706 : Unagi
 846.500000 : 3976 : Zebra Infused Hamsters
