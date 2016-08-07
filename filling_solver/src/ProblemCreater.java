@@ -232,6 +232,15 @@ public class ProblemCreater {
 			cy = ny;
 		}
 		{
+			int dx1 = ps.get(ps.size() - 1).x - ps.get(ps.size() - 2).x;
+			int dy1 = ps.get(ps.size() - 1).y - ps.get(ps.size() - 2).y;
+			int dx2 = ps.get(0).x - ps.get(ps.size() - 1).x;
+			int dy2 = ps.get(0).y - ps.get(ps.size() - 1).y;
+			if (dy1 * dx2 - dx1 * dy2 == 0) {
+				ps.remove(ps.size() - 1);
+			}
+		}
+		{
 			int dx1 = ps.get(0).x - ps.get(ps.size() - 1).x;
 			int dy1 = ps.get(0).y - ps.get(ps.size() - 1).y;
 			int dx2 = ps.get(1).x - ps.get(0).x;
@@ -240,7 +249,17 @@ public class ProblemCreater {
 				ps.remove(0);
 			}
 		}
-		return ps.size() * ps.size() * ps.size() * S + len - Math.sqrt(area);
+		int nonconvex = 0;
+		for (int i = 0; i < ps.size(); ++i) {
+			int dx1 = ps.get((i + 1) % ps.size()).x - ps.get(i).x;
+			int dy1 = ps.get((i + 1) % ps.size()).y - ps.get(i).y;
+			int dx2 = ps.get((i + 2) % ps.size()).x - ps.get(i).x;
+			int dy2 = ps.get((i + 2) % ps.size()).y - ps.get(i).y;
+			if (dy2 * dx1 - dx2 * dy1 < 0) {
+				++nonconvex;
+			}
+		}
+		return Math.pow(nonconvex, 4) * S + Math.pow(ps.size(), 3) * S + len - Math.sqrt(area);
 	}
 
 	void compose() {
@@ -661,11 +680,12 @@ public class ProblemCreater {
 		long startTime = System.currentTimeMillis();
 		String bestResult = null;
 		double bestValue = Double.NEGATIVE_INFINITY;
-		while (true) {
+		for (int turn = 0;; ++turn) {
 			if (System.currentTimeMillis() - startTime > 10000) {
+				System.err.println("turn:" + turn);
 				break;
 			}
-			ProblemCreater creater = new ProblemCreater(10, 10);
+			ProblemCreater creater = new ProblemCreater(12, 12);
 			creater.create();
 			double value = creater.evaluate();
 			creater.compose();
@@ -678,10 +698,10 @@ public class ProblemCreater {
 					solSize--;
 				}
 			}
-			if (solSize >= 2500) {
+			if (solSize >= 2000) {
 				value = Double.NEGATIVE_INFINITY;
 			} else {
-				value += Math.pow(5000 - solSize, 1.7) * creater.S / 160.0;
+				value += Math.pow(5000 - solSize, 1.8) * creater.S / 160.0;
 			}
 			if (value > bestValue) {
 				bestResult = result;
