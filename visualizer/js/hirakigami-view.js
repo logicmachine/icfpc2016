@@ -21,12 +21,11 @@ var HirakigamiView = function(){
 			.scaleExtent([ 1, 10 ])
 			.on("zoom", function(){
 				var transform = d3.event.transform;
-				container.attr(
-					"transform",
-					"translate(" +
-						transform.x + "," +
-						transform.y + ") " +
-					"scale(" + transform.k + ")");
+				transform.x =
+					Math.min(0, Math.max(transform.x, vp_size - vp_size * transform.k)),
+				transform.y =
+					Math.min(0, Math.max(transform.y, vp_size - vp_size * transform.k));
+				container.attr("transform", transform.toString());
 			})
 		zoom_wrapper.call(zoom)
 			.on("mousedown.zoom", null)
