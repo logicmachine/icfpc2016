@@ -863,6 +863,8 @@ struct FrontierEdge {
 	Point dst_p0, dst_p1;
 	Point src_p0, src_p1;
 
+	int src_p0_vert_idx;
+
 	Edge *dst_edge;
 	int putter_polygon;
 
@@ -930,8 +932,25 @@ struct SqBuilder {
 		return false;
 	}
 
-	bool is_merge_edge(Point const &p0,
-			   Point const &p1)
+	void dump_frontier() {
+		FrontierEdge *fe = this->frontier_edge_list;
+
+		while (fe) {
+			fprintf(stderr,
+				"frontier : %p (%f,%f)-(%f,%f), idx=%d\n",
+				fe,
+				fe->src_p0.x.to_double(),
+				fe->src_p0.y.to_double(),
+				fe->src_p1.x.to_double(),
+				fe->src_p1.y.to_double(),
+				fe->src_p0_vert_idx);
+
+			fe = fe->next;
+		}
+	}
+
+	FrontierEdge *find_merge_edge(Point const &p0,
+				      Point const &p1)
 	{
 		int nr = result_point_list.size();
 		FrontierEdge *fe = this->frontier_edge_list;
@@ -940,20 +959,22 @@ struct SqBuilder {
 			if ((fe->src_p0 == p0 && fe->src_p1 == p1) ||
 			    (fe->src_p0 == p1 && fe->src_p1 == p0))
 			{
-				return true;
+				return fe;
 			}
 
 			fe = fe->next;
 		}
 
-		return false;
+		return NULL;
 	}
 
 	int add_result_point(Point const &src,
 			     Point const &dst,
+			     bool *added,
 			     bool dry_run)
 	{
 		using R = Rational;
+		*added = false;
 
 		if ((src.x < R(0)) ||
 		    (src.x > R(1)) ||
@@ -974,14 +995,21 @@ struct SqBuilder {
 			}
 		}
 
+		fprintf(stderr,
+			"in_polygon (%f,%f)\n",
+			src.x.to_double(),
+			src.y.to_double());
+
 		if (in_polygon(src)) {
 			/* overlap */
 			return -1;
 		}
 
+
 		if (!dry_run) {
 			int ret = result_point_list.size();
 			result_point_list.push_back(ResultPoint(src,dst));
+			*added = true;
 			return ret;
 		}
 
@@ -1088,10 +1116,13 @@ add_frontier_polygon1(SqBuilder &b,
 			fe->src_p0 = src_p0;
 			fe->src_p1 = src_p1;
 
-			int new_vi = b.add_result_point(src_p0, fe->dst_p0, dry_run);
+			bool added = false;
+			int new_vi = b.add_result_point(src_p0, fe->dst_p0, &added, dry_run);
 			if (new_vi == -1) {
 				return false;
 			}
+
+			fe->src_p0_vert_idx = new_vi;
 
 			result_polygon.push_back(new_vi);
 
@@ -1101,7 +1132,9 @@ add_frontier_polygon1(SqBuilder &b,
 
 		prev->next = NULL;
 		b.frontier_edge_list = first;
-		b.result_polygon_list.push_back(result_polygon);
+		if (!dry_run) {
+			b.result_polygon_list.push_back(result_polygon);
+		}
 
 		return true;
 	} else {
@@ -1119,9 +1152,45 @@ add_frontier_polygon1(SqBuilder &b,
 			Point p0 = transform_matrix.transform(v.pos);
 			Point p1 = transform_matrix.transform(vn.pos);
 
-			if (b.is_merge_edge(p0,p1)) {
+			if (b.find_merge_edge(p0,p1)) {
 				merged[vi] = 1;
 			}
+
+			bool added = false;
+			int new_vi = b.add_result_point(p0, v.pos, &added, dry_run);
+
+			fprintf(stderr, "add %d %d (%f,%f)\n",
+				new_vi,
+				(int)added,
+				v.pos.x.to_double(),
+				v.pos.y.to_double());
+
+			if (!added) {
+				bool merge_to_frontier = false;
+				FrontierEdge *e = b.frontier_edge_list;
+				while (e) {
+					fprintf(stderr,
+						"find v %d %d\n",
+						e->src_p0_vert_idx,
+						new_vi);
+					if (e->src_p0_vert_idx == new_vi) {
+						merge_to_frontier = true;
+					}
+
+					e = e->next;
+				}
+
+				if (!merge_to_frontier) {
+					return false;
+				}
+			}
+
+			if (new_vi == -1) {
+				/* オーバーラップしてる || src が 四角に入ってない */
+				return false;
+			}
+
+			result_polygon.push_back(new_vi);
 		}
 
 		int down_count = 0; // 1->0
@@ -1139,13 +1208,13 @@ add_frontier_polygon1(SqBuilder &b,
 
 		for (int vi=1; vi<nv; vi++) {
 			if (cur_in_1) {
-				if (merged[0] == 0) {
+				if (merged[vi] == 0) {
 					down_count++;
 					cur_in_1 = 0;
 					end_pos = vi;
 				}
 			} else {
-				if (merged[0] == 1) {
+				if (merged[vi] == 1) {
 					cur_in_1 = 1;
 					if (start_pos == -1) {
 						start_pos = vi;
@@ -1155,52 +1224,90 @@ add_frontier_polygon1(SqBuilder &b,
 		}
 
 		if (start_pos == -1) {
-			puts("???");
-			assert(start_pos != -1);
+			return false;
 		}
 
 		if (down_count > 1) {
 			/* hole ができる場合はあとまわし is 何 ?? */
+			puts("hole");
+			abort();
 			b.retry_count++;
 			if (b.retry_count > 10000) {
 				return false;
 			}
 			return true;
 		}
-	}
 
-#if 0
-	typedef std::vector<VertexRef> GraphPolygon;
-	int np = poly.size();
-
-	std::vector<int> result_polygon;
-
-	for (int vi=0; vi<np; vi++) {
-		VertexRef &vr_cur = poly[vi];
-		VertexRef &vr_next = poly[(vi+1) % np];
-
-		Vertex const &v_cur = g.vertex_list[vr_cur.vertex_id];
-		Vertex const &v_next = g.vertex_list[vr_next.vertex_id];
-
-		Point new_cur_p = transform_matrix.transform(v_cur.pos);
-		Point new_next_p = transform_matrix.transform(v_next.pos);
-
-		int r = b.add_result_point(new_cur_p,
-					   v_cur.pos, dry_run);
-
-		if (r == -1) {
-			/* オーバーラップしてる || src が 四角に入ってない */
-			return false;
+		if (dry_run) {
+			return true;
 		}
 
-		struct VertexRef {
-			int vertex_id;
-			int edge_idx_in_vertex;
-		};
+		for (int vi=0; vi<nv; vi++) {
+			VertexRef &vr = poly[vi];
+			VertexRef &vr_next = poly[(vi+1)%nv];
+
+			Vertex &v = g.vertex_list[vr.vertex_id];
+			Vertex &vn = g.vertex_list[vr_next.vertex_id];
+
+			Point p0 = transform_matrix.transform(v.pos);
+			Point p1 = transform_matrix.transform(vn.pos);
+
+			Edge &dst_e = g.edge_list[v.edge_list[vr.edge_idx_in_vertex]];
+
+			FrontierEdge *e = b.find_merge_edge(p0,p1);
+			if (e) {
+				fprintf(stderr,
+					"remove (%f,%f) - (%f,%f)\n",
+					e->src_p0.x.to_double(),
+					e->src_p0.y.to_double(),
+					e->src_p1.x.to_double(),
+					e->src_p1.y.to_double());
+
+				if (e->prev) {
+					e->prev->next = e->next;
+				} else {
+					/* 先頭 */
+					b.frontier_edge_list = e->next;
+				}
+
+				if (e->next) {
+					e->next->prev = e->prev;
+				}
+			} else {
+				fprintf(stderr,
+					"add (%f,%f) - (%f,%f)\n",
+					p0.x.to_double(),
+					p0.y.to_double(),
+					p1.x.to_double(),
+					p1.y.to_double());
+
+				/* つなげる */
+				FrontierEdge *new_edge = b.pool.alloc<FrontierEdge>();
+
+				assert(b.frontier_edge_list != NULL);
+
+				b.frontier_edge_list->prev = new_edge;
+				new_edge->next = b.frontier_edge_list;
+				new_edge->prev = NULL;
+				b.frontier_edge_list = new_edge;
+
+				new_edge->dst_p0 = v.pos;
+				new_edge->dst_p1 = vn.pos;
+				bool added = false;
+				new_edge->src_p0_vert_idx = b.add_result_point(p0, v.pos, &added, dry_run);
+
+				new_edge->src_p0 = p0;
+				new_edge->src_p1 = p1;
+
+				new_edge->dst_edge = &dst_e;
+				new_edge->putter_polygon = poly_id;
+			}
+
+		}
 	}
-#endif
 
 	if (!dry_run) {
+		fprintf(stderr, "result length = %d\n", (int)result_polygon.size());
 		b.result_polygon_list.push_back(result_polygon);
 	}
 
@@ -1211,29 +1318,32 @@ static bool
 add_frontier_polygon(SqBuilder &b,
 		     Graph &g,
 		     int poly_id,
-		     Matrix3x3 const &transform_matrix)
+		     FrontierEdge *fe)
 {
+	Point const &dp0 = fe->dst_p0;
+	Point const &dp1 = fe->dst_p1;
+	Point const &sp0 = fe->src_p0;
+	Point const &sp1 = fe->src_p1;
+
+	Matrix3x3 transform_matrix = getTransform(dp0,dp1,
+						  sp0,sp1);
+
+	/* 一旦そのまま入れてみる */
+	fputs("== sonomama ==\n", stderr);
+	bool r = add_frontier_polygon1(b, g, poly_id, transform_matrix, true);
+	if (r) {
+		return add_frontier_polygon1(b, g, poly_id, transform_matrix, false);
+	}
+
+	/* 入らなかったら今のエッジ (sp0 - sp1) で対象にして入れてみる */
+	fputs("== reflect ==\n", stderr);
+
+	transform_matrix = (Matrix3x3::transpose(sp0.x, sp0.y) *
+			    Matrix3x3::reflection(sp1.x - sp0.x,
+						  sp1.y - sp0.y) *
+			    Matrix3x3::transpose(-sp0.x, - sp0.y)) * transform_matrix;
+
 	return add_frontier_polygon1(b, g, poly_id, transform_matrix, false);
-}
-
-static bool
-is_square(SqBuilder &b)
-{
-	FrontierEdge *fe = b.frontier_edge_list;
-	if (fe == NULL) {
-		return false;
-	}
-
-	while (fe) {
-		if (! fe->side_edge()) {
-			/* 1x1 になってない */
-			return false;
-		}
-
-		fe = fe->next;
-	}
-
-	return true;
 }
 
 
@@ -1241,17 +1351,53 @@ static bool
 enhance_frontier(SqBuilder &b, Graph &g)
 {
 	while (1) {
-		if (is_square(b)) {
+	enhance_next:
+		bool all_side = true;
+
+		FrontierEdge *fe = b.frontier_edge_list;
+		if (fe == NULL) {
+			return false;
+		}
+		while (fe) {
+			if (! fe->side_edge()) {
+				all_side = false;
+
+				Edge *dst_e = fe->dst_edge;
+				if (dst_e->num_neigh_poly == 1) {
+					b.dump_frontier();
+
+					EdgePolyRoute &epr = dst_e->neigh_poly[0];
+					bool r = add_frontier_polygon(b, g, epr.poly, fe);
+					if (!r) {
+						return false;
+					}
+					goto enhance_next;
+				} else {
+					EdgePolyRoute &epr = dst_e->neigh_poly[1];
+					b.dump_frontier();
+
+					bool r = add_frontier_polygon(b, g, epr.poly, fe);
+					if (!r) {
+						return false;
+					}
+					fputs("enhance 1\n", stderr);
+					goto enhance_next;
+				}
+			}
+			fe = fe->next;
+		}
+
+		if (all_side) {
 			b.output();
 			exit(1);
 			return true;
 		}
 
+		exit(1);
+
 		if (b.frontier_edge_list == NULL) {
 			abort();
 		}
-
-		exit(1);
 	}
 }
 
@@ -1273,10 +1419,11 @@ detect_square(Graph &g,
 		int nn = e.num_neigh_poly;
 		for (int ni=0; ni<nn; ni++)  {
 			int poly_id = e.neigh_poly[ni].poly;
-			bool r = add_frontier_polygon(b,
-						      g,
-						      poly_id,
-						      route.to_1_0_matrix);
+			bool r = add_frontier_polygon1(b,
+						       g,
+						       poly_id,
+						       route.to_1_0_matrix, false);
+
 
 			if (! r) {
 				/* 初期値があってれば必ず追加できるはず */
@@ -1305,7 +1452,7 @@ int main(){
 	//g.dump();
 
 	build_polygon(g);
-	//g.dump();
+	g.dump();
 
 	route_edge_set_t rs = find_len1_edge(g);
 	route_edge_set_t cand = filter_initial_cand(rs);
