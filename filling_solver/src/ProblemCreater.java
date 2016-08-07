@@ -240,7 +240,7 @@ public class ProblemCreater {
 				ps.remove(0);
 			}
 		}
-		return ps.size() * ps.size() * S + len - Math.sqrt(area);
+		return ps.size() * ps.size() * ps.size() * S + len - Math.sqrt(area);
 	}
 
 	void compose() {
@@ -665,7 +665,7 @@ public class ProblemCreater {
 			if (System.currentTimeMillis() - startTime > 10000) {
 				break;
 			}
-			ProblemCreater creater = new ProblemCreater(15, 9);
+			ProblemCreater creater = new ProblemCreater(10, 10);
 			creater.create();
 			double value = creater.evaluate();
 			creater.compose();
@@ -678,7 +678,11 @@ public class ProblemCreater {
 					solSize--;
 				}
 			}
-			value -= solSize * creater.S / 16.0;
+			if (solSize >= 2500) {
+				value = Double.NEGATIVE_INFINITY;
+			} else {
+				value += Math.pow(5000 - solSize, 1.7) * creater.S / 160.0;
+			}
 			if (value > bestValue) {
 				bestResult = result;
 				bestValue = value;
