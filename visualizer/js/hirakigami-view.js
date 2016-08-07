@@ -12,7 +12,25 @@ var HirakigamiView = function(){
 	var self = this;
 	var drawState = function(state){
 		var svg = d3.select("#paper-svg");
-		svg.selectAll("*").remove();
+		var zoom_wrapper = d3.select("#svg-zoom");
+		var container = d3.select("#svg-container");
+		container.selectAll("*").remove();
+
+		// zoomable
+		var zoom = d3.zoom()
+			.scaleExtent([ 1, 10 ])
+			.on("zoom", function(){
+				var transform = d3.event.transform;
+				container.attr(
+					"transform",
+					"translate(" +
+						transform.x + "," +
+						transform.y + ") " +
+					"scale(" + transform.k + ")");
+			})
+		zoom_wrapper.call(zoom)
+			.on("mousedown.zoom", null)
+			.on("dblclick.zoom", null);
 
 		// compute offsets
 		var updateOffset = function(a, b){
@@ -34,7 +52,7 @@ var HirakigamiView = function(){
 			.range ([ vp_size - svg_padding, svg_padding ]);
 
 		// draw segments
-		var svg_segments = svg.append("g");
+		var svg_segments = container.append("g");
 		svg_segments.selectAll("path").data(state.segments).enter()
 			.append("path")
 			.attr("d", function(s){
@@ -57,10 +75,10 @@ var HirakigamiView = function(){
 		pointSet.forEach(function(p){ points.push(p); });
 
 		// hilighted point/segments
-		var svg_hilight = svg.append("g");
-		var hilighted_point = svg.append("circle")
+		var svg_hilight = container.append("g");
+		var hilighted_point = svg_hilight.append("circle")
 			.attr("r", 4).attr("cx", -10).attr("cy", -10).attr("fill", hilightColor);
-		self.hilighted_polygon = svg.append("path")
+		self.hilighted_polygon = svg_hilight.append("path")
 			.attr("stroke", hilightColor)
 			.attr("stroke-width", 2)
 			.attr("fill", hilightColor)
@@ -86,7 +104,7 @@ var HirakigamiView = function(){
 			.y(function(p){ return y_scale(p.y.sub(y_offset).toNumber()); })
 			.extent([[0, 0], [vp_size, vp_size]]);
 		var digram = voronoi(points);
-		var svg_voronoi = svg.append("g");
+		var svg_voronoi = container.append("g");
 		svg_voronoi.selectAll("path").data(digram.polygons()).enter()
 			.append("path")
 			.attr("d", function(d){
