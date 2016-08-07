@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <stack>
 #include <sstream>
 #include <set>
 #include "common/polygon.hpp"

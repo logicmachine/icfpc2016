@@ -895,7 +895,7 @@ struct ResultPoint {
 
 struct SqBuilder {
 	Matrix3x3 init_transform;
-	MemPool pool;
+	MemPool *pool;
 	int retry_count;
 
 	FrontierEdge *frontier_edge_list = NULL;
@@ -970,8 +970,7 @@ struct SqBuilder {
 
 	int add_result_point(Point const &src,
 			     Point const &dst,
-			     bool *added,
-			     bool dry_run)
+			     bool *added)
 	{
 		using R = Rational;
 		*added = false;
@@ -1006,14 +1005,10 @@ struct SqBuilder {
 		}
 
 
-		if (!dry_run) {
-			int ret = result_point_list.size();
-			result_point_list.push_back(ResultPoint(src,dst));
-			*added = true;
-			return ret;
-		}
-
-		return 0;
+		int ret = result_point_list.size();
+		result_point_list.push_back(ResultPoint(src,dst));
+		*added = true;
+		return ret;
 	}
 
 	void output() {
@@ -1070,12 +1065,13 @@ get_ccw_poly(Graph const &g,
 	return -1;
 }
 
+#include "1solver-hoge.hpp"
+
 static bool
 add_frontier_polygon1(SqBuilder &b,
 		      Graph &g,
 		      int poly_id,
-		      Matrix3x3 const &transform_matrix,
-		      bool dry_run)
+		      Matrix3x3 const &transform_matrix)
 {
 	GraphPolygon &poly = g.polygon_list[poly_id];
 	FrontierEdge *fe = b.frontier_edge_list;
@@ -1083,10 +1079,6 @@ add_frontier_polygon1(SqBuilder &b,
 	std::vector<int> result_polygon;
 
 	if (fe == NULL) {
-		if (dry_run) {
-			return true;
-		}
-
 		FrontierEdge *first = NULL, *prev = NULL;
 
 		for (int vi=0; vi<nv; vi++) {
@@ -1095,7 +1087,7 @@ add_frontier_polygon1(SqBuilder &b,
 			Vertex &v = g.vertex_list[vr.vertex_id];
 			Edge &e = g.edge_list[v.edge_list[vr.edge_idx_in_vertex]];
 
-			FrontierEdge *fe = b.pool.alloc<FrontierEdge>();
+			FrontierEdge *fe = b.pool->alloc<FrontierEdge>();
 			if (first == NULL) {
 				first = fe;
 			}
@@ -1117,7 +1109,7 @@ add_frontier_polygon1(SqBuilder &b,
 			fe->src_p1 = src_p1;
 
 			bool added = false;
-			int new_vi = b.add_result_point(src_p0, fe->dst_p0, &added, dry_run);
+			int new_vi = b.add_result_point(src_p0, fe->dst_p0, &added);
 			if (new_vi == -1) {
 				return false;
 			}
@@ -1132,9 +1124,6 @@ add_frontier_polygon1(SqBuilder &b,
 
 		prev->next = NULL;
 		b.frontier_edge_list = first;
-		if (!dry_run) {
-			b.result_polygon_list.push_back(result_polygon);
-		}
 
 		return true;
 	} else {
@@ -1157,7 +1146,7 @@ add_frontier_polygon1(SqBuilder &b,
 			}
 
 			bool added = false;
-			int new_vi = b.add_result_point(p0, v.pos, &added, dry_run);
+			int new_vi = b.add_result_point(p0, v.pos, &added);
 
 			fprintf(stderr, "add %d %d (%f,%f)\n",
 				new_vi,
@@ -1238,10 +1227,6 @@ add_frontier_polygon1(SqBuilder &b,
 			return true;
 		}
 
-		if (dry_run) {
-			return true;
-		}
-
 		for (int vi=0; vi<nv; vi++) {
 			VertexRef &vr = poly[vi];
 			VertexRef &vr_next = poly[(vi+1)%nv];
@@ -1282,7 +1267,7 @@ add_frontier_polygon1(SqBuilder &b,
 					p1.y.to_double());
 
 				/* つなげる */
-				FrontierEdge *new_edge = b.pool.alloc<FrontierEdge>();
+				FrontierEdge *new_edge = b.pool->alloc<FrontierEdge>();
 
 				assert(b.frontier_edge_list != NULL);
 
@@ -1294,7 +1279,7 @@ add_frontier_polygon1(SqBuilder &b,
 				new_edge->dst_p0 = v.pos;
 				new_edge->dst_p1 = vn.pos;
 				bool added = false;
-				new_edge->src_p0_vert_idx = b.add_result_point(p0, v.pos, &added, dry_run);
+				new_edge->src_p0_vert_idx = b.add_result_point(p0, v.pos, &added);
 
 				new_edge->src_p0 = p0;
 				new_edge->src_p1 = p1;
@@ -1306,10 +1291,8 @@ add_frontier_polygon1(SqBuilder &b,
 		}
 	}
 
-	if (!dry_run) {
-		fprintf(stderr, "result length = %d\n", (int)result_polygon.size());
-		b.result_polygon_list.push_back(result_polygon);
-	}
+	fprintf(stderr, "result length = %d\n", (int)result_polygon.size());
+	b.result_polygon_list.push_back(result_polygon);
 
 	return true;
 }
@@ -1318,7 +1301,8 @@ static bool
 add_frontier_polygon(SqBuilder &b,
 		     Graph &g,
 		     int poly_id,
-		     FrontierEdge *fe)
+		     FrontierEdge *fe,
+		     bool reflect)
 {
 	Point const &dp0 = fe->dst_p0;
 	Point const &dp1 = fe->dst_p1;
@@ -1328,77 +1312,68 @@ add_frontier_polygon(SqBuilder &b,
 	Matrix3x3 transform_matrix = getTransform(dp0,dp1,
 						  sp0,sp1);
 
-	/* 一旦そのまま入れてみる */
-	fputs("== sonomama ==\n", stderr);
-	bool r = add_frontier_polygon1(b, g, poly_id, transform_matrix, true);
-	if (r) {
-		return add_frontier_polygon1(b, g, poly_id, transform_matrix, false);
+	if (reflect) {
+		transform_matrix = (Matrix3x3::transpose(sp0.x, sp0.y) *
+				    Matrix3x3::reflection(sp1.x - sp0.x,
+							  sp1.y - sp0.y) *
+				    Matrix3x3::transpose(-sp0.x, - sp0.y)) * transform_matrix;
+
+		return add_frontier_polygon1(b, g, poly_id, transform_matrix);
+	} else {
+		/* 一旦そのまま入れてみる */
+		//fputs("== sonomama ==\n", stderr);
+		return add_frontier_polygon1(b, g, poly_id, transform_matrix);
 	}
-
-	/* 入らなかったら今のエッジ (sp0 - sp1) で対象にして入れてみる */
-	fputs("== reflect ==\n", stderr);
-
-	transform_matrix = (Matrix3x3::transpose(sp0.x, sp0.y) *
-			    Matrix3x3::reflection(sp1.x - sp0.x,
-						  sp1.y - sp0.y) *
-			    Matrix3x3::transpose(-sp0.x, - sp0.y)) * transform_matrix;
-
-	return add_frontier_polygon1(b, g, poly_id, transform_matrix, false);
 }
 
-
 static bool
-enhance_frontier(SqBuilder &b, Graph &g)
+enhance_frontier(SqBuilder &b_start, Graph &g)
 {
-	while (1) {
-	enhance_next:
+	std::stack<ExecState> stack;
+
+	ExecState st;
+	st.builder = b_start;
+	st.next = 0;
+	st.next_enhance = find_next_enhance(b_start);
+	stack.push(st);
+
+	while (! stack.empty()) {
 		bool all_side = true;
+		ExecState &st = stack.top();
 
-		FrontierEdge *fe = b.frontier_edge_list;
-		if (fe == NULL) {
-			return false;
-		}
-		while (fe) {
-			if (! fe->side_edge()) {
-				all_side = false;
+		SqBuilder b = st.builder;
+		int current_exec = st.next;
 
-				Edge *dst_e = fe->dst_edge;
-				if (dst_e->num_neigh_poly == 1) {
-					b.dump_frontier();
+		FrontierEdge *fe = st.next_enhance;
+		Edge *dst_e = fe->dst_edge;
 
-					EdgePolyRoute &epr = dst_e->neigh_poly[0];
-					bool r = add_frontier_polygon(b, g, epr.poly, fe);
-					if (!r) {
-						return false;
-					}
-					goto enhance_next;
-				} else {
-					EdgePolyRoute &epr = dst_e->neigh_poly[1];
-					b.dump_frontier();
+		int poly_side = st.next>>1;
+		int reflect = st.next&1;
 
-					bool r = add_frontier_polygon(b, g, epr.poly, fe);
-					if (!r) {
-						return false;
-					}
-					fputs("enhance 1\n", stderr);
-					goto enhance_next;
-				}
-			}
-			fe = fe->next;
+		if (st.next == 3 || (st.next == 1 && dst_e->num_neigh_poly == 1)) {
+			stack.pop();
+		} else {
+			st.next++;
 		}
 
-		if (all_side) {
-			b.output();
-			exit(1);
-			return true;
+		b.dump_frontier();
+
+		EdgePolyRoute &epr = dst_e->neigh_poly[poly_side];
+		bool r = add_frontier_polygon(b, g, epr.poly, fe, reflect);
+
+		if (r) {
+			ExecState new_st;
+			new_st.builder = b;
+			new_st.next = 0;
+			new_st.next_enhance = find_next_enhance(b);
+			stack.push(new_st);
 		}
 
-		exit(1);
+		puts("xx");
 
-		if (b.frontier_edge_list == NULL) {
-			abort();
-		}
 	}
+
+	puts("failed");
 }
 
 
@@ -1407,10 +1382,11 @@ detect_square(Graph &g,
 	      Route &route,
 	      bool is_ccw)
 {
+	MemPool pool;
 	SqBuilder b;
+	b.pool = &pool;
 	std::vector<RouteEdge> &initial_edge_list = route.edge_list;
 	int nie = initial_edge_list.size();
-
 
 	for (int ei=0; ei<nie; ei++) {
 		RouteEdge const &re = initial_edge_list[ei];
@@ -1422,7 +1398,7 @@ detect_square(Graph &g,
 			bool r = add_frontier_polygon1(b,
 						       g,
 						       poly_id,
-						       route.to_1_0_matrix, false);
+						       route.to_1_0_matrix);
 
 
 			if (! r) {
