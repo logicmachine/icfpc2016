@@ -4,6 +4,7 @@ var HirakigamiView = function(){
 	var svg_padding = 20;
 	var segmentColor = "#1f77b4";
 	var hilightColor = "#d62728";
+	var markedColor = "#2ca02c";
 
 	this.current_polygon = [];
 	this.current_segment = null;
@@ -18,7 +19,7 @@ var HirakigamiView = function(){
 
 		// zoomable
 		var zoom = d3.zoom()
-			.scaleExtent([ 1, 10 ])
+			.scaleExtent([ 1, 20 ])
 			.on("zoom", function(){
 				var transform = d3.event.transform;
 				transform.x =
@@ -61,8 +62,8 @@ var HirakigamiView = function(){
 				var ty = y_scale(s.to.y.sub(y_offset).toNumber());
 				return "M " + sx + " " + sy + " L " + tx + " " + ty;
 			})
-			.attr("stroke", segmentColor)
-			.attr("stroke-width", "1");
+			.attr("stroke", function(s){ return s.mark ? markedColor : segmentColor; })
+			.attr("stroke-width", "0.5");
 
 		// enumerate points
 		var pointSet = new Map();
@@ -76,10 +77,12 @@ var HirakigamiView = function(){
 		// hilighted point/segments
 		var svg_hilight = container.append("g");
 		var hilighted_point = svg_hilight.append("circle")
-			.attr("r", 4).attr("cx", -10).attr("cy", -10).attr("fill", hilightColor);
+			.attr("r", 4).attr("cx", -10).attr("cy", -10)
+			.attr("fill", hilightColor)
+			.attr("fill-opacity", 0.5);
 		self.hilighted_polygon = svg_hilight.append("path")
 			.attr("stroke", hilightColor)
-			.attr("stroke-width", 2)
+			.attr("stroke-width", 1)
 			.attr("fill", hilightColor)
 			.attr("fill-opacity", 0.2);
 
@@ -87,7 +90,7 @@ var HirakigamiView = function(){
 		var appendPoint = function(p){
 			if(self.current_polygon.length > 1 && self.current_polygon[0].equals(p)){
 				// commit the polygon
-				self.stateManager.selectPolygon(self.current_polygon);
+				self.stateManager.selectPolygon(self.current_polygon, d3.event.shiftKey);
 				drawState(self.stateManager.last());
 				self.current_polygon.length = 0;
 			}else if(self.current_polygon.length == 0){
