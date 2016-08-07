@@ -22,6 +22,17 @@ public class Geometry {
 		return dy1.mul(dx2).sub(dx1.mul(dy2));
 	}
 
+	static Rational cosSq(Point p1, Point p2, Point p3) { // p1 -> p2 -> p3
+		Rational dx1 = p2.x.sub(p1.x);
+		Rational dy1 = p2.y.sub(p1.y);
+		Rational dx2 = p3.x.sub(p2.x);
+		Rational dy2 = p3.y.sub(p2.y);
+		Rational dot = dx1.mul(dy1).add(dx2.mul(dy2));
+		Rational norm1 = dx1.mul(dx1).add(dy1.mul(dy1));
+		Rational norm2 = dx2.mul(dx2).add(dy2.mul(dy2));
+		return dot.mul(dot).div(norm1).div(norm2);
+	}
+
 	static Point getIntersectPoint(Point p1, Point p2, Point p3, Point p4) {
 		Rational x1 = p1.x;
 		Rational y1 = p1.y;

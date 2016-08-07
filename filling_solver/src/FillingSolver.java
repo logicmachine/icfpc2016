@@ -52,7 +52,7 @@ public class FillingSolver {
 			}
 		}
 		System.err.println("edge count:" + decomposer.edges.length + " " + rightEdgeCount);
-		boolean searchPerpendicular = decomposer.edges.length < rightEdgeCount * 2;
+		boolean searchPerpendicular = decomposer.edges.length < rightEdgeCount * 3;
 		if (timelimitMs == 0) {
 			limitTime = System.currentTimeMillis() + (searchPerpendicular ? 120000 : 5000);
 		} else {
@@ -115,43 +115,103 @@ public class FillingSolver {
 		}
 		usedHash.get(cur.envelop.size()).add(hash);
 		ArrayList<Part> parts = decomposer.parts;
-		for (int loop = 0; loop < 2; ++loop) {
-			for (int i = 0; i < parts.size(); ++i) {
-				if (partsUsed[i] != 0 && loop == 0) continue;
-				Part part = parts.get(i);
-				if (cur.area.add(part.area).compareTo(Rational.ONE) > 0) continue;
-				final int PS = part.vs.size();
-				for (int j = 0; j < cur.envelop.size(); ++j) {
-					int i1 = cur.envelop.get(j).pIdx;
-					int i2 = cur.envelop.get((j + 1) % cur.envelop.size()).pIdx;
-					for (int k = 0; k < PS; ++k) {
-						if (part.vs.get(k) != i1) continue;
-						if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
-							//							System.out.println("adding " + i1 + " " + i2);
-							State ns = cur.add(j, part, k);
-							if (ns == null) continue;
-							//							System.out.println("added " + i1 + " " + i2);
-							partsUsed[i]++;
-							if (ns.area.equals(Rational.ONE)) {
-								if (finish(ns)) {
-									return ns;
-								} else {
-									partsUsed[i]--;
-									continue;
-								}
+		ArrayList<SearchCand> cands = new ArrayList<>();
+		for (int i = 0; i < parts.size(); ++i) {
+			Part part = parts.get(i);
+			if (cur.area.add(part.area).compareTo(Rational.ONE) > 0) continue;
+			final int PS = part.vs.size();
+			for (int j = 0; j < cur.envelop.size(); ++j) {
+				int i1 = cur.envelop.get(j).pIdx;
+				int i2 = cur.envelop.get((j + 1) % cur.envelop.size()).pIdx;
+				for (int k = 0; k < PS; ++k) {
+					if (part.vs.get(k) != i1) continue;
+					if (part.vs.get((k + 1) % PS) == i2 || part.vs.get((k - 1 + PS) % PS) == i2) {
+						int score = 0;
+						if (partsUsed[i] == 0) score += 20 * (cur.filledParts.size() + 1) / partsUsed.length;
+						score += part.area.num.shiftLeft(6).divide(part.area.den).intValue();
+						{
+							Vertex prevEnvV = cur.envelop.get(j);
+							Vertex baseEnvV = cur.envelop.get((j + 1) % cur.envelop.size());
+							Vertex nextEnvV = cur.envelop.get((j + 2) % cur.envelop.size());
+							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
+							Rational partCosSq;
+							ArrayList<Point> points = decomposer.points;
+							if (part.vs.get((k + 1) % PS) == i2) {
+								partCosSq = Geometry.cosSq(points.get(part.vs.get(k)), points.get(part.vs.get((k + 1) % PS)),
+										points.get(part.vs.get((k + 2) % PS)));
+							} else {
+								partCosSq = Geometry.cosSq(points.get(part.vs.get((k + 1) % PS)), points.get(part.vs.get(k)),
+										points.get(part.vs.get((k + PS - 1) % PS)));
 							}
-							State ans = rec(ns);
-							if (ans != null) return ans;
-							partsUsed[i]--;
+							if (envCosSq.equals(partCosSq)) {
+								score += 50;
+							}
 						}
+						{
+							Vertex prevEnvV = cur.envelop.get((j + 1) % cur.envelop.size());
+							Vertex baseEnvV = cur.envelop.get(j);
+							Vertex nextEnvV = cur.envelop.get((j + cur.envelop.size() - 1) % cur.envelop.size());
+							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
+							Rational partCosSq;
+							ArrayList<Point> points = decomposer.points;
+							if (part.vs.get((k + 1) % PS) == i2) {
+								partCosSq = Geometry.cosSq(points.get(part.vs.get((k + 1) % PS)), points.get(part.vs.get(k)),
+										points.get(part.vs.get((k + PS - 1) % PS)));
+							} else {
+								partCosSq = Geometry.cosSq(points.get(part.vs.get(k)), points.get(part.vs.get((k + 1) % PS)),
+										points.get(part.vs.get((k + 2) % PS)));
+							}
+							if (envCosSq.equals(partCosSq)) {
+								score += 50;
+							}
+						}
+						cands.add(new SearchCand(i, j, k, score));
 					}
 				}
 			}
 		}
+		Collections.sort(cands);
+		for (int i = 0; i < cands.size(); ++i) {
+			SearchCand cand = cands.get(i);
+			//							System.out.println("adding " + i1 + " " + i2);
+			State ns = cur.add(cand.envelopPos, parts.get(cand.partIdx), cand.partVertexIdx);
+			if (ns == null) continue;
+			//							System.out.println("added " + i1 + " " + i2);
+			partsUsed[cand.partIdx]++;
+			if (ns.area.equals(Rational.ONE)) {
+				if (finish(ns)) {
+					return ns;
+				} else {
+					partsUsed[cand.partIdx]--;
+					continue;
+				}
+			}
+			State ans = rec(ns);
+			if (ans != null) return ans;
+			partsUsed[cand.partIdx]--;
+		}
 		return null;
 	}
 
+	static class SearchCand implements Comparable<SearchCand> {
+		int partIdx, envelopPos, partVertexIdx;
+		int score;
+
+		public SearchCand(int partIdx, int envelopPos, int partVertexIdx, int score) {
+			this.partIdx = partIdx;
+			this.envelopPos = envelopPos;
+			this.partVertexIdx = partVertexIdx;
+			this.score = score;
+		}
+
+		public int compareTo(SearchCand o) {
+			return Integer.compare(o.score, this.score);
+		}
+	}
+
 	boolean finish(State st) {
+		//		System.err.println("finish:" + st.filledParts.size());
+		//		System.err.println(Arrays.toString(partsUsed));
 		for (int i = 0; i < partsUsed.length; ++i) {
 			if (partsUsed[i] == 0) return false;
 		}
@@ -366,9 +426,38 @@ public class FillingSolver {
 			for (int i = 0; i <= addCount; ++i) {
 				Point f1 = envelop.get((addPos + i + envelop.size() - 1) % envelop.size()).p;
 				Point t1 = envelop.get((addPos + i) % envelop.size()).p;
+				Rational minX, maxX, minY, maxY;
+				if (f1.x.compareTo(t1.x) < 0) {
+					minX = f1.x;
+					maxX = t1.x;
+				} else {
+					minX = t1.x;
+					maxX = f1.x;
+				}
+				if (f1.y.compareTo(t1.y) < 0) {
+					minY = f1.y;
+					maxY = t1.y;
+				} else {
+					minY = t1.y;
+					maxY = f1.y;
+				}
 				for (int j = 1; j < envelop.size() - 2; ++j) {
 					Point f2 = envelop.get((addPos + i + j) % envelop.size()).p;
 					Point t2 = envelop.get((addPos + i + j + 1) % envelop.size()).p;
+					if (f2.x.compareTo(t2.x) < 0) {
+						if (f2.x.compareTo(maxX) > 0) continue;
+						if (t2.x.compareTo(minX) < 0) continue;
+					} else {
+						if (t2.x.compareTo(maxX) > 0) continue;
+						if (t2.x.compareTo(minX) < 0) continue;
+					}
+					if (f2.y.compareTo(t2.y) < 0) {
+						if (f2.y.compareTo(maxY) > 0) continue;
+						if (t2.y.compareTo(minY) < 0) continue;
+					} else {
+						if (t2.y.compareTo(maxY) > 0) continue;
+						if (t2.y.compareTo(minY) < 0) continue;
+					}
 					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
 					if (cross != null) {
 						return true;
