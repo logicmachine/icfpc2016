@@ -119,7 +119,7 @@ def main(args):
 			if team["resemblance"] == 1.0:
 				cnt_perfect += 1
 		solution_size = problem["solution_size"]
-		score = solution_size / (1.0 + cnt_perfect)
+		score = solution_size / (2.0 + cnt_perfect)
 		data.append((score, problem["problem_id"], problem["problem_spec_hash"], solution_size, cnt_perfect, len(problem["ranking"])))
 		hash_problem[problem["problem_spec_hash"]].append((problem["problem_id"], score))
 		problem_hash[problem["problem_id"]] = problem["problem_spec_hash"]
