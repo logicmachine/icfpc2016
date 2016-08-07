@@ -5,13 +5,15 @@ struct ExecState {
 	// 2=edge=1, reflect=0
 	// 3=edge=1, reflect=1
 
+	int depth;
+
 	SqBuilder builder;
 	FrontierEdge *next_enhance;
 };
 
 
 
-static void
+static bool
 add_frontier_initial(SqBuilder &b,
                      Graph &g,
                      int poly_id,
@@ -54,8 +56,7 @@ add_frontier_initial(SqBuilder &b,
 		bool added = false;
 		int new_vi = b.add_result_point(src_p0, fe->dst_p0, &added);
 		if (new_vi == -1) {
-			abort();
-			//return false;
+			return false;
 		}
 
 		fe->src_p0_vert_idx = new_vi;
@@ -69,20 +70,19 @@ add_frontier_initial(SqBuilder &b,
 	prev->next = NULL;
 	b.frontier_edge_list = first;
 
-	fprintf(stderr, "result length = %d\n", (int)result_polygon.size());
 	b.result_polygon_list.push_back(result_polygon);
 
-	return;
+	return true;
 
 }
 
 
 
 static bool
-add_frontier_polygon(SqBuilder &b,
-		     Graph &g,
-		     int poly_id,
-		     Matrix3x3 const &transform_matrix)
+add_frontier_polygon1(SqBuilder &b,
+		      Graph &g,
+		      int poly_id,
+		      Matrix3x3 const &transform_matrix)
 {
 	GraphPolygon &poly = g.polygon_list[poly_id];
 	FrontierEdge *fe = b.frontier_edge_list;
@@ -92,6 +92,23 @@ add_frontier_polygon(SqBuilder &b,
 	std::vector<char> merged;
 
 	merged.resize(nv,0);
+
+	{
+		fprintf(stderr, "add polygon pid=%d\n", poly_id);
+		for (int vi=0; vi<nv; vi++) {
+			VertexRef &vr = poly[vi];
+			Vertex &v = g.vertex_list[vr.vertex_id];
+			Point p0 = transform_matrix.transform(v.pos);
+
+			fprintf(stderr,
+				"   (%f,%f)\n",
+				p0.x.to_double(),
+				p0.y.to_double());
+		}
+
+	}
+
+
 
 	for (int vi=0; vi<nv; vi++) {
 		VertexRef &vr = poly[vi];
@@ -110,20 +127,22 @@ add_frontier_polygon(SqBuilder &b,
 		bool added = false;
 		int new_vi = b.add_result_point(p0, v.pos, &added);
 
-		fprintf(stderr, "add %d %d (%f,%f)\n",
-			new_vi,
-			(int)added,
-			v.pos.x.to_double(),
-			v.pos.y.to_double());
+		//fprintf(stderr, "add %d %d (%f,%f)\n",
+		//	new_vi,
+		//	(int)added,
+		//	v.pos.x.to_double(),
+		//	v.pos.y.to_double());
+
+		if (new_vi == -1) {
+			/* オーバーラップしてる || src が 四角に入ってない */
+			fputs("add fail\n", stderr);
+			return false;
+		}
 
 		if (!added) {
 			bool merge_to_frontier = false;
 			FrontierEdge *e = b.frontier_edge_list;
 			while (e) {
-				fprintf(stderr,
-					"find v %d %d\n",
-					e->src_p0_vert_idx,
-					new_vi);
 				if (e->src_p0_vert_idx == new_vi) {
 					merge_to_frontier = true;
 				}
@@ -132,13 +151,10 @@ add_frontier_polygon(SqBuilder &b,
 			}
 
 			if (!merge_to_frontier) {
+				fputs("fail merge to frontier\n", stderr);
+
 				return false;
 			}
-		}
-
-		if (new_vi == -1) {
-			/* オーバーラップしてる || src が 四角に入ってない */
-			return false;
 		}
 
 		result_polygon.push_back(new_vi);
@@ -174,14 +190,12 @@ add_frontier_polygon(SqBuilder &b,
 		}
 	}
 
-	if (start_pos == -1) {
-		return false;
-	}
-
 	if (down_count > 1) {
 		/* hole ができる場合はあとまわし is 何 ?? */
-		puts("hole");
-		abort();
+		//puts("hole");
+		//abort();
+		fputs("fail hall\n", stderr);
+		return false;
 		b.retry_count++;
 		if (b.retry_count > 10000) {
 			return false;
@@ -189,6 +203,7 @@ add_frontier_polygon(SqBuilder &b,
 		return true;
 	}
 
+	bool remove_all = true;
 	for (int vi=0; vi<nv; vi++) {
 		VertexRef &vr = poly[vi];
 		VertexRef &vr_next = poly[(vi+1)%nv];
@@ -203,6 +218,8 @@ add_frontier_polygon(SqBuilder &b,
 
 		FrontierEdge *e = b.find_merge_edge(p0,p1);
 		if (e) {
+			b.dump_frontier();
+
 			fprintf(stderr,
 				"remove (%f,%f) - (%f,%f)\n",
 				e->src_p0.x.to_double(),
@@ -220,7 +237,12 @@ add_frontier_polygon(SqBuilder &b,
 			if (e->next) {
 				e->next->prev = e->prev;
 			}
+
+			b.dump_frontier();
+
+			fputs("\n\n", stderr);
 		} else {
+			remove_all = false;
 			fprintf(stderr,
 				"add (%f,%f) - (%f,%f)\n",
 				p0.x.to_double(),
@@ -230,6 +252,11 @@ add_frontier_polygon(SqBuilder &b,
 
 			/* つなげる */
 			FrontierEdge *new_edge = b.pool->alloc<FrontierEdge>();
+
+			if (b.frontier_edge_list == NULL) {
+				fputs("fail cannot add edge", stderr);
+				return false;
+			}
 
 			assert(b.frontier_edge_list != NULL);
 
@@ -249,10 +276,15 @@ add_frontier_polygon(SqBuilder &b,
 			new_edge->dst_edge = &dst_e;
 			new_edge->putter_polygon = poly_id;
 		}
-
 	}
 
-	fprintf(stderr, "result length = %d\n", (int)result_polygon.size());
+	if (remove_all) {
+		/* 同じサイズのがふたつある */
+		fputs("NULL list\n", stderr);
+		return false;
+	}
+
+	//fprintf(stderr, "result length = %d\n", (int)result_polygon.size());
 	b.result_polygon_list.push_back(result_polygon);
 
 	return true;
