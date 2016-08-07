@@ -24,6 +24,7 @@ public class FillingSolver {
 	ArrayList<HashSet<Integer>> usedHash;
 	long limitTime;
 	AffineTransform resultMapping = new AffineTransform(Rational.ONE, Rational.ZERO, Rational.ZERO, Rational.ONE);
+	HashMap<PartCacheKey, ArrayList<Vertex>> partCache = new HashMap<>();
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -100,7 +101,7 @@ public class FillingSolver {
 	}
 
 	int recCount;
-	
+
 	State rec(State cur) {
 		//		output(cur);
 		//		System.out.println(cur.envelop);
@@ -141,42 +142,43 @@ public class FillingSolver {
 						int score = -50 * destroyColinearLine;
 						if (partsUsed[i] == 0) score += 20 * (cur.filledParts.size() + 1) / partsUsed.length;
 						score += part.area.num.shiftLeft(6).divide(part.area.den).intValue();
-						{
-							Vertex prevEnvV = cur.envelop.get(j);
-							Vertex baseEnvV = cur.envelop.get((j + 1) % ES);
-							Vertex nextEnvV = cur.envelop.get((j + 2) % ES);
-							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
-							Rational partCosSq;
-							ArrayList<Point> points = decomposer.points;
-							if (part.vs.get((k + 1) % PS) == i2) {
-								partCosSq = Geometry.cosSq(points.get(part.vs.get(k)), points.get(part.vs.get((k + 1) % PS)),
-										points.get(part.vs.get((k + 2) % PS)));
-							} else {
-								partCosSq = Geometry.cosSq(points.get(part.vs.get((k + 1) % PS)), points.get(part.vs.get(k)),
-										points.get(part.vs.get((k + PS - 1) % PS)));
-							}
-							if (envCosSq.equals(partCosSq)) {
-								score += 50;
-							}
-						}
-						{
-							Vertex prevEnvV = cur.envelop.get((j + 1) % ES);
-							Vertex baseEnvV = cur.envelop.get(j);
-							Vertex nextEnvV = cur.envelop.get((j + ES - 1) % ES);
-							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
-							Rational partCosSq;
-							ArrayList<Point> points = decomposer.points;
-							if (part.vs.get((k + 1) % PS) == i2) {
-								partCosSq = Geometry.cosSq(points.get(part.vs.get((k + 1) % PS)), points.get(part.vs.get(k)),
-										points.get(part.vs.get((k + PS - 1) % PS)));
-							} else {
-								partCosSq = Geometry.cosSq(points.get(part.vs.get(k)), points.get(part.vs.get((k + 1) % PS)),
-										points.get(part.vs.get((k + 2) % PS)));
-							}
-							if (envCosSq.equals(partCosSq)) {
-								score += 50;
-							}
-						}
+						// too slow
+						//						{
+						//							Vertex prevEnvV = cur.envelop.get(j);
+						//							Vertex baseEnvV = cur.envelop.get((j + 1) % ES);
+						//							Vertex nextEnvV = cur.envelop.get((j + 2) % ES);
+						//							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
+						//							Rational partCosSq;
+						//							ArrayList<Point> points = decomposer.points;
+						//							if (part.vs.get((k + 1) % PS) == i2) {
+						//								partCosSq = Geometry.cosSq(points.get(part.vs.get(k)), points.get(part.vs.get((k + 1) % PS)),
+						//										points.get(part.vs.get((k + 2) % PS)));
+						//							} else {
+						//								partCosSq = Geometry.cosSq(points.get(part.vs.get((k + 1) % PS)), points.get(part.vs.get(k)),
+						//										points.get(part.vs.get((k + PS - 1) % PS)));
+						//							}
+						//							if (envCosSq.equals(partCosSq)) {
+						//								score += 50;
+						//							}
+						//						}
+						//						{
+						//							Vertex prevEnvV = cur.envelop.get((j + 1) % ES);
+						//							Vertex baseEnvV = cur.envelop.get(j);
+						//							Vertex nextEnvV = cur.envelop.get((j + ES - 1) % ES);
+						//							Rational envCosSq = Geometry.cosSq(prevEnvV.p, baseEnvV.p, nextEnvV.p);
+						//							Rational partCosSq;
+						//							ArrayList<Point> points = decomposer.points;
+						//							if (part.vs.get((k + 1) % PS) == i2) {
+						//								partCosSq = Geometry.cosSq(points.get(part.vs.get((k + 1) % PS)), points.get(part.vs.get(k)),
+						//										points.get(part.vs.get((k + PS - 1) % PS)));
+						//							} else {
+						//								partCosSq = Geometry.cosSq(points.get(part.vs.get(k)), points.get(part.vs.get((k + 1) % PS)),
+						//										points.get(part.vs.get((k + 2) % PS)));
+						//							}
+						//							if (envCosSq.equals(partCosSq)) {
+						//								score += 50;
+						//							}
+						//						}
 						cands.add(new SearchCand(i, j, k, score));
 					}
 				}
@@ -186,7 +188,7 @@ public class FillingSolver {
 		for (int i = 0; i < cands.size(); ++i) {
 			SearchCand cand = cands.get(i);
 			//							System.out.println("adding " + i1 + " " + i2);
-			State ns = cur.add(cand.envelopPos, parts.get(cand.partIdx), cand.partVertexIdx);
+			State ns = cur.add(cand.envelopPos, cand.partIdx, cand.partVertexIdx);
 			if (ns == null) continue;
 			//							System.out.println("added " + i1 + " " + i2);
 			partsUsed[cand.partIdx]++;
@@ -351,7 +353,8 @@ public class FillingSolver {
 			}
 		}
 
-		State add(int envIdx, Part part, int partIdx) {
+		State add(int envIdx, int partIdx, int partVIdx) {
+			Part part = decomposer.parts.get(partIdx);
 			final int PS = part.vs.size();
 			State ret = new State();
 			ret.area = this.area.add(part.area);
@@ -359,23 +362,31 @@ public class FillingSolver {
 			ArrayList<Point> points = decomposer.points;
 			Vertex ev1 = envelop.get(envIdx);
 			Vertex ev2 = envelop.get((envIdx + 1) % envelop.size());
-			int pp2 = part.vs.get((partIdx + 1) % PS);
+			int pp2 = part.vs.get((partVIdx + 1) % PS);
 			boolean reverse = ev2.pIdx == pp2;
 			ArrayList<Vertex> addVertex = new ArrayList<>();
 			Point p1 = points.get(ev1.pIdx);
 			Point p2 = points.get(ev2.pIdx);
-			AffineTransform t = getTransform(p1, p2, ev1.p, ev2.p);
-			if (reverse) {
-				for (int i = 0; i < part.vs.size(); ++i) {
-					int pi = part.vs.get((partIdx - i + PS) % PS);
-					addVertex.add(new Vertex(pi, reflect(ev1.p, ev2.p, t.apply(points.get(pi)))));
-				}
+			PartCacheKey key = new PartCacheKey(p1, p2, partIdx << 16 | partVIdx);
+			if (partCache.containsKey(key)) {
+				addVertex.addAll(partCache.get(key));
 			} else {
-				for (int i = 0; i < part.vs.size(); ++i) {
-					int pi = part.vs.get((i + partIdx) % PS);
-					Point addP = t.apply(points.get(pi));
-					if (addP.x.den.bitLength() > maxBitLength || addP.y.den.bitLength() > maxBitLength) return null;
-					addVertex.add(new Vertex(pi, addP));
+				AffineTransform t = getTransform(p1, p2, ev1.p, ev2.p);
+				if (reverse) {
+					for (int i = 0; i < part.vs.size(); ++i) {
+						int pi = part.vs.get((partVIdx - i + PS) % PS);
+						addVertex.add(new Vertex(pi, reflect(ev1.p, ev2.p, t.apply(points.get(pi)))));
+					}
+				} else {
+					for (int i = 0; i < part.vs.size(); ++i) {
+						int pi = part.vs.get((i + partVIdx) % PS);
+						Point addP = t.apply(points.get(pi));
+						if (addP.x.den.bitLength() > maxBitLength || addP.y.den.bitLength() > maxBitLength) return null;
+						addVertex.add(new Vertex(pi, addP));
+					}
+				}
+				if (partCache.size() < 10000000) {
+					partCache.put(key, new ArrayList<Vertex>(addVertex));
 				}
 			}
 			ret.xmin = this.xmin;
@@ -635,6 +646,33 @@ public class FillingSolver {
 		@Override
 		public String toString() {
 			return "pi=" + pIdx + "(" + p.x + "," + p.y + ")";
+		}
+	}
+
+	static class PartCacheKey {
+		int partInfo;
+		Point p1, p2;
+
+		PartCacheKey(Point p1, Point p2, int partInfo) {
+			this.p1 = p1;
+			this.p2 = p2;
+			this.partInfo = partInfo;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = ((p1 == null) ? 0 : p1.hashCode());
+			result = prime * result + ((p2 == null) ? 0 : p2.hashCode());
+			result = prime * result + partInfo;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) return true;
+			PartCacheKey other = (PartCacheKey) obj;
+			return partInfo == other.partInfo && p1.equals(other.p1) && p2.equals(other.p2);
 		}
 	}
 }
