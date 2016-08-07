@@ -33,7 +33,12 @@ $(document).ready(function(){
 	});
 
 	$("#generate-button").click(function(){
-		var solution = stateManager.buildSolution();
+		var solution = stateManager.buildSolution(false);
+		console.log(solution);
+		$("#solution-buffer").val(solution);
+	});
+	$("#generate-cleanup-button").click(function(){
+		var solution = stateManager.buildSolution(true);
 		console.log(solution);
 		$("#solution-buffer").val(solution);
 	});
