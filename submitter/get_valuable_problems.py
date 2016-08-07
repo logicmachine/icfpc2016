@@ -141,6 +141,6 @@ def main(args):
 	ans = list(set(ans))
 	ans.sort(reverse=True)
 	for xs in ans:
-		print xs[0], xs[1]
+		print "%f : %s" % (xs[0], " ".join(map(str, xs[1])))
 
 if __name__ == "__main__": main(sys.argv)
