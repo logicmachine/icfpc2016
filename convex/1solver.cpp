@@ -1,5 +1,6 @@
 // g++ -std=c++11 -O2 main.cpp
 #include "pch.hpp"
+#include "mempool.hpp"
 
 using namespace std;
 using TransposedPolygon = pair<Polygon, Matrix3x3>;
@@ -609,7 +610,6 @@ build_graph(Graph &g,
 		e.v[0] = vi0;
 		e.v[1] = vi1;
 
-
 		g.edge_list.push_back(e);
 		g.vertex_list[vi0].edge_list.push_back(ei);
 		g.vertex_list[vi1].edge_list.push_back(ei);
@@ -782,16 +782,6 @@ find_len1_visit(Graph &g,
 									       ref_new.y - cur_new.y) *
 							 Matrix3x3::transpose(-cur_new.x, -cur_new.y)) * pm;
 
-						//std::cerr << inv_refmat(0,0) << ',';
-						//std::cerr << inv_refmat(0,1) << ',';
-						//std::cerr << inv_refmat(0,2) << '\n';
-						//std::cerr << inv_refmat(1,0) << ',';
-						//std::cerr << inv_refmat(1,1) << ',';
-						//std::cerr << inv_refmat(1,2) << '\n';
-						//std::cerr << inv_refmat(2,0) << ',';
-						//std::cerr << inv_refmat(2,1) << ',';
-						//std::cerr << inv_refmat(2,2) << "\n\n";
-
 						find_len1_visit(g, rs, route_edge_list, to_vi, vi, start_pos, inv_refmat, len, e_to_idx);
 					}
 				}
@@ -865,9 +855,30 @@ filter_initial_cand(route_edge_set_t const &rs)
 	return rs;
 }
 
-// 辺境エッジ
-struct SqBuilderEdge {
-	Point p0,p1;		// 端座標
+// 辺境点
+struct FrontierEdge {
+	FrontierEdge *next;
+	FrontierEdge *prev;
+
+	Point dst_p0, dst_p1;
+	Point src_p0, src_p1;
+
+	Edge *dst_edge;
+	int putter_polygon;
+
+	bool side_edge() const {
+		using R = Rational;
+
+		if ((src_p0.x==R(1) && src_p1.x==R(1)) ||
+		    (src_p0.x==R(0) && src_p1.x==R(0)) ||
+		    (src_p0.y==R(1) && src_p1.y==R(1)) ||
+		    (src_p0.y==R(0) && src_p1.y==R(0)))
+		{
+			return true;
+		}
+
+		return false;
+	}
 };
 
 struct ResultPoint {
@@ -877,31 +888,80 @@ struct ResultPoint {
 	ResultPoint(Point const &src,
 		    Point const &dst)
 		:src(src), dst(dst)
-	{
-	}
+	{}
 };
 
 struct SqBuilder {
 	Matrix3x3 init_transform;
+	MemPool pool;
+	int retry_count;
 
-	std::vector<SqBuilderEdge> frontier_edge_list; // 辺境エッジ
+	FrontierEdge *frontier_edge_list = NULL;
+	//std::vector<FrontierPoint> frontier_point_list; // 辺境点
+
 	std::vector<ResultPoint> result_point_list; // 結果の点リスト
 	std::vector< std::vector<int> > result_polygon_list;
+
+	SqBuilder()
+		:retry_count(0)
+	{}
+
+	bool in_polygon(Point const &p0) {
+		FrontierEdge *e = frontier_edge_list;
+		using R = Rational;
+
+		Segment target = Segment(p0, Point(R(5000),R(5000)));
+		int intersect_count = 0;
+
+		while (e) {
+			Segment s = Segment(e->src_p0, e->src_p1);
+			if (intersect(target,s)) {
+				intersect_count ++;
+			}
+
+			e = e->next;
+		}
+
+		if (intersect_count & 1) {
+			/* 奇数 */
+			return true;
+		}
+
+		return false;
+	}
+
+	bool is_merge_edge(Point const &p0,
+			   Point const &p1)
+	{
+		int nr = result_point_list.size();
+		FrontierEdge *fe = this->frontier_edge_list;
+
+		while (fe) {
+			if ((fe->src_p0 == p0 && fe->src_p1 == p1) ||
+			    (fe->src_p0 == p1 && fe->src_p1 == p0))
+			{
+				return true;
+			}
+
+			fe = fe->next;
+		}
+
+		return false;
+	}
 
 	int add_result_point(Point const &src,
 			     Point const &dst,
 			     bool dry_run)
 	{
-		/* if (点がかぶってる) return -1; */
 		using R = Rational;
 
-		if (src.x < R(0) ||
-		    src.x > R(1) ||
-		    src.y < R(0) ||
-		    src.y > R(1))
+		if ((src.x < R(0)) ||
+		    (src.x > R(1)) ||
+		    (src.y < R(0)) ||
+		    (src.y > R(1)))
 		{
 			/* 正方形に入ってない */
-			return false;
+			return -1;
 		}
 
 		int nr = result_point_list.size();
@@ -914,6 +974,11 @@ struct SqBuilder {
 			}
 		}
 
+		if (in_polygon(src)) {
+			/* overlap */
+			return -1;
+		}
+
 		if (!dry_run) {
 			int ret = result_point_list.size();
 			result_point_list.push_back(ResultPoint(src,dst));
@@ -921,41 +986,6 @@ struct SqBuilder {
 		}
 
 		return 0;
-	}
-
-	bool add_frontier_edge(Point &p0, Point &p1, bool dry_run) {
-		if (dry_run) {
-			return true;
-		}
-
-		using R = Rational;
-		if ((p0.x == R(0) && p1.x == R(0)) ||
-		    (p0.x == R(1) && p1.x == R(1)) ||
-		    (p0.y == R(0) && p1.y == R(0)) ||
-		    (p0.y == R(1) && p1.x == R(1)))
-		{
-			/* 端のことは忘れてよい
-			 * xx (外側ポリゴンを作る必要がある) */
-			return true;
-		}
-
-		int ne = frontier_edge_list.size();
-		for (int ei=0; ei<ne; ei++) {
-			SqBuilderEdge &e = frontier_edge_list[ei];
-
-			if (e.p0 == p0 && e.p1 == p1) {
-				/* ei が frontier ではなくなったので削除 */
-				frontier_edge_list.erase(frontier_edge_list.begin() + ei);
-				return true;
-			}
-		}
-
-		SqBuilderEdge be;
-		be.p0 = p0;
-		be.p1 = p1;
-		frontier_edge_list.push_back(be);
-
-		return true;
 	}
 
 	void output() {
@@ -1015,10 +1045,131 @@ get_ccw_poly(Graph const &g,
 static bool
 add_frontier_polygon1(SqBuilder &b,
 		      Graph &g,
-		      GraphPolygon &poly,
+		      int poly_id,
 		      Matrix3x3 const &transform_matrix,
 		      bool dry_run)
 {
+	GraphPolygon &poly = g.polygon_list[poly_id];
+	FrontierEdge *fe = b.frontier_edge_list;
+	int nv = poly.size();
+	std::vector<int> result_polygon;
+
+	if (fe == NULL) {
+		if (dry_run) {
+			return true;
+		}
+
+		FrontierEdge *first = NULL, *prev = NULL;
+
+		for (int vi=0; vi<nv; vi++) {
+			VertexRef &vr = poly[vi];
+			VertexRef &vr_next = poly[(vi+1)%nv];
+			Vertex &v = g.vertex_list[vr.vertex_id];
+			Edge &e = g.edge_list[v.edge_list[vr.edge_idx_in_vertex]];
+
+			FrontierEdge *fe = b.pool.alloc<FrontierEdge>();
+			if (first == NULL) {
+				first = fe;
+			}
+			if (prev) {
+				prev->next = fe;
+			}
+			fe->prev = prev;
+			fe->next = NULL;
+
+			prev = fe;
+
+			fe->dst_p0 = g.vertex_list[vr.vertex_id].pos;
+			fe->dst_p1 = g.vertex_list[vr_next.vertex_id].pos;
+
+			Point src_p0 = transform_matrix.transform(fe->dst_p0);
+			Point src_p1 = transform_matrix.transform(fe->dst_p1);
+
+			fe->src_p0 = src_p0;
+			fe->src_p1 = src_p1;
+
+			int new_vi = b.add_result_point(src_p0, fe->dst_p0, dry_run);
+			if (new_vi == -1) {
+				return false;
+			}
+
+			result_polygon.push_back(new_vi);
+
+			fe->putter_polygon = poly_id;
+			fe->dst_edge = &e;
+		}
+
+		prev->next = NULL;
+		b.frontier_edge_list = first;
+		b.result_polygon_list.push_back(result_polygon);
+
+		return true;
+	} else {
+		std::vector<char> merged;
+
+		merged.resize(nv,0);
+
+		for (int vi=0; vi<nv; vi++) {
+			VertexRef &vr = poly[vi];
+			VertexRef &vr_next = poly[(vi+1)%nv];
+
+			Vertex &v = g.vertex_list[vr.vertex_id];
+			Vertex &vn = g.vertex_list[vr_next.vertex_id];
+
+			Point p0 = transform_matrix.transform(v.pos);
+			Point p1 = transform_matrix.transform(vn.pos);
+
+			if (b.is_merge_edge(p0,p1)) {
+				merged[vi] = 1;
+			}
+		}
+
+		int down_count = 0; // 1->0
+		int cur_in_1=0;
+		int start_pos = -1;
+		int end_pos = -1;
+
+		if (merged[0]) {
+			cur_in_1 = 1;
+		} else {
+			if (merged[nv-1]) { // 0 . . . . 1
+				down_count++;
+			}
+		}
+
+		for (int vi=1; vi<nv; vi++) {
+			if (cur_in_1) {
+				if (merged[0] == 0) {
+					down_count++;
+					cur_in_1 = 0;
+					end_pos = vi;
+				}
+			} else {
+				if (merged[0] == 1) {
+					cur_in_1 = 1;
+					if (start_pos == -1) {
+						start_pos = vi;
+					}
+				}
+			}
+		}
+
+		if (start_pos == -1) {
+			puts("???");
+			assert(start_pos != -1);
+		}
+
+		if (down_count > 1) {
+			/* hole ができる場合はあとまわし is 何 ?? */
+			b.retry_count++;
+			if (b.retry_count > 10000) {
+				return false;
+			}
+			return true;
+		}
+	}
+
+#if 0
 	typedef std::vector<VertexRef> GraphPolygon;
 	int np = poly.size();
 
@@ -1042,8 +1193,12 @@ add_frontier_polygon1(SqBuilder &b,
 			return false;
 		}
 
-		b.add_frontier_edge(new_cur_p, new_next_p, dry_run);
+		struct VertexRef {
+			int vertex_id;
+			int edge_idx_in_vertex;
+		};
 	}
+#endif
 
 	if (!dry_run) {
 		b.result_polygon_list.push_back(result_polygon);
@@ -1055,10 +1210,49 @@ add_frontier_polygon1(SqBuilder &b,
 static bool
 add_frontier_polygon(SqBuilder &b,
 		     Graph &g,
-		     GraphPolygon &poly,
+		     int poly_id,
 		     Matrix3x3 const &transform_matrix)
 {
-	return add_frontier_polygon1(b, g, poly, transform_matrix, false);
+	return add_frontier_polygon1(b, g, poly_id, transform_matrix, false);
+}
+
+static bool
+is_square(SqBuilder &b)
+{
+	FrontierEdge *fe = b.frontier_edge_list;
+	if (fe == NULL) {
+		return false;
+	}
+
+	while (fe) {
+		if (! fe->side_edge()) {
+			/* 1x1 になってない */
+			return false;
+		}
+
+		fe = fe->next;
+	}
+
+	return true;
+}
+
+
+static bool
+enhance_frontier(SqBuilder &b, Graph &g)
+{
+	while (1) {
+		if (is_square(b)) {
+			b.output();
+			exit(1);
+			return true;
+		}
+
+		if (b.frontier_edge_list == NULL) {
+			abort();
+		}
+
+		exit(1);
+	}
 }
 
 
@@ -1069,30 +1263,33 @@ detect_square(Graph &g,
 {
 	SqBuilder b;
 	std::vector<RouteEdge> &initial_edge_list = route.edge_list;
+	int nie = initial_edge_list.size();
 
-	b.init_transform = route.to_1_0_matrix;
 
-	for ( RouteEdge const &re : initial_edge_list) {
+	for (int ei=0; ei<nie; ei++) {
+		RouteEdge const &re = initial_edge_list[ei];
 		Edge &e = g.edge_list[re.edge];
-		int poly_id = get_ccw_poly(g, e, is_ccw);
-		if (poly_id == -1) {
-			/* 初期値の向きが悪い */
-			return;
-		}
 
-		bool r = add_frontier_polygon(b,
-					      g,
-					      g.polygon_list[poly_id],
-					      route.to_1_0_matrix);
+		int nn = e.num_neigh_poly;
+		for (int ni=0; ni<nn; ni++)  {
+			int poly_id = e.neigh_poly[ni].poly;
+			bool r = add_frontier_polygon(b,
+						      g,
+						      poly_id,
+						      route.to_1_0_matrix);
 
-		if (! r) {
-			/* 初期値があってれば必ず追加できるはず */
-			return;
+			if (! r) {
+				/* 初期値があってれば必ず追加できるはず */
+				return;
+			}
+
+			r = enhance_frontier(b, g);
+			if (! r) {
+				return;
+			}
 		}
 	}
 
-	b.output();
-	exit(0);
 }
 
 int main(){
