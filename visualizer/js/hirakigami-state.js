@@ -161,7 +161,7 @@ var StateManager = function(){
 		this.history.push(next);
 	};
 
-	this.buildSolution = function(){
+	this.buildSolution = function(doCleanup){
 		var selectBase = function(a, b){
 			var t = a.y.compare(b.y);
 			if(t == 0){ t = a.x.compare(b.x); }
@@ -180,6 +180,7 @@ var StateManager = function(){
 		var state = this.last();
 		var base = state.segments[0].from.clone(), dx = base, dy = base;
 		state.segments.forEach(function(s){
+			if(doCleanup && !s.mark){ return; }
 			base = selectBase(base, s.from); base = selectBase(base, s.to);
 			dx   = selectDx  (dx,   s.from); dx   = selectDx  (dx,   s.to);
 			dy   = selectDy  (dy,   s.from); dy   = selectDy  (dy,   s.to);
@@ -204,6 +205,7 @@ var StateManager = function(){
 		var sourceVertices = [];
 		var destinationVertices = [];
 		state.segments.forEach(function(s){
+			if(doCleanup && !s.mark){ return; }
 			var sk = s.from.toString(), tk = s.to.toString();
 			if(indexMap.get(sk) === undefined){
 				var i = sourceVertices.length;
@@ -222,12 +224,14 @@ var StateManager = function(){
 		var doneSet = new Set();
 		var solutionPolygons = [];
 		var extractPolygon = function(s){
+			if(doCleanup && !s.mark){ return; }
 			if(doneSet.has(s.toString())){ return; }
 			doneSet.add(s.toString());
 			var last = s.clone(), poly = [ indexMap.get(s.to.toString()) ];
 			while(!last.to.equals(s.from)){
 				var next = last.to.add(last.to.sub(last.from)), modified = false;
 				state.segments.forEach(function(t){
+					if(doCleanup && !t.mark){ return; }
 					var select = function(a, b){
 						var lccw = last.ccw(b);
 						if(lccw == -1 || lccw == 2 || lccw == 0){ return a; }
@@ -253,6 +257,7 @@ var StateManager = function(){
 			}
 		};
 		state.segments.forEach(function(s){
+			if(doCleanup && !s.mark){ return; }
 			extractPolygon(s);
 			extractPolygon(new Segment(s.to, s.from));
 		});
