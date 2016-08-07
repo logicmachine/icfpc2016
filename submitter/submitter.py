@@ -92,7 +92,8 @@ cur.execute(CUR_CREATE_JOBS)
 cur.execute(CUR_CREATE_PROBLEMS)
 #cur.execute(CUR_CREATE_SOLUTIONS)
 cur.execute(CUR_CREATE_SOLVES)
-#cur.execute("CREATE INDEX IF NOT EXISTS job_id_index ON solves(job_id)")
+cur.execute("CREATE INDEX IF NOT EXISTS job_id_index ON jobs(job_id)")
+cur.execute("CREATE INDEX IF NOT EXISTS problem_id_index ON solves(problem_id)")
 
 class QueueThread(threading.Thread):
 	def __init__(self):
@@ -289,33 +290,6 @@ def job_finish(job_id):
 	calc_resemblance = float(o.strip()) if (o.strip().count(".") <= 1 and o.strip().replace(".", "").isdigit()) else 0.0
 
 	with cur_lock:
-		"""
-		cur.execute("SELECT task_type FROM jobs WHERE job_id=?", (job_id,))
-		row = cur.fetchone()
-		if row:
-			task_type = row[0]
-			data = task_type.split(":")
-			if len(data) == 3 and data[0] == "solver":
-				solver = data[1]
-				problem_id = int(data[2])
-				solution_size = len(content.replace(" ", "").replace("\n", ""))
-		"""
-
-		"""
-				solution_tempfile = tempfile.NamedTemporaryFile()
-				f = open(solution_tempfile.name, "wb")
-				f.write(content)
-				f.close()
-				cur.execute("SELECT content FROM problems WHERE problem_id=?", (problem_id,))
-				problem = cur.fetchone()[0]
-				problem_tempfile = tempfile.NamedTemporaryFile()
-				f2 = open(problem_tempfile.name, "wb")
-				f2.write(problem)
-				f2.close()
-				rc, o, e = Command("%s %s %s" % (RESEMBLANCE_CALCULATOR, problem_tempfile.name, solution_tempfile.name)).run(None)
-				calc_resemblance = float(o.strip()) if (o.strip().count(".") <= 1 and o.strip().replace(".", "").isdigit()) else 0.0
-		"""
-
 		if is_solved:
 			if True:
 				prev_resemblance = 0.0
@@ -326,7 +300,7 @@ def job_finish(job_id):
 					if prev_resemblance == 1.0 and int(row[1]) <= int(solution_size):
 						do_calc = False
 						break
-					if row[0] + 0.001 > calc_resemblance and row[0] != 1.0:
+					if row[0] + 0.001 > calc_resemblance and (row[0] < 1.0 and calc_resemblance < 1.0):
 						do_calc = False
 						break
 
