@@ -96,14 +96,26 @@ struct Edge {
 	}
 };
 
+struct PolyRoute {
+	int poly;
+	int edge_to;
+};
+
 struct Vertex {
 	std::vector< int > edge_list;
+	std::vector< PolyRoute > neigh_poly;
 	Point pos;
+};
+
+struct VertexRef {
+	int vertex_id;
+	int edge_idx_in_vertex;
 };
 
 struct Graph {
 	vector<Edge> edge_list;
 	vector<Vertex> vertex_list;
+	vector<std::vector<VertexRef> > polygon_list;
 
 	int find_point(Point const &p) {
 		int n = vertex_list.size();
@@ -166,6 +178,18 @@ struct Graph {
 
 			std::cerr << '\n';
 		}
+
+		for (auto && p : polygon_list) {
+			std::cerr << "poly:";
+
+			for (auto && v : p) {
+				std::cerr << v.vertex_id << ',';
+
+			}
+
+			std::cerr << '\n';
+		}
+
 	}
 };
 
@@ -244,6 +268,225 @@ split_intersect(Graph &g)
 	}
 }
 
+// vert_id, edge_index
+static std::pair<int, int> 
+find_close_vert(Graph &g,
+		int cur_vi,
+		int prev_vi)
+{
+	int vi_cand=-1, eidx;
+	Vertex &v = g.vertex_list[cur_vi];
+	int ne = v.edge_list.size();
+
+	for (eidx=0; eidx<ne; eidx++) {
+		Edge &e = g.edge_list[ v.edge_list[eidx] ];
+		int next_vi = e.other_vertex(cur_vi);
+
+		if (next_vi == prev_vi) {
+			continue;
+		}
+
+		if (vi_cand == -1) {
+			vi_cand = next_vi;
+		} else {
+			int c = ccw(g.vertex_list[cur_vi].pos,
+				    g.vertex_list[vi_cand].pos,
+				    g.vertex_list[next_vi].pos);
+
+			if (c == 1) {
+				vi_cand = next_vi;
+			}
+		}
+	}
+
+	if (vi_cand == -1) {
+		puts("yyy");
+		exit(1);
+	}
+
+	return std::make_pair(vi_cand,eidx);
+}
+
+static bool
+poly_equal(std::vector<VertexRef> const &vr0,
+	   std::vector<VertexRef> const &vr1)
+{
+	int nv = vr0.size();
+	if (nv != vr1.size()) {
+		return false;
+	}
+
+	bool equal = true;
+
+	for (int vi=0; vi<nv; vi++) {
+		if (vr0[vi].vertex_id != vr1[vi].vertex_id) {
+			equal = false;
+			break;
+		}
+	}
+
+	if (equal) {
+		return true;
+	}
+
+	/* reverse */
+	for (int vi=1; vi<nv; vi++) {
+		int vi2 = nv-vi;
+
+		if (vr0[vi].vertex_id != vr1[vi2].vertex_id) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+static void
+build_polygon(Graph &g)
+{
+	int nv = g.vertex_list.size();
+	for (int start_vi=0; start_vi<nv; start_vi++) {
+		Vertex &v_start = g.vertex_list[start_vi];
+		int ne = v_start.edge_list.size();
+
+		for (int ei=0; ei<ne; ei++) {
+			Edge &e = g.edge_list[v_start.edge_list[ei]];
+			int v_other = e.other_vertex(start_vi);
+			std::vector<VertexRef> vert_list;
+
+			VertexRef vr;
+			vr.vertex_id = start_vi;
+			vr.edge_idx_in_vertex = ei;
+
+			vert_list.push_back(vr);
+
+			int prev_vi = start_vi;
+			int cur_vi = v_other;
+
+			std::vector<char> visited;
+			bool v_ccw = true;
+
+			visited.resize(nv, 0);
+			visited[v_other] = 1;
+
+			while (1) {
+				auto next_vi = find_close_vert(g, cur_vi, prev_vi);
+
+				//fprintf(stderr, "%d %d->%d\n", start_vi, cur_vi, next_vi.first);
+
+				vr.vertex_id = cur_vi;
+				vr.edge_idx_in_vertex = next_vi.second;
+
+				vert_list.push_back(vr);
+
+				if (next_vi.first == start_vi) {
+					break;
+				}
+
+				if (visited[next_vi.first]) {
+					/* xx */
+					v_ccw = false;
+					break;
+				}
+
+				visited[next_vi.first] = 1;
+
+				prev_vi = cur_vi;
+				cur_vi = next_vi.first;
+			}
+
+			if (v_ccw) {
+				int pi = g.polygon_list.size();
+
+				g.polygon_list.push_back(vert_list);
+
+#if 0
+				int nv = vert_list.size();
+				for (int vi=0; vi<nv-1; vi++) {
+					PolyRoute pr;
+					VertexRef &vr = vert_list[vi];
+
+					pr.poly = pi;
+					pr.edge_to = vr.edge_idx_in_vertex;
+
+					g.vertex_list[vert_list[vi].vertex_id].neigh_poly.push_back(pr);
+				}
+#endif
+			}
+		}
+	}
+
+	for (auto && p : g.polygon_list ) {
+		int min_idx = -1;
+		int min_vert = 999999;
+
+		int nv = p.size();
+
+		for (int i=0; i<nv; i++) {
+			int vert_id = p[i].vertex_id;
+
+			if (vert_id < min_vert) {
+				min_vert = vert_id;
+				min_idx = i;
+			}
+		}
+
+		if (min_idx == -1) {
+			puts("zzz");
+			assert(min_idx == -1);
+		}
+
+		auto copy = p;
+
+		for (int i=0; i<nv; i++) {
+			int i2 = (i + min_idx) % nv;
+			p[i] = copy[i2];
+		}
+	}
+
+	for (int pi_src=0; pi_src<(int)g.polygon_list.size(); pi_src++) {
+		int pi_dst=pi_src+1;
+
+		while (pi_dst < g.polygon_list.size()) {
+			if (poly_equal(g.polygon_list[pi_src],
+				       g.polygon_list[pi_dst]))
+			{
+				g.polygon_list.erase(g.polygon_list.begin() + pi_dst);
+			} else {
+				pi_dst++;
+			}
+		}
+	}
+
+	/* canonicalize polygon */
+	{
+		/* remove clockwise polygon */
+
+		int pi = 0;
+		while (pi < g.polygon_list.size()) {
+			auto && p = g.polygon_list[pi];
+			std::vector<Point> pl;
+
+			for (VertexRef const & vr : p) {
+				Point &p = g.vertex_list[vr.vertex_id].pos;
+				pl.push_back(p);
+			}
+
+			Polygon polygon(pl.begin(),
+					pl.end());
+
+			Rational a = polygon.area();
+
+			if (a < Rational(0)) {
+				g.polygon_list.erase(g.polygon_list.begin() + pi);
+			} else {
+				pi++;
+			}
+		}
+	}
+}
+
 static void
 build_graph(Graph &g,
 	    Problem const &p)
@@ -310,30 +553,30 @@ find_len1_visit(Graph &g,
 	Rational len = (start_pos - p_new).norm();
 	Point &from_pos = g.vertex_list[from_vi].pos;
 
+	Point dp = (start_pos - p_new);
+
 	//std::cerr << "cur=" << vi << '\n';
 	//for (auto v : route) {
 	//	std::cerr << v << ',';
 	//}
 	//std::cerr << '\n';
 
-	route.push_back(vi);
-
-	Point dp = (start_pos - p_new);
 	//std::cerr << "cur:" << v0.pos.x << ',' << v0.pos.y << '=' << len.to_double() << '\n';
 	//std::cerr << "new:" << p_new.x << ',' << p_new.y << '=' << len.to_double() << '\n';
 	//std::cerr << "sta:" << start_pos.x << ',' << start_pos.y << '=' << len.to_double() << '\n';
 	//std::cerr << "dp :" << dp.x << ',' << dp.y << '=' << len.to_double() << '\n';
 
-	if (route.size() > 16) {
-		return;
-	}
+	route.push_back(vi);
 
-	if (len.nume() > Rational::IntType(10000000)) {
-		/* too slow for large number */
-		return;
-	}
-
+	//if (route.size() > 11) {
+	//	return;
+	//}
+	//if (len.nume() > Rational::IntType(10000000000)) {
+	//	/* too slow for large number */
+	//	return;
+	//}
 	if (len <= prev_len) {
+		puts("xxx");
 		exit(1);
 		return;
 	}
@@ -404,11 +647,11 @@ find_len1_visit(Graph &g,
 					ortho_line.b = cur.pos;
 
 					Point reflect_to = ortho_line.reflection(to.pos);
+					//std::cerr << "refto" << ":" << reflect_to.x << "," << reflect_to.y << "\n";
 
-					bool on_line = on_line_3p(reflect_to,
-								  cur.pos,
-								  from_pos);
-					if (on_line) {
+					int on_line = ccw(from_pos,cur.pos,reflect_to);
+
+					if (on_line == 2 || on_line == 0) {
 						Point cur_new = pm.transform(cur.pos);
 						Point ref_new = pm.transform(ref.pos);
 
@@ -446,10 +689,14 @@ find_len1_visit(Graph &g,
 static route_set_t // list of vertex index
 find_len1_edge(Graph &g)
 {
-	route_set_t rs;
 	int nv = g.vertex_list.size();
 	Matrix3x3 pm = Matrix3x3::identity();
 
+	std::vector<route_set_t> rs_parallel;
+
+	rs_parallel.resize(nv);
+
+#pragma omp parallel for
 	for (int vi=0; vi<nv; vi++) {
 		Vertex &v = g.vertex_list[vi];
 		int ne = v.edge_list.size();
@@ -461,9 +708,15 @@ find_len1_edge(Graph &g)
 			Edge &e = g.edge_list[ei];
 			int oi = e.other_vertex(vi);
 
-			find_len1_visit(g, rs, route, oi, vi,
+			find_len1_visit(g, rs_parallel[vi], route, oi, vi,
 					v.pos, Matrix3x3::identity(), Rational(0));
 		}
+	}
+
+	route_set_t rs;
+
+	for (auto && s : rs_parallel) {
+		rs.insert(rs.end(), s.begin(), s.end());
 	}
 
 	return rs;
@@ -480,6 +733,9 @@ int main(){
 
 	split_intersect(g);
 	//g.dump();
+
+	build_polygon(g);
+	g.dump();
 
 	route_set_t rs = find_len1_edge(g);
 
