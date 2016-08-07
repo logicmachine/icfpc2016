@@ -19,7 +19,7 @@ var HirakigamiView = function(){
 
 		// zoomable
 		var zoom = d3.zoom()
-			.scaleExtent([ 1, 20 ])
+			.scaleExtent([ 1, 50 ])
 			.on("zoom", function(){
 				var transform = d3.event.transform;
 				transform.x =
@@ -63,7 +63,14 @@ var HirakigamiView = function(){
 				return "M " + sx + " " + sy + " L " + tx + " " + ty;
 			})
 			.attr("stroke", function(s){ return s.mark ? markedColor : segmentColor; })
-			.attr("stroke-width", "0.5");
+			.attr("stroke-width", "0.5")
+			.on("click", function(s){
+				if((d3.event.ctrlKey || d3.event.shiftKey) && self.current_polygon.length == 0){
+					self.stateManager.selectSegment(s);
+					drawState(self.stateManager.last());
+					self.current_segment = null;
+				}
+			});
 
 		// enumerate points
 		var pointSet = new Map();
@@ -124,7 +131,7 @@ var HirakigamiView = function(){
 					.attr("cy", y_scale(p.y.sub(y_offset).toNumber()))
 			})
 			.on("click", function(d, i){
-				if(d3.event.ctrlKey && self.current_polygon.length == 0){
+				if((d3.event.ctrlKey || d3.event.shiftKey) && self.current_polygon.length == 0){
 					if(self.current_segment !== null){
 						self.stateManager.selectSegment(
 							new Segment(self.current_segment, points[i]));
