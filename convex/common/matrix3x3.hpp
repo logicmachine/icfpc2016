@@ -47,6 +47,7 @@ public:
 	Matrix3x3 operator*(const Matrix3x3 &m) const { auto c = *this; return c *= m; }
 
 	const Rational &operator()(int r, int c) const { return a[r][c]; }
+	Rational &operator()(int r, int c) { return a[r][c]; }
 
 	Point transform(const Point &v) const {
 		const auto x = v.x * a[0][0] + v.y * a[0][1] + a[0][2];
