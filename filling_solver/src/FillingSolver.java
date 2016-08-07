@@ -99,12 +99,16 @@ public class FillingSolver {
 		}
 	}
 
+	int recCount;
+	
 	State rec(State cur) {
 		//		output(cur);
 		//		System.out.println(cur.envelop);
 		//		System.out.println("area:" + cur.area);
 		//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
 		//		System.out.println();
+		++recCount;
+		if (recCount % 10000 == 0) System.err.println(recCount);
 		if (limitTime != NO_TIME_LIMIT && System.currentTimeMillis() > limitTime) return null;
 		while (usedHash.size() <= cur.envelop.size()) {
 			usedHash.add(new HashSet<Integer>());
@@ -457,14 +461,14 @@ public class FillingSolver {
 						if (t2.x.compareTo(minX) < 0) continue;
 					} else {
 						if (t2.x.compareTo(maxX) > 0) continue;
-						if (t2.x.compareTo(minX) < 0) continue;
+						if (f2.x.compareTo(minX) < 0) continue;
 					}
 					if (f2.y.compareTo(t2.y) < 0) {
 						if (f2.y.compareTo(maxY) > 0) continue;
 						if (t2.y.compareTo(minY) < 0) continue;
 					} else {
 						if (t2.y.compareTo(maxY) > 0) continue;
-						if (t2.y.compareTo(minY) < 0) continue;
+						if (f2.y.compareTo(minY) < 0) continue;
 					}
 					Point cross = Geometry.getIntersectPoint(f1, t1, f2, t2);
 					if (cross != null) {
