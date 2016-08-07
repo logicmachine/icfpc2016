@@ -33,6 +33,14 @@ public class Geometry {
 		return dot.mul(dot).div(norm1).div(norm2);
 	}
 
+	static boolean isColinear(Point p1, Point p2, Point p3) {
+		Rational dx1 = p2.x.sub(p1.x);
+		Rational dy1 = p2.y.sub(p1.y);
+		Rational dx2 = p3.x.sub(p2.x);
+		Rational dy2 = p3.y.sub(p2.y);
+		return dy1.mul(dx2).add(dx1.mul(dy2)).equals(Rational.ZERO);
+	}
+
 	static Point getIntersectPoint(Point p1, Point p2, Point p3, Point p4) {
 		Rational x1 = p1.x;
 		Rational y1 = p1.y;
@@ -167,10 +175,7 @@ class AffineTransform {
 		AffineTransform ret = new AffineTransform();
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
-				ret.mat[i][j] = Rational.ZERO;
-				for (int k = 0; k < 3; ++k) {
-					ret.mat[i][j] = ret.mat[i][j].add(t.mat[i][k].mul(this.mat[k][j]));
-				}
+				ret.mat[i][j] = t.mat[i][0].mul(this.mat[0][j]).add(t.mat[i][1].mul(this.mat[1][j])).add(t.mat[i][2].mul(this.mat[2][j]));
 			}
 		}
 		return ret;
