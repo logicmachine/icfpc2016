@@ -1,43 +1,44 @@
-24905.000000 : 3560 4229 4236 4239 5195 5199 5204 5724 5726 5987 : WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES
+20339.083333 : 3560 4229 4236 4239 5195 5199 5204 5724 5726 5987 5988 : WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES
 13320.000000 : 3965 4234 4237 4242 5197 5203 5705 5725 : WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES
-5148.000000 : 5570 5879 5914 5915 : unfold, unfold, unfold, unfold
+6435.000000 : 5570 5879 5914 5915 6070 : unfold, unfold, unfold, unfold, unfold
 4875.095238 : 2414 2668 2777 2966 3180 3404 : WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES, WILD BASHKORT MAGES
 2499.500000 : 3854 : WILD BASHKORT MAGES
-2498.000000 : 3852 : WILD BASHKORT MAGES
-2498.000000 : 3624 : Raging Mushrooms
 2496.500000 : 4008 : WILD BASHKORT MAGES
 2494.500000 : 4010 : WILD BASHKORT MAGES
+2445.000000 : 5192 5982 5983 : THIRTEEN, THIRTEEN, THIRTEEN
 2405.500000 : 4385 : jabber.ru
-2362.500000 : 3863 : Zebra Infused Hamsters
 2352.000000 : 4871 5648 : TBD, TBD
-2345.000000 : 3834 : Zebra Infused Hamsters
-2313.500000 : 5163 : Coding Monkeys
+2333.500000 : 5806 : Hydralisk eats taco
 2313.500000 : 1616 : cashto
-2202.000000 : 1635 4400 : jabber.ru, jabber.ru
+2154.000000 : 5164 : Coding Monkeys
 2153.000000 : 786 4394 : jabber.ru, jabber.ru
 2137.500000 : 5703 : Raging Mushrooms
 2116.000000 : 3802 : Raging Mushrooms
-2098.500000 : 6011 : paiv
 2097.500000 : 4223 : Raging Mushrooms
 2072.000000 : 4282 : TheWildLobsters
+2071.000000 : 6046 : paiv
 2067.000000 : 4220 : Raging Mushrooms
 2055.000000 : 1634 4399 : jabber.ru, jabber.ru
 2052.500000 : 3945 : Raging Mushrooms
 2015.000000 : 1627 : jabber.ru
 2009.000000 : 1133 : THIRTEEN
 2006.500000 : 2119 : cashto
+1950.000000 : 6040 : Henchman #24
+1940.000000 : 5901 : Skobochka
 1919.000000 : 4098 : Raging Mushrooms
 1909.500000 : 4034 : cashto
+1903.500000 : 5649 : codingteam
+1880.000000 : 6037 : NCPLUG
 1848.500000 : 4029 : cashto
 1839.000000 : 5647 : codingteam
+1835.000000 : 1635 4400 : jabber.ru, jabber.ru
 1826.000000 : 5113 : lilik
 1822.000000 : 4037 : cashto
 1822.000000 : 4033 : cashto
-1818.500000 : 5900 : Skobochka
 1813.000000 : 4031 : cashto
 1809.000000 : 4032 : cashto
 1808.000000 : 5717 : Raging Mushrooms
-1795.000000 : 3970 : Zebra Infused Hamsters
+1789.000000 : 4049 : cashto
 1786.500000 : 4384 : jabber.ru
 1778.000000 : 4038 : cashto
 1776.500000 : 4035 : cashto
@@ -48,48 +49,43 @@
 1727.500000 : 4042 : cashto
 1722.000000 : 3805 : TBD
 1719.000000 : 5575 : Olympia
-1708.500000 : 4048 : cashto
 1702.000000 : 4206 : TheWildLobsters
 1697.500000 : 4046 : cashto
 1680.000000 : 4284 : TheWildLobsters
 1671.500000 : 4047 : cashto
+1665.333333 : 3852 : WILD BASHKORT MAGES
+1665.333333 : 3624 : Raging Mushrooms
 1654.500000 : 5696 : Raging Mushrooms
 1641.500000 : 5132 : Eger a Marson
-1634.166667 : 1632 4396 : jabber.ru, jabber.ru
-1630.000000 : 5192 5982 : THIRTEEN, THIRTEEN
 1622.500000 : 1617 : cashto
-1622.000000 : 3989 : Zebra Infused Hamsters
-1606.000000 : 5882 : TheWildLobsters
 1603.000000 : 4043 : cashto
 1577.500000 : 4275 : TheWildLobsters
 1571.000000 : 4932 : Eger a Marson
-1571.000000 : 3819 : Zebra Infused Hamsters
 1565.000000 : 3977 : Zebra Infused Hamsters
-1560.000000 : 3952 : Zebra Infused Hamsters
+1563.333333 : 3834 : Zebra Infused Hamsters
+1559.000000 : 1628 4402 : jabber.ru, jabber.ru
 1551.500000 : 4248 : TheWildLobsters
-1547.000000 : 2225 2267 : WILD BASHKORT MAGES, WILD BASHKORT MAGES
 1534.500000 : 4192 : Raging Mushrooms
-1533.500000 : 5208 : THIRTEEN
 1527.000000 : 5878 : TheWildLobsters
 1521.000000 : 2227 : The $oun𝅗𝅥  of λ
 1508.500000 : 4393 : jabber.ru
-1507.284742 : 4450 4566 4834 4837 4839 4840 4845 4846 4848 4849 4851 4853 4857 4856 4858 4859 4861 4863 : foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane
 1506.333333 : 3562 : TBD
 1504.500000 : 4386 : jabber.ru
 1504.000000 : 5830 : TheWildLobsters
+1494.583333 : 2209 4295 4336 4337 4364 4372 4409 4476 4570 4601 4708 4784 4875 4905 5609 5746 5797 5857 5912 5974 6033 : 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,
 1494.333333 : 4230 : Raging Mushrooms
 1490.000000 : 5645 : codingteam
 1489.000000 : 5112 : Eger a Marson
 1483.000000 : 5688 : Raging Mushrooms
-1477.000000 : 2209 4295 4336 4337 4364 4372 4409 4476 4570 4601 4708 4784 4875 4905 5609 5746 5797 5857 5912 5974 : 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,
 1476.000000 : 1485 : jabber.ru
 1468.500000 : 4392 : jabber.ru
 1460.500000 : 4172 : Raging Mushrooms
+1459.495373 : 4450 4566 4834 4837 4839 4840 4845 4846 4848 4849 4851 4853 4857 4856 4858 4859 4861 4863 4864 : foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane, foldCrane
 1455.500000 : 1626 : jabber.ru
-1445.500000 : 6001 : Henchman #24
 1443.000000 : 1633 4398 : jabber.ru, jabber.ru
 1437.000000 : 4989 : Eger a Marson
 1433.500000 : 4240 : TheWildLobsters
+1428.000000 : 2225 2267 : WILD BASHKORT MAGES, WILD BASHKORT MAGES
 1418.500000 : 5459 : The $oun𝅗𝅥  of λ
 1415.500000 : 4306 : TheWildLobsters
 1405.000000 : 1629 : jabber.ru
@@ -97,9 +93,9 @@
 1372.000000 : 1637 : jabber.ru
 1362.000000 : 5640 : Zebra Infused Hamsters
 1347.500000 : 3610 : Raging Mushrooms
-1338.000000 : 3347 : Olympia
 1335.000000 : 4970 : Eger a Marson
-1306.000000 : 4803 : Not bad team at all
+1314.500000 : 5886 : TheWildLobsters
+1307.333333 : 1632 4396 : jabber.ru, jabber.ru
 1306.000000 : 4377 : jabber.ru
 1305.000000 : 5144 : Eger a Marson
 1300.500000 : 3626 : Olympia
@@ -108,13 +104,13 @@
 1272.000000 : 5864 : Hydralisk eats taco
 1268.000000 : 5693 : Raging Mushrooms
 1258.000000 : 5580 : Olympia
+1255.000000 : 5732 : Raging Mushrooms
 1249.000000 : 5893 : Eger a Marson
 1244.000000 : 5737 : TheWildLobsters
 1240.500000 : 4860 : TBD
 1239.500000 : 5799 : TBD
 1232.000000 : 1619 : cashto
 1223.000000 : 4387 : jabber.ru
-1221.500000 : 5162 : Coding Monkeys
 1216.000000 : 3622 : Olympia
 1206.500000 : 4212 : TheWildLobsters
 1206.000000 : 4391 : jabber.ru
@@ -122,11 +118,13 @@
 1205.500000 : 1090 : cashto
 1200.000000 : 5805 : TBD
 1197.500000 : 5865 : Hydralisk eats taco
+1196.666667 : 3970 : Zebra Infused Hamsters
 1194.000000 : 4293 : TBD
 1191.500000 : 4812 : TBD
 1190.000000 : 4674 : Unagi
 1187.500000 : 4472 : TBD
 1186.500000 : 4390 : jabber.ru
+1181.250000 : 3863 : Zebra Infused Hamsters
 1181.000000 : 4808 : TBD
 1180.000000 : 5142 : The $oun𝅗𝅥  of λ
 1173.500000 : 4780 : TBD
@@ -134,11 +132,11 @@
 1169.500000 : 5115 : Eger a Marson
 1169.500000 : 4823 : TBD
 1158.000000 : 5874 : lilik
+1156.750000 : 5163 : Coding Monkeys
 1154.500000 : 4975 : Eger a Marson
 1142.500000 : 5175 : THIRTEEN
+1142.000000 : 5889 : TBD
 1139.500000 : 1154 : Unagi
-1134.250000 : 5157 : Coding Monkeys
-1133.000000 : 3735 : TBD
 1121.500000 : 5860 : TBD
 1121.000000 : 5168 : lilik
 1120.500000 : 4909 : THIRTEEN
@@ -146,38 +144,35 @@
 1118.000000 : 5034 : The $oun𝅗𝅥  of λ
 1116.333333 : 5414 : びア部🍺
 1115.000000 : 5786 : THIRTEEN
-1110.000000 : 5798 : Hydralisk eats taco
 1107.500000 : 5875 : TBD
 1101.333333 : 2730 : Raging Mushrooms
 1100.666667 : 2146 2266 : WILD BASHKORT MAGES, WILD BASHKORT MAGES
 1098.500000 : 2091 : Unagi
-1097.000000 : 5890 : Skobochka
-1097.000000 : 4811 : unfold
 1095.000000 : 2761 : Raging Mushrooms
 1084.000000 : 5234 : THIRTEEN
-1084.000000 : 4425 : TBD
 1082.666667 : 5151 : THIRTEEN
 1080.500000 : 5048 : Cult of the Bound Variable
+1073.500000 : 4442 : Zygohistomorphic Preproxenomorph
 1071.500000 : 5613 : 301
+1070.666667 : 5882 : TheWildLobsters
 1068.000000 : 3840 : THIRTEEN
-1052.250000 : 4813 4895 5573 : unfold, unfold, unfold
-1045.500000 : 5364 : Stanfy+
+1047.333333 : 3819 : Zebra Infused Hamsters
 1040.000000 : 5591 : 301
-1037.500000 : 5154 : Coding Monkeys
+1040.000000 : 3952 : Zebra Infused Hamsters
 1036.333333 : 4044 : cashto
 1035.000000 : 6031 : The $oun𝅗𝅥  of λ
 1030.000000 : 5136 : THIRTEEN
 1029.000000 : 5883 5964 : DiamondPrincess, DiamondPrincess
 1029.000000 : 4698 : Unagi
-1026.250000 : 5160 : Coding Monkeys
-1025.500000 : 5143 : GD and Alumni
+1028.500000 : 3933 : Small Opulent Shelducks 💨
 1024.500000 : 5056 : Cult of the Bound Variable
 1023.500000 : 5492 : Lens d'Ulm
+1022.333333 : 5208 : THIRTEEN
 1018.000000 : 3972 : びア部🍺
 1017.000000 : 2103 : Unagi
-1014.500000 : 4424 : TBD
-1012.500000 : 4250 : Raging Mushrooms
+1013.500000 : 5365 : Stanfy+
 1008.500000 : 3846 : Zebra Infused Hamsters
+1003.500000 : 3347 : Olympia
 999.000000 : 69 : 
 997.500000 : 2098 : Unagi
 993.000000 : 4599 : Cult of the Bound Variable
@@ -187,27 +182,25 @@
 983.000000 : 2138 : Unagi
 982.500000 : 4960 : Eger a Marson
 981.666667 : 101 : 
-981.600000 : 5444 : GD and Alumni
 980.000000 : 4423 : TBD
 974.000000 : 2095 : Unagi
-972.000000 : 5161 : Coding Monkeys
 967.500000 : 1621 : cashto
 961.000000 : 4368 : Zygohistomorphic Preproxenomorph
 958.500000 : 4876 : The $oun𝅗𝅥  of λ
 954.949495 : 4262 4810 : GD and Alumni, GD and Alumni
+951.000000 : 5795 : A Storm of Minds
 946.500000 : 2111 : Unagi
 946.000000 : 5816 : The $oun𝅗𝅥  of λ
 945.500000 : 4378 : jabber.ru
 942.000000 : 3177 : Unagi
-940.800000 : 5155 : Coding Monkeys
 932.000000 : 5276 : The $oun𝅗𝅥  of λ
-924.000000 : 3931 : Small Opulent Shelducks 💨
-922.833333 : 1471 4496 : Invisible Imp, Invisible Imp
+922.833333 : 1472 4497 : Invisible Imp, Invisible Imp
 912.500000 : 2130 : Unagi
+909.250000 : 5900 : Skobochka
+907.400000 : 5157 : Coding Monkeys
 903.666667 : 1636 : jabber.ru
-899.000000 : 4874 : Temporary OCaml Team Name
-896.200000 : 5871 : Skobochka
 891.500000 : 4439 : The $oun𝅗𝅥  of λ
+888.000000 : 5798 : Hydralisk eats taco
 885.000000 : 5068 : Temporary OCaml Team Name
 884.000000 : 4702 : Unagi
 883.000000 : 5337 : The $oun𝅗𝅥  of λ
@@ -222,22 +215,25 @@
 864.500000 : 4383 : THIRTEEN
 861.500000 : 5585 : Olympia
 860.000000 : 5565 : codingteam
-856.500000 : 4988 : Cult of the Bound Variable
 855.500000 : 4388 : jabber.ru
 853.500000 : 4380 : Zygohistomorphic Preproxenomorph
 850.000000 : 4706 : Unagi
-846.500000 : 3976 : Zebra Infused Hamsters
 844.333333 : 5833 : sonna*baka*na
 843.000000 : 4456 : Cult of the Bound Variable
+840.500000 : 5894 : Eger a Marson
 840.079365 : 2074 2240 2241 2513 2514 2515 2516 2733 2734 2735 2736 2737 2738 2739 2741 2742 2743 2744 2745 2746 2747 2749 : kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org
 840.000000 : 4294 : The $oun𝅗𝅥  of λ
 840.000000 : 2126 : Unagi
+839.400000 : 6011 : paiv
 836.000000 : 1160 : Unagi
 833.000000 : 4302 : TheWildLobsters
-831.500000 : 3629 : TBD
 825.000000 : 5824 : sonna*baka*na
 825.000000 : 1095 : Unagi
 824.000000 : 68 : 
+822.750000 : 4811 : unfold
+820.400000 : 5143 : GD and Alumni
+818.000000 : 5444 : GD and Alumni
+811.000000 : 3989 : Zebra Infused Hamsters
 808.500000 : 5180 : lilik
 808.500000 : 5108 : code-o-matic
 805.000000 : 5408 : Olympia
@@ -247,29 +243,28 @@
 802.666667 : 3406 : TBD
 802.000000 : 3580 : TheWildLobsters
 801.000000 : 2352 : The $oun𝅗𝅥  of λ
-798.200000 : 5945 : paiv
 795.500000 : 3871 : The $oun𝅗𝅥  of λ
 794.000000 : 4252 : TheWildLobsters
-792.000000 : 5335 5336 5417 5418 5419 5420 5421 5422 : kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org
 790.000000 : 5152 : Coding Monkeys
 789.000000 : 2121 : Unagi
 787.500000 : 2123 : Unagi
 786.500000 : 4710 : Unagi
 786.000000 : 1157 : Unagi
 785.500000 : 5047 : Cult of the Bound Variable
-784.500000 : 5793 : A Storm of Minds
+785.000000 : 6038 : kstm.org
+784.000000 : 5155 : Coding Monkeys
 783.500000 : 2090 : Unagi
 781.000000 : 5134 : Eger a Marson
-779.500000 : 1628 : jabber.ru
 778.500000 : 3418 : nerunerunerune
 777.000000 : 5526 : The $oun𝅗𝅥  of λ
 774.000000 : 4718 : Unagi
 772.500000 : 1148 : Unagi
 771.833333 : 3949 : Skobochka
 770.500000 : 72 : 
+766.000000 : 4732 : Unagi
 760.500000 : 2120 : Unagi
 759.666667 : 3979 : Zebra Infused Hamsters
-757.000000 : 5851 : paiv
+755.333333 : 3735 : TBD
 755.000000 : 1966 : Cult of the Bound Variable
 754.000000 : 4135 : Raging Mushrooms
 749.666667 : 3294 : Raging Mushrooms
@@ -280,221 +275,220 @@
 727.500000 : 5887 : The $oun𝅗𝅥  of λ
 727.500000 : 3145 4401 5654 : Deramer, Deramer, Deramer
 727.000000 : 2087 : Unagi
+722.666667 : 4425 : TBD
 722.500000 : 4704 : Unagi
 721.000000 : 1947 : Cult of the Bound Variable
 715.000000 : 1169 : Unagi
-710.250000 : 4797 : Not bad team at all
 709.500000 : 4077 : The $oun𝅗𝅥  of λ
 708.000000 : 5583 : The $oun𝅗𝅥  of λ
 706.571429 : 3990 : paiv
 705.000000 : 5260 : びア部🍺
-697.500000 : 4111 : Temporary OCaml Team Name
-697.000000 : 4415 : Zygohistomorphic Preproxenomorph
+698.000000 : 5162 : Coding Monkeys
 694.000000 : 4608 : Temporary OCaml Team Name
+691.666667 : 5154 : Coding Monkeys
 691.500000 : 4700 : Unagi
-690.909091 : 4114 4121 : Zygohistomorphic Preproxenomorph, Zygohistomorphic Preproxenomorph
 686.666667 : 5035 : Coding Monkeys
 685.000000 : 4923 : Eger a Marson
-682.500000 : 4802 : Not bad team at all
+684.166667 : 5160 : Coding Monkeys
 680.857143 : 5153 : Coding Monkeys
 677.500000 : 4684 : Unagi
+676.333333 : 4424 : TBD
 673.500000 : 5672 : THIRTEEN
 672.285714 : 5156 : Coding Monkeys
 668.000000 : 5159 : Coding Monkeys
 668.000000 : 1241 2118 2816 2817 2818 2819 : 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,, 😼̯__,
 664.500000 : 4694 : Unagi
-663.000000 : 4138 : Raging Mushrooms
+662.500000 : 4804 : Not bad team at all
 662.500000 : 3874 : びア部🍺
+662.121212 : 4114 4121 : Zygohistomorphic Preproxenomorph, Zygohistomorphic Preproxenomorph
 661.000000 : 5910 : nerunerunerune
 661.000000 : 1406 : THIRTEEN
-659.142857 : 4221 : paiv
 658.714286 : 3971 : Skobochka
-657.666667 : 3352 : The $oun𝅗𝅥  of λ
 655.000000 : 4060 : TheWildLobsters
-651.714286 : 5267 : paiv
+653.500000 : 5625 : 301
 648.500000 : 5259 : The $oun𝅗𝅥  of λ
-645.000000 : 5135 : code-o-matic
+640.142857 : 5871 : Skobochka
 640.142857 : 5777 : Skobochka
 639.333333 : 5272 : sonna*baka*na
-639.142857 : 3974 : Skobochka
 639.000000 : 5072 : Temporary OCaml Team Name
 638.500000 : 3943 : Zebra Infused Hamsters
-638.496032 : 1294 1295 1296 1297 1298 1299 1300 1301 1302 1303 1304 1305 1308 1307 1311 1312 1313 1314 1315 1316 1317 1318 1319 1321 1322 1323 1324 1325 1326 1331 1332 1334 1335 1336 1337 1338 1339 : xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz
-634.571429 : 5268 : paiv
-629.761905 : 759 3746 3745 3744 3763 3762 3761 3760 3759 3758 3757 3756 3755 3754 5407 5406 5405 5404 5403 5402 5401 : NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG
+633.600000 : 5335 5336 5417 5418 5419 5420 5421 5422 : kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org, kstm.org
 629.500000 : 3411 : nerunerunerune
-628.285714 : 4088 : Hydralisk eats taco
+626.857143 : 5890 : Skobochka
 626.000000 : 4474 : The $oun𝅗𝅥  of λ
 625.000000 : 4696 : The $oun𝅗𝅥  of λ
 624.333333 : 3340 : Eger a Marson
-623.500000 : 5884 : TheWildLobsters
 621.666667 : 905 : THIRTEEN
+619.500000 : 5059 : Cult of the Bound Variable
 616.000000 : 3865 : Skobochka
 609.500000 : 5121 : Eger a Marson
-608.500000 : 3992 : Zebra Infused Hamsters
 608.333333 : 67 : 
+607.500000 : 5161 : Coding Monkeys
 606.500000 : 5058 : Cult of the Bound Variable
 606.500000 : 4928 : モダン焼 フジ
 606.333333 : 2333 : The $oun𝅗𝅥  of λ
 606.000000 : 5999 : kstm.org
 606.000000 : 5411 : びア部🍺
-604.714286 : 5270 : paiv
-603.625000 : 2714 : THIRTEEN
 603.500000 : 5571 : THIRTEEN
 603.500000 : 5347 : nerunerunerune
 601.000000 : 5352 : nerunerunerune
 599.750000 : 5249 : Hydralisk eats taco
-599.625000 : 2569 : THIRTEEN
+599.333333 : 4874 : Temporary OCaml Team Name
 599.000000 : 4687 : Unagi
 598.500000 : 5022 : code-o-matic
-597.857143 : 4602 : Hydralisk eats taco
-596.625000 : 2537 : THIRTEEN
+596.500000 : 6066 : The $oun𝅗𝅥  of λ
 591.500000 : 5348 : nerunerunerune
+590.500000 : 5589 : Olympia
 590.500000 : 2124 : Unagi
-590.142857 : 3960 : Skobochka
+590.034921 : 1294 1295 1296 1297 1298 1299 1300 1301 1302 1303 1304 1305 1308 1307 1311 1312 1313 1314 1315 1316 1317 1318 1319 1321 1322 1323 1324 1325 1326 1331 1332 1334 1335 1336 1337 1338 1339 1340 : xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz, xyz
 590.000000 : 2672 : TheWildLobsters
 587.000000 : 4679 : Frictionless Bananas
-582.625000 : 3951 : Skobochka
 582.000000 : 1991 : Frictionless Bananas
 579.833333 : 88 6035 : , 天羽々斬
-579.428571 : 3961 : Skobochka
-579.000000 : 3968 : Skobochka
+576.750000 : 4221 : paiv
+573.466667 : 759 3746 3745 3744 3763 3762 3761 3760 3759 3758 3757 3756 3755 3754 5407 5406 5405 5404 5403 5402 5401 : NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG, NCPLUG
 573.000000 : 5460 : Olympia
-571.625000 : 3947 : Skobochka
+571.000000 : 4988 : Cult of the Bound Variable
+570.250000 : 5267 : paiv
 567.333333 : 3634 : Stanfy+
 567.333333 : 1239 : Frictionless Bananas
+564.333333 : 3976 : Zebra Infused Hamsters
 564.333333 : 3885 : sonna*baka*na
-563.625000 : 524 : TeamDev
-563.500000 : 5908 : Zebra Infused Hamsters
-560.000000 : 3813 : Zebra Infused Hamsters
+559.250000 : 3974 : Skobochka
+558.500000 : 5852 : sonna*baka*na
 558.000000 : 6022 : DiamondPrincess
+555.250000 : 5268 : paiv
+554.333333 : 3629 : TBD
 553.000000 : 1163 : Unagi
 552.000000 : 4993 : モダン焼 フジ
 551.500000 : 5576 : Olympia
 550.875000 : 5811 : Skobochka
-550.171429 : 1760 5856 5967 : THIRTEEN, THIRTEEN, THIRTEEN
-548.166667 : 3964 : Skobochka
-548.000000 : 4926 : Temporary OCaml Team Name
-547.000000 : 2940 : Team Sampou
 544.500000 : 5130 : nerunerunerune
 544.000000 : 762 : Unagi
 543.500000 : 5578 : Olympia
-539.666667 : 4913 : THIRTEEN
-538.200000 : 3249 : Stanfy+
 537.333333 : 3866 : sonna*baka*na
-535.000000 : 2968 : Stanfy+
+536.555556 : 2714 : THIRTEEN
 533.000000 : 3646 : Stanfy+
-528.500000 : 5194 : why-five-aye
-528.173160 : 1131 1533 1540 1542 1544 1545 1546 1547 1549 1550 1552 1553 1554 1555 1557 1559 1561 1562 1564 1565 4590 4591 4968 4592 4967 4593 4966 4964 5209 4963 5210 4962 5216 4961 5215 4959 5214 4958 5213 4957 5212 4956 5224 4955 5222 4954 5223 4953 5221 : kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala
-528.125000 : 5794 : paiv
-524.750000 : 5776 : paiv
+530.333333 : 2537 : THIRTEEN
+529.500000 : 5344 : code-o-matic
 524.333333 : 3179 : sonna*baka*na
 523.333333 : 3638 : Stanfy+
-519.755556 : 1763 5443 : THIRTEEN, GD and Alumni
+523.000000 : 5793 : A Storm of Minds
+522.750000 : 4415 : Zygohistomorphic Preproxenomorph
+517.888889 : 3951 : Skobochka
 517.000000 : 1987 : Frictionless Bananas
-516.000000 : 3963 : Skobochka
+516.375000 : 3960 : Skobochka
+516.000000 : 5135 : code-o-matic
 515.333333 : 3734 : TheWildLobsters
-514.500000 : 3298 : Eger a Marson
+514.666667 : 3968 : Skobochka
 514.000000 : 3344 : Olympia
-513.666667 : 4176 : paiv
 513.500000 : 2080 : The $oun𝅗𝅥  of λ
 512.666667 : 730 : Lens d'Ulm
 511.500000 : 5615 : 301
-510.888889 : 4157 : paiv
 510.500000 : 4976 : モダン焼 フジ
-510.000000 : 3962 : Skobochka
-508.250000 : 5191 : code-o-matic
+508.111111 : 3947 : Skobochka
+507.000000 : 3961 : Skobochka
+506.250000 : 4250 : Raging Mushrooms
 505.000000 : 1899 : Frictionless Bananas
-501.000000 : 3959 : code-o-matic
+503.500000 : 6023 : DiamondPrincess
+501.000000 : 524 : TeamDev
 500.555556 : 3416 : Skobochka
-499.500000 : 2578 : The Cat is #1!!
 495.800000 : 2264 : THIRTEEN
-495.666667 : 4922 : モダン焼 フジ
 495.500000 : 5619 : kontur.ru
-494.666667 : 5269 : paiv
 494.666667 : 2969 : Raging Mushrooms
-492.857143 : 3969 : Skobochka
-491.875000 : 5608 : paiv
+493.250000 : 3352 : The $oun𝅗𝅥  of λ
+491.426551 : 1131 1533 1540 1542 1544 1545 1546 1547 1549 1550 1552 1553 1554 1555 1557 1559 1561 1562 1564 1565 4590 4591 4968 4592 4967 4593 4966 4964 5209 4963 5210 4962 5216 4961 5215 4959 5214 4958 5213 4957 5212 4956 5224 4955 5222 4954 5223 4953 5221 4952 5220 : kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala, negainoido, kittykoala
 490.444444 : 3966 : Skobochka
+490.000000 : 4563 : taxidriver
+488.666667 : 4088 : Hydralisk eats taco
 488.333333 : 3578 : The $oun𝅗𝅥  of λ
-488.222222 : 4166 : paiv
+486.398693 : 1763 5443 : THIRTEEN, GD and Alumni
 485.333333 : 1368 : cashto
-485.000000 : 5375 : bystander.js
 483.500000 : 4651 : Frictionless Bananas
-483.500000 : 3967 : Skobochka
 482.000000 : 4930 : Temporary OCaml Team Name
-481.500000 : 5381 : bystander.js
+479.700000 : 2569 : THIRTEEN
 478.666667 : 4933 : モダン焼 フジ
-476.500000 : 5380 : bystander.js
 476.000000 : 5620 : kontur.ru
-472.500000 : 5084 : The Cat is #1!!
+472.838095 : 1760 5856 5967 : THIRTEEN, THIRTEEN, THIRTEEN
 472.500000 : 4639 : Frictionless Bananas
 472.000000 : 71 : 
-470.500000 : 4685 : Frictionless Bananas
+470.333333 : 5270 : paiv
+469.857143 : 3964 : Skobochka
 469.500000 : 5054 : Cult of the Bound Variable
+469.444444 : 5794 : paiv
 469.000000 : 90 : 
 468.666667 : 3767 : sonna*baka*na
-467.142857 : 4793 : Not bad team at all
-464.000000 : 4305 : TheWildLobsters
-461.750000 : 4791 : Not bad team at all
+465.000000 : 4111 : Temporary OCaml Team Name
+461.500000 : 6067 : Zebra Infused Hamsters
 461.500000 : 5617 : kontur.ru
 461.500000 : 4992 : モダン焼 フジ
 460.000000 : 5533 : kontur.ru
 459.500000 : 5083 : The Cat is #1!!
 459.375000 : 4041 : cashto
-458.100000 : 4174 : paiv
 457.666667 : 664 : DiamondPrincess
 457.666667 : 659 : DiamondPrincess
 457.666667 : 647 : DiamondPrincess
-455.700000 : 4173 : paiv
+457.000000 : 5089 : The Cat is #1!!
 454.500000 : 5621 : kontur.ru
 454.500000 : 4572 : The Cat is #1!!
-453.000000 : 4965 : モダン焼 フジ
+454.000000 : 5623 : kontur.ru
 452.000000 : 4730 : Frictionless Bananas
 451.500000 : 5607 : fixstars
+451.500000 : 3963 : Skobochka
 450.500000 : 5351 : nerunerunerune
 450.000000 : 1489 : jabber.ru
-449.000000 : 5614 : 301
-448.233333 : 1469 4495 : Invisible Imp, Invisible Imp
-448.000000 : 4781 : The Cat is #1!!
-447.500000 : 4800 : Not bad team at all
+448.500000 : 3249 : Stanfy+
 446.333333 : 4969 : モダン焼 フジ
+446.250000 : 3962 : Skobochka
 446.000000 : 5088 : The Cat is #1!!
-445.750000 : 2903 : TheWildLobsters
-444.750000 : 5363 : Stanfy+
-443.573684 : 1019 1247 : Coding Monkeys, Coding Monkeys
-437.500000 : 5343 : code-o-matic
-436.833333 : 5020 : code-o-matic
+445.833333 : 2968 : Stanfy+
+442.000000 : 4138 : Raging Mushrooms
+441.000000 : 5382 : bystander.js
 436.500000 : 3151 : モダン焼 フジ
 434.000000 : 5622 : kontur.ru
 433.000000 : 3113 : nerunerunerune
+431.250000 : 3969 : Skobochka
+431.000000 : 4725 : Team Awesome
+429.777778 : 3967 : Skobochka
 429.333333 : 1963 : Cult of the Bound Variable
-429.000000 : 4723 : Team Awesome
-428.750000 : 713 : Lens d'Ulm
-428.000000 : 2721 : The Cat is #1!!
+429.000000 : 5977 : Temporary OCaml Team Name
 427.666667 : 2215 : The $oun𝅗𝅥  of λ
-427.000000 : 5018 : code-o-matic
+427.125000 : 4048 : cashto
 426.500000 : 5599 : fixstars
 426.400000 : 64 : 
-421.000000 : 5618 : 301
+425.000000 : 5937 : nerunerunerune
 421.000000 : 3726 : 天羽々斬
 421.000000 : 3724 : 天羽々斬
 421.000000 : 3719 : 天羽々斬
 421.000000 : 3716 : 天羽々斬
 421.000000 : 3712 : 天羽々斬
 421.000000 : 3710 : 天羽々斬
+420.555556 : 5851 : paiv
 420.333333 : 1971 : Frictionless Bananas
+420.272727 : 4176 : paiv
+419.800000 : 5776 : paiv
+418.500000 : 4602 : Hydralisk eats taco
+418.000000 : 4157 : paiv
 417.500000 : 2928 : nerunerunerune
-416.969697 : 5813 5832 5831 5829 : 👸💕 We Love Chiiia 💕👸, 👸💕 We Love Chiiia 💕👸, 👸💕 We Love Chiiia 💕👸, 👸💕 We Love Chiiia 💕👸
+416.454545 : 4174 : paiv
+415.666667 : 5884 : TheWildLobsters
+415.000000 : 4749 : Frictionless Bananas
+414.272727 : 4173 : paiv
 412.500000 : 5086 : The Cat is #1!!
 412.000000 : 3706 : 天羽々斬
+408.750000 : 4793 : Not bad team at all
 408.500000 : 5956 : typo
 408.500000 : 1488 : jabber.ru
-406.750000 : 3642 : Stanfy+
+407.179487 : 5813 5832 5831 5829 5828 : 👸💕 We Love Chiiia 💕👸, 👸💕 We Love Chiiia 💕👸, 👸💕 We Love Chiiia 💕👸, 👸💕 We Love Chiiia 💕👸, 👸💕 We Love Chiiia 💕👸
+406.600000 : 5191 : code-o-matic
 406.000000 : 3722 : 天羽々斬
+405.666667 : 3992 : Zebra Infused Hamsters
 405.000000 : 3714 : 天羽々斬
 405.000000 : 3708 : 天羽々斬
+404.750000 : 4913 : THIRTEEN
+404.727273 : 5269 : paiv
 404.500000 : 5671 : Temporary OCaml Team Name
+404.500000 : 3729 : 天羽々斬
 403.500000 : 3723 : 天羽々斬
 403.500000 : 3713 : 天羽々斬
 403.500000 : 3709 : 天羽々斬
@@ -503,16 +497,14 @@
 400.000000 : 86 : 
 399.666667 : 3683 : Olympia
 399.500000 : 5302 : nerunerunerune
+399.454545 : 4166 : paiv
+399.100000 : 5945 : paiv
 398.666667 : 3857 : THIRTEEN
-398.500000 : 3546 : Stanfy+
-397.000000 : 4422 : TBD
-396.500000 : 3303 : Eger a Marson
 395.500000 : 3707 : 天羽々斬
-394.112767 : 2573 2570 2565 2564 2563 : Goto11, Goto11, Goto11, Goto11, Goto11
 394.000000 : 4722 : Frictionless Bananas
-392.000000 : 5978 : NCPLUG
-391.500000 : 5110 : lilik
+393.500000 : 5608 : paiv
 390.666667 : 1972 : Frictionless Bananas
+390.000000 : 4802 : Not bad team at all
 390.000000 : 65 : 
 388.500000 : 3586 : typo
 388.000000 : 3725 : 天羽々斬
@@ -520,1522 +512,1590 @@
 387.000000 : 3711 : 天羽々斬
 386.000000 : 5339 : nerunerunerune
 386.000000 : 4986 : モダン焼 フジ
-385.000000 : 4441 : Zygohistomorphic Preproxenomorph
+384.367589 : 1019 1247 : Coding Monkeys, Coding Monkeys
 384.333333 : 1965 : Frictionless Bananas
-383.500000 : 3985 : Zebra Infused Hamsters
-383.250000 : 1492 : Frictionless Bananas
-382.000000 : 5498 : Lens d'Ulm
-381.833333 : 4801 : Not bad team at all
+380.500000 : 6061 : Sunspear
 380.333333 : 746 : Lens d'Ulm
-379.428571 : 4796 : Not bad team at all
-375.000000 : 737 : Lens d'Ulm
-374.500000 : 3281 : Eger a Marson
-374.000000 : 5815 : Temporary OCaml Team Name
+375.750000 : 3959 : code-o-matic
+374.428571 : 5020 : code-o-matic
+373.333333 : 3813 : Zebra Infused Hamsters
 373.000000 : 5332 : nerunerunerune
+371.750000 : 4922 : モダン焼 フジ
+370.000000 : 5499 : Lens d'Ulm
+369.400000 : 4791 : Not bad team at all
+369.173997 : 2573 2570 2565 2564 2563 : Goto11, Goto11, Goto11, Goto11, Goto11
 367.666667 : 4281 : TheWildLobsters
-363.088384 : 83 1396 1397 1398 1400 : , TBD, TBD, TBD, TBD
-362.125000 : 4794 : Not bad team at all
-362.000000 : 4637 : Frictionless Bananas
+366.000000 : 5018 : code-o-matic
+365.333333 : 4926 : Temporary OCaml Team Name
+361.375000 : 6001 : Henchman #24
 359.200000 : 70 : 
-358.666667 : 5107 : code-o-matic
+357.833333 : 1471 4496 : Invisible Imp, Invisible Imp
 356.777778 : 3182 : TheWildLobsters
+356.600000 : 2903 : TheWildLobsters
 356.400000 : 4090 : Hydralisk eats taco
-354.666667 : 5362 : Stanfy+
+355.125000 : 4797 : Not bad team at all
 353.333333 : 5342 : code-o-matic
+349.500000 : 5962 : typo
+348.500000 : 5364 : Stanfy+
 347.500000 : 5603 : fixstars
 345.500000 : 5333 : nerunerunerune
+345.000000 : 2941 : Team Sampou
 344.000000 : 28 : 
 343.500000 : 5957 : 天羽々斬
-341.500000 : 6032 : Sunspear
-341.333333 : 1950 : Cult of the Bound Variable
-340.500000 : 556 555 : DiamondPrincess, DiamondPrincess
+343.000000 : 3298 : Eger a Marson
+343.000000 : 713 : Lens d'Ulm
+339.750000 : 4965 : モダン焼 フジ
 339.500000 : 6012 : fixstars
-339.000000 : 5341 : code-o-matic
-338.250000 : 4919 : code-o-matic
+338.000000 : 6072 : ALAFTW
 335.000000 : 5638 : fixstars
 334.000000 : 5507 : typo
 333.500000 : 3585 : typo
-332.333333 : 5106 : lilik
-331.000000 : 4838 : uguu.org
-331.000000 : 1416 : sdb
+333.000000 : 2578 : The Cat is #1!!
+332.027778 : 83 1396 1397 1398 1400 : , TBD, TBD, TBD, TBD
+331.000000 : 1463 : sdb
 330.500000 : 4731 : Frictionless Bananas
-329.714286 : 5361 : Stanfy+
-329.600000 : 4059 : paiv
-329.583333 : 1468 4494 : Invisible Imp, Invisible Imp
 328.500000 : 4724 : Frictionless Bananas
 328.000000 : 4981 : モダン焼 フジ
 328.000000 : 4454 : Cult of the Bound Variable
+325.400000 : 3642 : Stanfy+
 324.166667 : 3178 : THIRTEEN
-322.142857 : 2499 : 😼̯__,
-320.750000 : 5496 : Lens d'Ulm
+323.333333 : 5375 : bystander.js
+321.500000 : 6060 : lilik
+321.000000 : 5381 : bystander.js
 320.666667 : 1959 : Cult of the Bound Variable
-319.666667 : 5069 : Temporary OCaml Team Name
+318.800000 : 3546 : Stanfy+
 318.333333 : 1973 : Frictionless Bananas
-318.000000 : 3274 : モダン焼 フジ
-316.000000 : 3587 4070 4459 4916 5070 5264 5340 5436 : GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni
-315.750000 : 1842 : AZALEA
+317.666667 : 5380 : bystander.js
+315.000000 : 5084 : The Cat is #1!!
 314.857143 : 5185 5178 : why-five-aye, why-five-aye
-311.666667 : 5379 : bystander.js
 311.666667 : 1367 : The $oun𝅗𝅥  of λ
-310.333333 : 5817 : Hydralisk eats taco
-310.285714 : 5357 : Stanfy+
 309.500000 : 61 : 
-308.833333 : 1956 : Cult of the Bound Variable
+309.333333 : 4305 : TheWildLobsters
+309.000000 : 4841 : uguu.org
 308.000000 : 1945 : Cult of the Bound Variable
-305.000000 : 5783 : A Storm of Minds
+307.948052 : 5789 5917 5919 5920 : trup16, trup16, trup16, trup16
+306.600000 : 1492 : Frictionless Bananas
 305.000000 : 5610 : fixstars
-304.600000 : 3405 : Skobochka
 304.000000 : 5535 : typo
-301.500000 : 5641 : Zebra Infused Hamsters
-301.333333 : 4721 : Team Awesome
 300.666667 : 5105 : The Cat is #1!!
+300.000000 : 737 : Lens d'Ulm
 299.666667 : 5080 : The Cat is #1!!
+299.333333 : 5614 : 301
 299.000000 : 5085 : The Cat is #1!!
+298.666667 : 4781 : The Cat is #1!!
 298.666667 : 4444 : The Cat is #1!!
+298.643939 : 3587 4070 4459 4916 5070 5264 5340 5436 : GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni, GD and Alumni
+297.750000 : 4422 : TBD
 297.333333 : 4906 : The Cat is #1!!
 295.272727 : 2332 2335 2338 2339 2340 2341 2342 2343 : Tsuru, Tsuru, Tsuru, Tsuru, Tsuru, Tsuru, Tsuru, Tsuru
+295.111111 : 4796 : Not bad team at all
 294.833333 : 53 502 : , WILD BASHKORT MAGES
 294.833333 : 4414 : Zygohistomorphic Preproxenomorph
-294.500000 : 5036 : lilik
-293.666667 : 5378 : bystander.js
-293.333333 : 1885 : Frictionless Bananas
 293.000000 : 5532 : typo
-293.000000 : 4719 : Frictionless Bananas
 293.000000 : 1984 : Frictionless Bananas
+292.500000 : 5015 : モダン焼 フジ
 292.500000 : 1712 : yowa
+291.666667 : 5343 : code-o-matic
 291.000000 : 5888 : nerunerunerune
-291.000000 : 1716 : yowa
-290.700000 : 5789 5917 5919 : trup16, trup16, trup16
-290.375000 : 4795 : Not bad team at all
-290.033333 : 1467 4493 : Invisible Imp, Invisible Imp
-290.033333 : 1462 4489 : Invisible Imp, Invisible Imp
-290.033333 : 1459 4488 : Invisible Imp, Invisible Imp
-290.000000 : 683 3034 : kontur.ru, kontur.ru
-289.000000 : 3867 : びア部🍺
+290.033333 : 1469 4495 : Invisible Imp, Invisible Imp
+290.033333 : 1468 4494 : Invisible Imp, Invisible Imp
+289.700000 : 4794 : Not bad team at all
+289.500000 : 1748 : yowa
 288.500000 : 1746 : yowa
 287.181818 : 160 1044 1123 1124 1125 1126 1127 1128 2168 : Tsuru, Tsuru, Tsuru, Tsuru, Tsuru, Tsuru, Tsuru, Tsuru, Tsuru
-287.000000 : 681 3032 : kontur.ru, kontur.ru
 286.000000 : 5082 : The Cat is #1!!
 285.500000 : 1744 : yowa
+285.333333 : 2721 : The Cat is #1!!
+285.000000 : 6039 : fixstars
 285.000000 : 1843 : Frictionless Bananas
 284.333333 : 5081 : The Cat is #1!!
-283.250000 : 724 : Lens d'Ulm
 282.666667 : 87 : 
-282.500000 : 1933 : Frictionless Bananas
+282.333333 : 4990 5004 5007 : Tsuru, Tsuru, Tsuru
 282.333333 : 1875 : Frictionless Bananas
-282.250000 : 5784 : A Storm of Minds
 282.000000 : 1747 : yowa
-281.875000 : 2498 : 😼̯__,
-281.636364 : 3800 : paiv
+281.875000 : 2499 : 😼̯__,
+281.750000 : 5908 : Zebra Infused Hamsters
 281.333333 : 4972 : The Cat is #1!!
-280.000000 : 5103 : The Cat is #1!!
-280.000000 : 1719 : yowa
-279.892308 : 1457 4487 : Invisible Imp, Invisible Imp
-279.892308 : 1455 4486 : Invisible Imp, Invisible Imp
-279.875000 : 5359 : Stanfy+
-279.500000 : 1711 : yowa
 279.333333 : 1941 : Frictionless Bananas
 278.666667 : 5190 : why-five-aye
-278.166667 : 4366 : Zygohistomorphic Preproxenomorph
 278.000000 : 2877 : nerunerunerune
 277.857143 : 1834 : Cult of the Bound Variable
-276.400000 : 3641 : Stanfy+
-276.333333 : 5097 : Temporary OCaml Team Name
-275.651515 : 1466 4492 : Invisible Imp, Invisible Imp
-275.363636 : 4604 : Hydralisk eats taco
-272.750000 : 5958 : The $oun𝅗𝅥  of λ
+274.666667 : 4059 : paiv
+272.400000 : 556 555 : DiamondPrincess, DiamondPrincess
 271.666667 : 3954 : びア部🍺
 271.000000 : 5514 : typo
 271.000000 : 5087 : The Cat is #1!!
 269.500000 : 3193 : typo
 269.333333 : 5104 : The Cat is #1!!
-268.000000 : 5787 : びア部🍺
+269.000000 : 5107 : code-o-matic
 267.500000 : 3245 : typo
 267.500000 : 3199 : typo
-267.500000 : 1670 : AZALEA
-265.510490 : 1452 4485 : Invisible Imp, Invisible Imp
-265.000000 : 3632 : Stanfy+
 265.000000 : 2753 : nerunerunerune
-263.750000 : 1630 : jabber.ru
-262.666667 : 3956 : code-o-matic
-261.250000 : 739 : Lens d'Ulm
+264.333333 : 3303 : Eger a Marson
+264.250000 : 5194 : why-five-aye
+263.666667 : 1467 4493 : Invisible Imp, Invisible Imp
+261.000000 : 5110 : lilik
 261.000000 : 2759 : nerunerunerune
 261.000000 : 60 : 
 260.600000 : 82 : 
 260.500000 : 5236 : びア部🍺
-259.636364 : 4971 : Hydralisk eats taco
-259.000000 : 5252 : Hydralisk eats taco
-255.000000 : 4073 : Eger a Marson
-254.857143 : 5358 : Stanfy+
-254.250000 : 5374 : bystander.js
-254.000000 : 722 : Lens d'Ulm
-253.600000 : 3637 : Stanfy+
-253.525641 : 1451 4484 : Invisible Imp, Invisible Imp
-252.666667 : 5102 : Temporary OCaml Team Name
-251.265181 : 838 982 983 990 : Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family
-251.000000 : 4924 : code-o-matic
+256.600000 : 5496 : Lens d'Ulm
+256.444444 : 5361 : Stanfy+
+256.000000 : 1950 : Cult of the Bound Variable
+255.666667 : 3985 : Zebra Infused Hamsters
+254.555556 : 4801 : Not bad team at all
+254.400000 : 3274 : モダン焼 フジ
+253.525641 : 1466 4492 : Invisible Imp, Invisible Imp
+253.525641 : 1462 4489 : Invisible Imp, Invisible Imp
+253.525641 : 1459 4488 : Invisible Imp, Invisible Imp
+253.525641 : 1455 4486 : Invisible Imp, Invisible Imp
+253.525641 : 1452 4485 : Invisible Imp, Invisible Imp
+252.600000 : 1842 : AZALEA
+250.555556 : 2498 : 😼̯__,
+249.666667 : 3281 : Eger a Marson
+249.250000 : 5106 : lilik
 249.000000 : 454 : nerunerunerune
-247.000000 : 5014 : モダン焼 フジ
-246.500000 : 5531 : sonna*baka*na
-245.000000 : 4832 4893 4897 : unfold, unfold, unfold
+245.500000 : 991 : Gassa & The Family
+245.416667 : 5036 : lilik
 244.571429 : 1953 : Cult of the Bound Variable
-243.500000 : 5979 : lilik
-242.000000 : 3293 : Eger a Marson
-241.666667 : 680 3031 : kontur.ru, kontur.ru
-240.833333 : 690 3041 : kontur.ru, kontur.ru
-240.428571 : 5019 : code-o-matic
+244.431034 : 3539 3843 4081 4283 5992 : foldCrane, foldCrane, foldCrane, foldCrane, Piggybank Software
+243.384615 : 1457 4487 : Invisible Imp, Invisible Imp
+243.384615 : 1451 4484 : Invisible Imp, Invisible Imp
+241.333333 : 5357 : Stanfy+
+241.333333 : 4637 : Frictionless Bananas
+241.200000 : 5641 : Zebra Infused Hamsters
 240.333333 : 5785 : びア部🍺
-240.125000 : 5040 : Stanfy+
-239.500000 : 719 : Lens d'Ulm
-239.166667 : 686 3037 : kontur.ru, kontur.ru
-239.000000 : 4678 : Team Awesome
-237.750000 : 4997 5002 5005 : Tsuru, Tsuru, Tsuru
-237.750000 : 3647 : Stanfy+
-237.500000 : 2795 : TeamDev
+239.750000 : 5069 : Temporary OCaml Team Name
+238.428571 : 4366 : Zygohistomorphic Preproxenomorph
 237.333333 : 5079 : The Cat is #1!!
-236.444444 : 5356 : Stanfy+
-235.857143 : 5101 : lilik
-233.596419 : 175 776 1068 1071 1076 1085 1132 1231 1118 1371 1372 1624 1373 1374 1375 1377 2201 1383 2334 1384 2237 2412 2494 1385 1386 2580 1387 2581 1389 2582 2770 1391 2583 2997 2584 2585 3322 2586 2587 2588 2589 2590 2591 4594 2592 2593 4921 2594 5009 2595 2596 2597 2598 5285 2599 5286 2600 5287 5416 2601 5288 5536 2602 5289 2603 5290 2604 5291 2605 5292 2606 5293 2607 5294 : Dao of the fold, foldCrane, The team formally known as, foldCrane, Scala Ballas 🏀, Scala Ballas 🏀, AZALEA, foldCrane, Scala Ballas 🏀, foldCrane, foldCrane, びア部🍺, foldCrane, foldCrane, foldCrane, foldCrane, びア部🍺, foldCrane, The team formally known as, foldCrane, codingteam, ALAFTW, The team formally known as, foldCrane, foldCrane, This is an albatrocity!, foldCrane, This is an albatrocity!, foldCrane, This is an albatrocity!, びア部🍺, foldCrane, This is an albatrocity!, Zebra Infused Hamsters, This is an albatrocity!, This is an albatrocity!, foldCrane, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, trup16, This is an albatrocity!, This is an albatrocity!, WOMBAT, This is an albatrocity!, trup16, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, 👸💕 We Love Chiiia 💕👸, This is an albatrocity!, WOMBAT, trup16, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT
-232.000000 : 5377 : bystander.js
-226.500000 : 5814 : Temporary OCaml Team Name
-226.200000 : 3636 : Stanfy+
+236.444444 : 5362 : Stanfy+
+235.250000 : 4685 : Frictionless Bananas
+234.307692 : 3405 : Skobochka
+233.750000 : 5379 : bystander.js
+233.000000 : 4604 : Hydralisk eats taco
+232.750000 : 5817 : Hydralisk eats taco
+232.300000 : 4795 : Not bad team at all
+230.333333 : 3641 : Stanfy+
+229.500000 : 2793 : TeamDev
+226.000000 : 5341 : code-o-matic
+226.000000 : 1933 : Frictionless Bananas
 226.000000 : 91 : 
-223.818182 : 531 : TeamDev
+225.500000 : 4919 : code-o-matic
+223.900000 : 5359 : Stanfy+
+223.750000 : 4800 : Not bad team at all
+223.000000 : 5358 : Stanfy+
 223.000000 : 1989 : Frictionless Bananas
-221.250000 : 5360 : Stanfy+
+222.375000 : 5363 : Stanfy+
+222.000000 : 5516 : Snakes vs Lambdas
+221.285714 : 3800 : paiv
+220.791101 : 175 776 1068 1071 1076 1085 1132 1231 1118 1371 1372 1624 1373 1374 1375 1377 2201 1383 2334 1384 2237 2412 2494 1385 1386 2580 1387 2581 1389 2582 2770 1391 2583 2997 2584 2585 3322 2586 2587 2588 2589 2590 2591 4594 2592 2593 4921 2594 5009 2595 2596 2597 2598 5285 2599 5286 2600 5287 5416 2601 5288 5536 2602 5289 2603 5290 2604 5291 2605 5292 2606 5293 2607 5294 2608 5295 : Dao of the fold, foldCrane, The team formally known as, foldCrane, Scala Ballas 🏀, Scala Ballas 🏀, AZALEA, foldCrane, Scala Ballas 🏀, foldCrane, foldCrane, びア部🍺, foldCrane, foldCrane, foldCrane, foldCrane, びア部🍺, foldCrane, The team formally known as, foldCrane, codingteam, ALAFTW, The team formally known as, foldCrane, foldCrane, This is an albatrocity!, foldCrane, This is an albatrocity!, foldCrane, This is an albatrocity!, びア部🍺, foldCrane, This is an albatrocity!, Zebra Infused Hamsters, This is an albatrocity!, This is an albatrocity!, foldCrane, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, trup16, This is an albatrocity!, This is an albatrocity!, WOMBAT, This is an albatrocity!, trup16, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, 👸💕 We Love Chiiia 💕👸, This is an albatrocity!, WOMBAT, trup16, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT, This is an albatrocity!, WOMBAT
 220.666667 : 3829 : Zebra Infused Hamsters
-220.333333 : 716 : Lens d'Ulm
-219.111111 : 4426 : TBD
-216.750000 : 5719 : A Storm of Minds
+220.250000 : 5378 : bystander.js
+220.000000 : 1885 : Frictionless Bananas
+218.200000 : 5958 : The $oun𝅗𝅥  of λ
 215.666667 : 4645 : Frictionless Bananas
 215.142857 : 66 : 
-213.714286 : 5637 : COBOL_lovers
-212.666667 : 3862 : Temporary OCaml Team Name
-212.055556 : 78 : 
+214.000000 : 1670 : AZALEA
+213.444444 : 5040 : Stanfy+
+212.800000 : 5356 : Stanfy+
+212.500000 : 4073 : Eger a Marson
+211.666667 : 722 : Lens d'Ulm
+211.333333 : 3637 : Stanfy+
+211.000000 : 1630 : jabber.ru
 210.571429 : 5493 : Lens d'Ulm
-210.000000 : 1979 : Frictionless Bananas
-208.750000 : 3691 : Olympia
+210.500000 : 5618 : 301
+210.375000 : 5019 : code-o-matic
+210.000000 : 5103 : The Cat is #1!!
+209.000000 : 739 : Lens d'Ulm
+207.250000 : 5097 : Temporary OCaml Team Name
+206.375000 : 5101 : lilik
 206.333333 : 24 : 
-205.666667 : 794 : 天羽々斬
-205.500000 : 1960 : Cult of the Bound Variable
-203.750000 : 1982 : Frictionless Bananas
-203.166667 : 4411 : Zygohistomorphic Preproxenomorph
-203.000000 : 4973 : モダン焼 フジ
+205.888889 : 1956 : Cult of the Bound Variable
+204.000000 : 4971 : Hydralisk eats taco
+203.333333 : 5783 : A Storm of Minds
 202.400000 : 2669 2710 2845 2846 2847 2848 2849 2853 2857 2860 2862 : Team Awesome, Team Awesome, Team Awesome, Team Awesome, Team Awesome, Team Awesome, Team Awesome, Team Awesome, Team Awesome, Team Awesome, Team Awesome
 202.180952 : 784 855 856 857 858 859 860 861 877 878 : big.Rat, big.Rat, big.Rat, big.Rat, big.Rat, big.Rat, big.Rat, big.Rat, big.Rat, big.Rat
 202.000000 : 5017 : code-o-matic
-199.727273 : 4596 : Hydralisk eats taco
-198.666667 : 1725 : yowa
-198.500000 : 2505 : DiamondPrincess
+200.833333 : 2883 5986 : Deramer, Deramer
+200.800000 : 4924 : code-o-matic
 198.000000 : 3072 : Zygohistomorphic Preproxenomorph
+197.000000 : 3956 : code-o-matic
 197.000000 : 1738 : yowa
-196.400000 : 3397 : TheWildLobsters
-196.400000 : 1977 : Frictionless Bananas
-195.000000 : 3836 : THIRTEEN
-194.666667 : 688 3039 : kontur.ru, kontur.ru
-194.666667 : 687 3038 : kontur.ru, kontur.ru
+196.666667 : 5360 : Stanfy+
+195.483333 : 4997 5002 5005 : Tsuru, Tsuru, Tsuru
 194.333333 : 1727 : yowa
-193.909091 : 523 : TeamDev
-193.714286 : 2211 : Hydralisk eats taco
-193.666667 : 1735 : yowa
-193.500000 : 5376 : bystander.js
+194.250000 : 5252 : Hydralisk eats taco
+194.000000 : 1716 : yowa
 193.500000 : 3860 : sonna*baka*na
-193.478261 : 2108 : GD and Alumni
 193.333333 : 1739 : yowa
-193.333333 : 684 3035 : kontur.ru, kontur.ru
 193.000000 : 1740 : yowa
-192.666667 : 689 3040 : kontur.ru, kontur.ru
-192.360000 : 2415 : THIRTEEN
-191.333333 : 685 3036 : kontur.ru, kontur.ru
-191.000000 : 1742 : yowa
-190.333333 : 1723 : yowa
-190.000000 : 5935 : ALAFTW
+192.666667 : 3867 : びア部🍺
+190.850000 : 78 : 
+190.200000 : 3647 : Stanfy+
 190.000000 : 1713 : yowa
-189.666667 : 1733 : yowa
-189.238095 : 2757 : Zygohistomorphic Preproxenomorph
+189.500000 : 5102 : Temporary OCaml Team Name
+189.384615 : 531 : TeamDev
+189.285714 : 3632 : Stanfy+
 189.000000 : 1717 : yowa
-188.333333 : 1729 : yowa
-187.857143 : 5486 : COBOL_lovers
-187.666667 : 1720 : yowa
+188.857143 : 716 : Lens d'Ulm
+188.833333 : 724 : Lens d'Ulm
+188.500000 : 3636 : Stanfy+
+188.166667 : 5784 : A Storm of Minds
+187.000000 : 5815 : Temporary OCaml Team Name
+187.000000 : 5637 : COBOL_lovers
 187.000000 : 1721 : yowa
+186.666667 : 1719 : yowa
 186.666667 : 1510 : yowa
-186.125000 : 5635 : COBOL_lovers
+186.571429 : 4803 : Not bad team at all
+186.333333 : 1711 : yowa
 186.000000 : 5372 : typo
 185.833333 : 4286 : Eger a Marson
 184.666667 : 84 : 
-184.000000 : 4699 : Frictionless Bananas
-183.666667 : 1734 : yowa
-183.600000 : 1139 : THIRTEEN
 183.333333 : 1724 : yowa
-183.200000 : 4720 : Team Awesome
+183.083333 : 4596 : Hydralisk eats taco
 183.000000 : 1737 : yowa
-182.500000 : 5511 5512 : Snakes vs Lambdas, Snakes vs Lambdas
-182.000000 : 1652 : Coding Monkeys
 181.272727 : 29 : 
-181.250000 : 1980 : Frictionless Bananas
+181.200000 : 5814 : Temporary OCaml Team Name
+180.800000 : 4721 : Team Awesome
 180.666667 : 1728 : yowa
-180.500000 : 5515 : Snakes vs Lambdas
-180.095238 : 2220 : Hydralisk eats taco
-179.500000 : 1662 : Coding Monkeys
-179.333333 : 1732 : yowa
 179.333333 : 1730 : yowa
+179.272727 : 4426 : TBD
 179.000000 : 1722 : yowa
+178.666667 : 5787 : びア部🍺
 178.666667 : 1726 : yowa
 178.666667 : 1715 : yowa
-178.588235 : 4792 : Not bad team at all
 178.333333 : 3639 : Stanfy+
+178.111111 : 2415 : THIRTEEN
 177.666667 : 1741 : yowa
-176.583333 : 1654 : Coding Monkeys
-176.520000 : 1660 : Coding Monkeys
-176.458333 : 1664 : Coding Monkeys
-176.363636 : 3929 : Small Opulent Shelducks 💨
+176.869565 : 2211 : Hydralisk eats taco
 176.333333 : 1714 : yowa
 175.666667 : 4026 : びア部🍺
-175.500000 : 4165 : びア部🍺
-175.480000 : 1650 : Coding Monkeys
-175.120000 : 1659 : Coding Monkeys
 174.666667 : 1736 : yowa
-174.333333 : 5051 : Cult of the Bound Variable
-174.040000 : 1655 : Coding Monkeys
-173.750000 : 287 : kstm.org
 173.666667 : 1718 : yowa
-173.000000 : 1658 : Coding Monkeys
-172.095238 : 2758 : Zygohistomorphic Preproxenomorph
-171.625000 : 2874 : Olympia
+173.400000 : 5719 : A Storm of Minds
+172.782609 : 2757 : Zygohistomorphic Preproxenomorph
+171.500000 : 4832 4893 4897 : unfold, unfold, unfold
 171.250000 : 4360 : Zygohistomorphic Preproxenomorph
-171.200000 : 1656 : Coding Monkeys
-171.000000 : 4251 : Deramer
+170.750000 : 6032 : Sunspear
 170.750000 : 1765 : kstm.org
-170.750000 : 1030 : 天羽々斬
 170.500000 : 3875 : typo
-170.320000 : 1645 : Coding Monkeys
-170.208333 : 1661 : Coding Monkeys
-169.960000 : 1646 : Coding Monkeys
-169.750000 : 2630 : 天羽々斬
-169.750000 : 1999 : Frictionless Bananas
-169.625000 : 2521 3143 4579 : ImaginaryCF, ImaginaryCF, ImaginaryCF
+169.730769 : 1660 : Coding Monkeys
+169.500000 : 5374 : bystander.js
+169.166667 : 683 3034 : kontur.ru, kontur.ru
 169.166667 : 85 : 
-169.000000 : 5989 : yarunee
-169.000000 : 3345 : Eger a Marson
-169.000000 : 1028 : 天羽々斬
-168.640000 : 1663 : Coding Monkeys
+168.666667 : 4792 : Not bad team at all
+168.583333 : 690 3041 : kontur.ru, kontur.ru
 168.428571 : 3917 : びア部🍺
-167.846154 : 1643 : Coding Monkeys
-167.000000 : 1024 : 天羽々斬
-166.600000 : 1653 : Coding Monkeys
-166.500000 : 2627 : 天羽々斬
-166.476190 : 2205 : THIRTEEN
-166.000000 : 4996 4998 : Tsuru, Tsuru
-166.000000 : 1026 : 天羽々斬
-165.923077 : 1648 : Coding Monkeys
-165.571429 : 1938 : Cult of the Bound Variable
-165.115385 : 1657 : Coding Monkeys
-164.653846 : 1642 : Coding Monkeys
-164.262821 : 521 2827 : TeamDev, TeamDev
-163.750000 : 1031 : 天羽々斬
-163.500000 : 2625 : 天羽々斬
-163.500000 : 1022 : 天羽々斬
-163.250000 : 2631 : 天羽々斬
-162.857143 : 2226 2774 4440 5723 : Deramer, Deramer, Deramer, Deramer
-162.750000 : 1029 : 天羽々斬
+168.384615 : 1659 : Coding Monkeys
+168.000000 : 1652 : Coding Monkeys
+167.416667 : 686 3037 : kontur.ru, kontur.ru
+167.416667 : 681 3032 : kontur.ru, kontur.ru
+167.142857 : 3836 : THIRTEEN
+167.000000 : 3691 : Olympia
+166.909091 : 1139 : THIRTEEN
+165.692308 : 1662 : Coding Monkeys
+165.444444 : 5635 : COBOL_lovers
+164.615385 : 1656 : Coding Monkeys
+164.434783 : 2220 : Hydralisk eats taco
+164.400000 : 1960 : Cult of the Bound Variable
+164.375000 : 5486 : COBOL_lovers
+164.272727 : 2758 : Zygohistomorphic Preproxenomorph
+164.076923 : 523 : TeamDev
+163.666667 : 3397 : TheWildLobsters
+163.666667 : 1977 : Frictionless Bananas
+163.000000 : 1982 : Frictionless Bananas
+163.000000 : 1654 : Coding Monkeys
+162.884615 : 1664 : Coding Monkeys
 162.666667 : 3073 : typo
 162.500000 : 5371 : typo
-162.500000 : 2626 : 天羽々斬
-162.500000 : 1027 : 天羽々斬
-161.500000 : 5006 : Tsuru
-161.120000 : 1647 : Coding Monkeys
-161.000000 : 5050 : Cult of the Bound Variable
-160.892572 : 787 2188 3552 : The Cat is #1!!, GD and Alumni, fotocopia-al-150
-160.576923 : 1644 : Coding Monkeys
+162.481481 : 1650 : Coding Monkeys
+162.153846 : 1663 : Coding Monkeys
+161.333333 : 3293 : Eger a Marson
+160.384615 : 287 : kstm.org
+160.185185 : 1658 : Coding Monkeys
 160.000000 : 5770 : unfold
-160.000000 : 1641 : Coding Monkeys
+159.666667 : 719 : Lens d'Ulm
+159.500000 : 3862 : Temporary OCaml Team Name
 159.346154 : 4017 : Raging Mushrooms
-159.250000 : 1025 : 天羽々斬
-159.000000 : 5312 : Buy Ascension VR on Steam, $9.99
+159.333333 : 4678 : Team Awesome
+159.000000 : 1657 : Coding Monkeys
 159.000000 : 743 : Lens d'Ulm
-158.250000 : 2629 : 天羽々斬
-157.750000 : 1023 : 天羽々斬
-157.750000 : 1021 : 天羽々斬
-157.082168 : 2107 3297 4595 4597 4598 4600 : Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco
-157.000000 : 4638 : Bears ate our brains
-156.333333 : 4680 : Team Awesome
-156.166667 : 4345 : Zygohistomorphic Preproxenomorph
+158.928571 : 2108 : GD and Alumni
+158.801154 : 2866 5316 5317 5318 5319 5320 5321 5322 5323 5324 5326 : yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee
+158.800000 : 2505 : DiamondPrincess
+157.703704 : 1645 : Coding Monkeys
+157.370370 : 1646 : Coding Monkeys
+157.115385 : 1661 : Coding Monkeys
+155.857143 : 1643 : Coding Monkeys
 155.500000 : 22 : 
+155.392857 : 1655 : Coding Monkeys
 155.375000 : 3148 : Zygohistomorphic Preproxenomorph
-155.333333 : 4665 : Team Awesome
+154.875000 : 2521 3143 4579 : ImaginaryCF, ImaginaryCF, ImaginaryCF
 154.857143 : 728 : Lens d'Ulm
-154.000000 : 4990 5004 : Tsuru, Tsuru
-152.263158 : 4788 : Not bad team at all
-152.166667 : 4670 : Team Awesome
-151.800000 : 5600 : A Storm of Minds
-151.545455 : 4790 : Not bad team at all
-150.750000 : 2921 : Team Sampou
-150.333333 : 4713 : Team Awesome
-149.897436 : 2566 2567 2882 3197 3948 4163 : unfold, unfold, unfold, unfold, unfold, unfold
-149.300000 : 1954 : Cult of the Bound Variable
-148.969697 : 1687 : Small Opulent Shelducks 💨
+154.666667 : 5377 : bystander.js
+154.259259 : 1653 : Coding Monkeys
+154.250000 : 794 : 天羽々斬
+154.071429 : 1648 : Coding Monkeys
+153.254354 : 787 2188 3552 : The Cat is #1!!, GD and Alumni, fotocopia-al-150
+152.892857 : 1642 : Coding Monkeys
+152.800000 : 5498 : Lens d'Ulm
+152.555556 : 2874 : Olympia
+152.083333 : 5511 5512 : Snakes vs Lambdas, Snakes vs Lambdas
+152.000000 : 2205 : THIRTEEN
+150.000000 : 5313 : Buy Ascension VR on Steam, $9.99
+150.000000 : 1979 : Frictionless Bananas
+149.185185 : 1647 : Coding Monkeys
+149.107143 : 1644 : Coding Monkeys
+149.000000 : 1725 : yowa
 148.857143 : 732 : Lens d'Ulm
 148.615385 : 2840 2835 : TeamDev, TeamDev
-148.500000 : 4117 : kontur.ru
-148.000000 : 5055 : Cult of the Bound Variable
-148.000000 : 4676 : Team Awesome
-147.857143 : 5146 : lilik
-147.258065 : 1074 : Small Opulent Shelducks 💨
+148.571429 : 1641 : Coding Monkeys
 147.142857 : 1453 : jabber.ru
-147.000000 : 678 : kontur.ru
-146.333333 : 5781 : A Storm of Minds
-146.166667 : 4036 : cashto
-146.095238 : 2213 : Hydralisk eats taco
-145.666667 : 4673 : Team Awesome
+146.500000 : 4719 : Frictionless Bananas
+146.000000 : 688 3039 : kontur.ru, kontur.ru
+146.000000 : 687 3038 : kontur.ru, kontur.ru
+145.846154 : 2566 2567 2882 3197 3948 4163 : unfold, unfold, unfold, unfold, unfold, unfold
 145.571429 : 731 : Lens d'Ulm
-145.357143 : 5643 : codingteam
+145.250000 : 1735 : yowa
 145.076923 : 3272 : Eger a Marson
-144.833333 : 5392 : DiamondPrincess
-144.500000 : 4285 : Cult of the Bound Variable
+145.000000 : 1980 : Frictionless Bananas
+145.000000 : 680 3031 : kontur.ru, kontur.ru
+144.875000 : 1938 : Cult of the Bound Variable
+144.650000 : 4788 : Not bad team at all
+144.500000 : 689 3040 : kontur.ru, kontur.ru
 143.818182 : 4586 : Invisible Imp
-143.818182 : 4483 : Invisible Imp
-143.818182 : 4482 : Invisible Imp
-143.818182 : 4481 : Invisible Imp
 143.818182 : 1479 : Invisible Imp
 143.818182 : 1477 : Invisible Imp
 143.818182 : 1476 : Invisible Imp
-143.500000 : 682 : kontur.ru
-143.000000 : 4119 : kontur.ru
+143.500000 : 5196 : why-five-aye
+143.500000 : 685 3036 : kontur.ru, kontur.ru
+143.250000 : 1742 : yowa
+143.000000 : 4723 : Team Awesome
+142.857143 : 2226 2774 4440 5723 : Deramer, Deramer, Deramer, Deramer
+142.750000 : 1723 : yowa
+142.656250 : 1074 : Small Opulent Shelducks 💨
 142.500000 : 4468 : kontur.ru
-141.375000 : 5546 : Not bad team at all
+142.250000 : 1733 : yowa
+141.250000 : 1729 : yowa
 141.000000 : 2872 : why-five-aye
-140.857143 : 2778 2876 3196 3831 4072 4455 : unfold, unfold, unfold, unfold, unfold, unfold
+140.750000 : 1720 : yowa
+140.457143 : 1687 : Small Opulent Shelducks 💨
+140.400000 : 4165 : びア部🍺
+140.320000 : 4036 : cashto
 140.250000 : 588 : TeamDev
-140.000000 : 1378 : Small Opulent Shelducks 💨
-138.785714 : 4881 4894 4896 4898 : unfold, unfold, unfold, unfold
-138.273810 : 2196 3824 5843 : Deramer, Deramer, Deramer
-138.000000 : 5489 : Scala Ballas 🏀
-137.636364 : 5616 : 301
-137.372727 : 3161 3162 3164 3166 3167 3168 3169 : CubeClub, CubeClub, CubeClub, CubeClub, CubeClub, CubeClub, CubeClub
-137.333333 : 4667 : Team Awesome
-137.142857 : 4657 : Team Awesome
-136.111111 : 1593 : code-o-matic
-135.250000 : 3953 : code-o-matic
-134.000000 : 4656 : Team Awesome
-134.000000 : 107 : Zygohistomorphic Preproxenomorph
+138.916667 : 4790 : Not bad team at all
+138.000000 : 5146 : lilik
+138.000000 : 4699 : Frictionless Bananas
+137.750000 : 1734 : yowa
+135.800000 : 1999 : Frictionless Bananas
+135.727273 : 1954 : Cult of the Bound Variable
+135.444444 : 4411 : Zygohistomorphic Preproxenomorph
+134.571429 : 4638 : Bears ate our brains
+134.500000 : 1732 : yowa
 133.833333 : 5021 : code-o-matic
-133.750000 : 89 : 
+133.391304 : 2213 : Hydralisk eats taco
 133.303030 : 56 2114 : , WILD BASHKORT MAGES
-133.142857 : 4682 : Team Awesome
-132.256951 : 2204 2317 2318 2320 2322 2323 2324 2325 2326 2327 : Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨
+133.142857 : 4665 : Team Awesome
+132.432432 : 1378 : Small Opulent Shelducks 💨
+132.395833 : 521 2827 : TeamDev, TeamDev
 132.000000 : 5189 : why-five-aye
+131.833333 : 4483 : Invisible Imp
+131.833333 : 4482 : Invisible Imp
+131.833333 : 4481 : Invisible Imp
 131.833333 : 1475 : Invisible Imp
 131.833333 : 1474 : Invisible Imp
 131.833333 : 1473 : Invisible Imp
-131.833333 : 1472 : Invisible Imp
+130.857143 : 4720 : Team Awesome
+130.750000 : 5051 : Cult of the Bound Variable
+130.666667 : 5978 : NCPLUG
+130.500000 : 684 3035 : kontur.ru, kontur.ru
+130.428571 : 4670 : Team Awesome
 130.000000 : 729 : Lens d'Ulm
-129.750000 : 2929 : Team Sampou
-129.384615 : 589 : TeamDev
-129.142857 : 4660 : Team Awesome
-128.500000 : 4697 : Frictionless Bananas
-128.333333 : 5454 : COBOL_lovers
-127.666667 : 4691 : Frictionless Bananas
-127.636364 : 3772 : paiv
-127.625000 : 52 : 
+129.000000 : 5376 : bystander.js
+128.857143 : 4713 : Team Awesome
+127.941176 : 2778 2876 3196 3831 4072 4455 : unfold, unfold, unfold, unfold, unfold, unfold
+126.857143 : 4676 : Team Awesome
+126.500000 : 5600 : A Storm of Minds
 126.285714 : 674 : DiamondPrincess
-126.093859 : 2367 4526 4527 4528 4529 4530 4531 4532 4533 4534 4535 : The Cat is #1!!, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm
 126.000000 : 3803 : typo
-125.916667 : 2260 : Hydralisk eats taco
 125.857143 : 2467 : why-five-aye
-125.714286 : 4663 : Team Awesome
-125.600000 : 1020 : 天羽々斬
-125.500000 : 4562 : taxidriver
-125.428571 : 2936 : Team Sampou
-123.578947 : 900 : 😼̯__,
+125.692308 : 2107 3297 4595 4597 4598 4600 : Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco
+125.454545 : 3161 3162 3164 3166 3167 3168 3169 : CubeClub, CubeClub, CubeClub, CubeClub, CubeClub, CubeClub, CubeClub
+125.428571 : 5781 : A Storm of Minds
+124.142857 : 5392 : DiamondPrincess
+123.500000 : 5014 : モダン焼 フジ
 123.250000 : 59 : 
-123.000000 : 2895 : モダン焼 フジ
-122.875000 : 1595 : code-o-matic
-122.857143 : 2919 : Team Sampou
+123.200000 : 3931 : Small Opulent Shelducks 💨
+121.800000 : 4973 : モダン焼 フジ
+121.752987 : 2204 2317 2318 2320 2322 2323 2324 2325 2326 2327 : Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨, Small Opulent Shelducks 💨
+121.555556 : 2940 : Team Sampou
 121.555556 : 63 : 
-121.000000 : 3904 : sonna*baka*na
-120.857143 : 2466 : why-five-aye
-120.400000 : 1952 : Frictionless Bananas
-119.733333 : 3928 : Small Opulent Shelducks 💨
+120.750000 : 5050 : Cult of the Bound Variable
+120.600000 : 2921 : Team Sampou
+120.410256 : 900 : 😼̯__,
+120.333333 : 5515 : Snakes vs Lambdas
+120.222222 : 3953 : code-o-matic
+120.000000 : 4657 : Team Awesome
+119.705882 : 5643 : codingteam
 119.500000 : 33 : 
-119.250000 : 1589 : code-o-matic
-119.058824 : 3925 : Small Opulent Shelducks 💨
-117.500000 : 2058 : Omega men
+119.111111 : 4881 4894 4896 4898 : unfold, unfold, unfold, unfold
+119.107143 : 2196 3824 5843 : Deramer, Deramer, Deramer
+119.052632 : 5546 : Not bad team at all
+117.714286 : 4667 : Team Awesome
+117.250000 : 4680 : Team Awesome
+117.250000 : 4656 : Team Awesome
+116.500000 : 4682 : Team Awesome
+116.230769 : 2260 : Hydralisk eats taco
 116.118182 : 1170 1232 1242 1243 1244 : udfew, udfew, udfew, udfew, udfew
 115.666667 : 3410 : typo
-115.600000 : 586 : TeamDev
-115.500000 : 2353 : The Cat is #1!!
-115.000000 : 4464 : Möbius Swan
+115.500000 : 5454 : COBOL_lovers
 114.714286 : 5373 : bystander.js
+114.685526 : 2367 4526 4527 4528 4529 4530 4531 4532 4533 4534 4535 : The Cat is #1!!, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm, Lens d'Ulm
 114.666667 : 1609 2713 4397 : Deramer, Deramer, Deramer
-114.500000 : 5509 : Snakes vs Lambdas
-113.884615 : 1907 : Stanfy+
-113.807692 : 2754 : Zygohistomorphic Preproxenomorph
+114.117647 : 3929 : Small Opulent Shelducks 💨
+114.000000 : 4251 : Deramer
+113.833333 : 1030 : 天羽々斬
+113.828571 : 4996 4998 : Tsuru, Tsuru
 113.500000 : 612 : DiamondPrincess
-113.330519 : 2866 5316 5317 5318 5319 5320 5321 5322 5323 5324 : yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee
-113.250000 : 4977 : lilik
+113.444444 : 52 : 
+113.166667 : 2630 : 天羽々斬
+113.000000 : 4660 : Team Awesome
+112.666667 : 3345 : Eger a Marson
+112.666667 : 1028 : 天羽々斬
 112.400000 : 26 : 
-112.000000 : 5513 : Snakes vs Lambdas
-111.333333 : 2755 : why-five-aye
-111.322581 : 73 : 
-111.000000 : 5027 : Cult of the Bound Variable
+112.133333 : 589 : TeamDev
+112.000000 : 2059 : Omega men
+111.363636 : 1593 : code-o-matic
+111.333333 : 1024 : 天羽々斬
+111.000000 : 5055 : Cult of the Bound Variable
+111.000000 : 2627 : 天羽々斬
+110.666667 : 1026 : 天羽々斬
 110.500000 : 691 : DiamondPrincess
 110.500000 : 630 : DiamondPrincess
 110.142857 : 3681 : Olympia
+110.000000 : 4663 : Team Awesome
 110.000000 : 3996 : Zygohistomorphic Preproxenomorph
 109.958333 : 3540 : Small Opulent Shelducks 💨
-109.388889 : 2794 5985 : Deramer, Deramer
-109.333333 : 2911 : Team Sampou
-109.250000 : 4652 : Frictionless Bananas
-109.045455 : 3588 : Small Opulent Shelducks 💨
-109.000000 : 2716 : Olympia
-108.400000 : 3223 : モダン焼 フジ
+109.250000 : 4673 : Team Awesome
+109.222222 : 1595 : code-o-matic
+109.166667 : 1031 : 天羽々斬
+109.000000 : 2625 : 天羽々斬
+109.000000 : 1022 : 天羽々斬
+108.833333 : 2631 : 天羽々斬
+108.500000 : 1029 : 天羽々斬
+108.375000 : 586 : TeamDev
+108.333333 : 2626 : 天羽々斬
+108.333333 : 1027 : 天羽々斬
 108.000000 : 1949 : Cult of the Bound Variable
+107.843750 : 73 : 
 107.666667 : 4994 5003 : Tsuru, Tsuru
-107.519192 : 2535 3144 4580 : ImaginaryCF, ImaginaryCF, ImaginaryCF
-107.500000 : 5039 : nerunerunerune
-107.035714 : 75 : 
-106.909091 : 2933 : Team Sampou
-106.714286 : 2938 : Team Sampou
+107.625000 : 2895 : モダン焼 フジ
+107.555556 : 3904 : sonna*baka*na
+107.200000 : 107 : Zygohistomorphic Preproxenomorph
+107.000000 : 89 : 
 106.666667 : 2900 : why-five-aye
-106.500000 : 5530 : sonna*baka*na
 106.400000 : 1587 : code-o-matic
-105.750000 : 5071 : nerunerunerune
-105.157895 : 4108 : Zygohistomorphic Preproxenomorph
+106.166667 : 1025 : 天羽々斬
+106.000000 : 4467 : Möbius Swan
+105.750000 : 2466 : why-five-aye
+105.678571 : 2754 : Zygohistomorphic Preproxenomorph
+105.500000 : 5792 : びア部🍺
+105.500000 : 2629 : 天羽々斬
+105.166667 : 1023 : 天羽々斬
+105.166667 : 1021 : 天羽々斬
+104.666667 : 1020 : 天羽々斬
 104.464286 : 4408 5838 : Deramer, Deramer
-104.206897 : 74 : 
-103.500000 : 1234 : code-o-matic
-103.076923 : 1853 : Stanfy+
-103.000000 : 3194 : nerunerunerune
-102.923077 : 1902 : Stanfy+
+104.304348 : 3588 : Small Opulent Shelducks 💨
+104.111111 : 4345 : Zygohistomorphic Preproxenomorph
+102.800000 : 4697 : Frictionless Bananas
+102.666667 : 2353 : The Cat is #1!!
+102.214286 : 1589 : code-o-matic
+102.103448 : 1907 : Stanfy+
 101.777778 : 3848 : sonna*baka*na
-101.750000 : 5139 : Snakes vs Lambdas
-101.600000 : 2831 : TeamDev
-100.692308 : 578 : TeamDev
-100.375000 : 3891 : sonna*baka*na
-100.000000 : 6036 : fotocopia-al-150
-99.454545 : 5880 : ALAFTW
-99.250000 : 5782 : びア部🍺
-99.000000 : 4836 : uguu.org
-99.000000 : 676 : kontur.ru
+101.176471 : 2919 : Team Sampou
+100.933333 : 5616 : 301
+100.333333 : 1952 : Frictionless Bananas
+99.916667 : 2716 : Olympia
+99.900000 : 75 : 
 98.666667 : 3781 : typo
-98.500000 : 5497 : Lens d'Ulm
+98.600000 : 5531 : sonna*baka*na
 98.111111 : 726 : Lens d'Ulm
-98.000000 : 744 : Lens d'Ulm
-97.900000 : 2724 : Olympia
+98.000000 : 678 : kontur.ru
 97.857143 : 3920 : Small Opulent Shelducks 💨
-96.800000 : 2916 : Team Sampou
-96.750000 : 2800 2799 : TeamDev, TeamDev
-96.666667 : 679 : kontur.ru
-96.500000 : 2838 : TeamDev
-96.461538 : 2925 : Team Sampou
+97.483871 : 74 : 
+97.090909 : 2535 3144 4580 : ImaginaryCF, ImaginaryCF, ImaginaryCF
+96.380952 : 3925 : Small Opulent Shelducks 💨
 96.333333 : 3368 : typo
 96.250000 : 3584 : sonna*baka*na
-95.631579 : 3924 : Small Opulent Shelducks 💨
+95.750000 : 4691 : Frictionless Bananas
 95.571429 : 95 : 
+95.500000 : 6073 : fotocopia-al-150
+95.428571 : 2755 : why-five-aye
+95.333333 : 4119 : kontur.ru
 95.333333 : 1942 : Cult of the Bound Variable
+95.142857 : 4108 : Zygohistomorphic Preproxenomorph
 95.000000 : 2238 : The Cat is #1!!
-94.500000 : 5932 : 🐍 String Invaders 👾
+94.571429 : 4838 : uguu.org
+94.526316 : 3928 : Small Opulent Shelducks 💨
+94.500000 : 5934 : 🐍 String Invaders 👾
+94.363636 : 2929 : Team Sampou
 94.285714 : 97 : 
 93.666667 : 1460 : Frictionless Bananas
+93.600000 : 3772 : paiv
+93.500000 : 578 : TeamDev
 93.250000 : 2354 : The $oun𝅗𝅥  of λ
-93.000000 : 5965 : lilik
-92.600000 : 2067 : GD and Alumni
-92.483871 : 76 : 
-92.425000 : 3577 : fotocopia-al-150
-91.428571 : 2751 : why-five-aye
+91.600000 : 5509 : Snakes vs Lambdas
 91.375000 : 1162 : cashto
-91.363636 : 2465 : Snakes vs Lambdas
-90.826087 : 2763 : Zygohistomorphic Preproxenomorph
 90.700000 : 3528 : Zebra Infused Hamsters
-90.500000 : 81 : 
-90.441558 : 55 582 : , WILD BASHKORT MAGES
-90.179487 : 3768 : 301
-89.864865 : 3773 : 301
-89.500000 : 2920 : Team Sampou
+90.562500 : 1234 : code-o-matic
+90.333333 : 3223 : モダン焼 フジ
+90.170732 : 3577 : fotocopia-al-150
+89.600000 : 5513 : Snakes vs Lambdas
+89.454545 : 2911 : Team Sampou
 89.434783 : 3901 : Small Opulent Shelducks 💨
-88.400000 : 2798 : TeamDev
+89.222222 : 3891 : sonna*baka*na
+89.000000 : 2724 : Olympia
+88.800000 : 5027 : Cult of the Bound Variable
 88.086957 : 3895 : Small Opulent Shelducks 💨
-87.857143 : 5685 : Zebra Infused Hamsters
-87.850000 : 3921 : Small Opulent Shelducks 💨
-87.818182 : 2822 2804 : TeamDev, TeamDev
-87.444444 : 2935 : Team Sampou
+88.000000 : 5450 : GD and Alumni
+87.925000 : 3768 : 301
+87.800000 : 2936 : Team Sampou
 87.428571 : 51 : 
-87.230769 : 2405 : Snakes vs Lambdas
-86.500000 : 5968 : kstm.org
+87.400000 : 4652 : Frictionless Bananas
+86.878788 : 76 : 
+86.523810 : 3924 : Small Opulent Shelducks 💨
 86.250000 : 3563 3566 : Tsuru, Tsuru
 86.125000 : 1958 : Cult of the Bound Variable
+86.000000 : 5039 : nerunerunerune
+85.750000 : 744 : Lens d'Ulm
 85.666667 : 3342 : typo
-85.166667 : 2926 : Team Sampou
+84.843750 : 81 : 
 84.833333 : 32 : 
-84.500000 : 4824 : uguu.org
-84.260870 : 3916 : Small Opulent Shelducks 💨
-84.190909 : 2808 2801 : TeamDev, TeamDev
+84.666667 : 2831 : TeamDev
+84.600000 : 5071 : nerunerunerune
+84.428571 : 5497 : Lens d'Ulm
 84.083333 : 191 : Zygohistomorphic Preproxenomorph
-83.909091 : 3919 : Small Opulent Shelducks 💨
-83.583333 : 2843 : TeamDev
-83.086957 : 3907 : Small Opulent Shelducks 💨
-83.000000 : 2915 : Team Sampou
-81.888889 : 3806 : sonna*baka*na
+83.750000 : 2465 : Snakes vs Lambdas
+83.750000 : 1853 : Stanfy+
+83.666667 : 3921 : Small Opulent Shelducks 💨
+83.625000 : 1902 : Stanfy+
+83.566667 : 55 582 : , WILD BASHKORT MAGES
+83.560000 : 2763 : Zygohistomorphic Preproxenomorph
+82.571429 : 4285 : Cult of the Bound Variable
+82.400000 : 3194 : nerunerunerune
 81.500000 : 714 : Lens d'Ulm
-81.333333 : 2402 : Snakes vs Lambdas
-81.076923 : 2864 : TeamDev
-81.000000 : 2880 : モダン焼 フジ
-80.833333 : 3899 : Small Opulent Shelducks 💨
-80.722222 : 1790 : Stanfy+
-80.333333 : 2883 : Deramer
-80.000000 : 5075 : Temporary OCaml Team Name
+81.400000 : 5139 : Snakes vs Lambdas
+80.750000 : 5006 : Tsuru
+80.750000 : 3916 : Small Opulent Shelducks 💨
+80.416667 : 2838 : TeamDev
+80.260870 : 3919 : Small Opulent Shelducks 💨
+80.000000 : 2751 : why-five-aye
+79.827586 : 2067 : GD and Alumni
 79.708333 : 3890 : Small Opulent Shelducks 💨
-79.500000 : 3973 : Snakes vs Lambdas
-79.250000 : 2896 : why-five-aye
-79.250000 : 2712 : why-five-aye
+79.625000 : 3907 : Small Opulent Shelducks 💨
+79.400000 : 5782 : びア部🍺
 79.222222 : 2229 : nerunerunerune
-79.133333 : 1601 : code-o-matic
-79.076923 : 288 : kstm.org
-79.000000 : 3909 : Small Opulent Shelducks 💨
-79.000000 : 1745 : yowa
-78.750000 : 5000 : Tsuru
-78.000000 : 5455 : Scala Ballas 🏀
-78.000000 : 3914 : Small Opulent Shelducks 💨
-77.714286 : 3986 : Snakes vs Lambdas
+79.166667 : 3773 : 301
+78.142857 : 5880 : ALAFTW
+77.600000 : 3899 : Small Opulent Shelducks 💨
 77.538462 : 1767 : kstm.org
-77.523810 : 3561 : fotocopia-al-150
+77.500000 : 5965 : lilik
 77.181818 : 5031 : Stanfy+
+77.153846 : 2843 : TeamDev
 77.111111 : 715 : Lens d'Ulm
-77.000000 : 4999 : Tsuru
 77.000000 : 3900 : Small Opulent Shelducks 💨
-76.920000 : 2208 : Hydralisk eats taco
-76.760000 : 2191 : GD and Alumni
-76.750000 : 77 : 
-76.666667 : 1904 : Stanfy+
-76.363636 : 2189 3138 4577 : ImaginaryCF, ImaginaryCF, ImaginaryCF
-76.357143 : 2937 : Team Sampou
 76.285714 : 96 : 
-76.250000 : 2898 : why-five-aye
 76.125000 : 31 : 
-76.000000 : 5449 : GD and Alumni
-75.875000 : 4931 : Temporary OCaml Team Name
 75.846154 : 2841 : TeamDev
-75.833333 : 2470 : Snakes vs Lambdas
+75.720930 : 3561 : fotocopia-al-150
+75.708333 : 3909 : Small Opulent Shelducks 💨
 75.615385 : 2842 : TeamDev
-75.416667 : 2408 : Snakes vs Lambdas
-75.222222 : 4830 : uguu.org
-74.928571 : 1408 : code-o-matic
+75.500000 : 4977 : lilik
+75.285714 : 2864 : TeamDev
+75.111111 : 4824 : uguu.org
 74.833333 : 3897 : Small Opulent Shelducks 💨
-74.555556 : 4828 : uguu.org
-74.250000 : 675 : kontur.ru
-74.000000 : 4817 : uguu.org
-73.857143 : 2924 : Team Sampou
-73.750000 : 1855 : Stanfy+
-73.555556 : 4820 : uguu.org
-73.333333 : 5301 : Deramer
-73.291667 : 3888 : Small Opulent Shelducks 💨
-73.125000 : 23 519 : , WILD BASHKORT MAGES
+74.750000 : 3914 : Small Opulent Shelducks 💨
+74.512821 : 1790 : Stanfy+
+74.461538 : 2916 : Team Sampou
+74.424242 : 77 : 
+74.250000 : 4117 : kontur.ru
+74.250000 : 676 : kontur.ru
+74.142857 : 5968 : kstm.org
+73.764706 : 2925 : Team Sampou
+73.700000 : 3806 : sonna*baka*na
+73.500000 : 2933 : Team Sampou
 73.094017 : 98 566 2206 2719 : , DiamondPrincess, sonna*baka*na, sonna*baka*na
-72.777778 : 4833 : uguu.org
-72.692308 : 1596 : code-o-matic
-71.727273 : 2477 : Snakes vs Lambdas
+72.900000 : 2880 : モダン焼 フジ
+72.500000 : 679 : kontur.ru
+72.352941 : 5685 : Zebra Infused Hamsters
+72.000000 : 5475 : Scala Ballas 🏀
+72.000000 : 2189 3138 4577 : ImaginaryCF, ImaginaryCF, ImaginaryCF
+71.933333 : 2915 : Team Sampou
 71.666667 : 5508 : Snakes vs Lambdas
-71.642857 : 2865 : TeamDev
-71.382353 : 3817 : 301
-71.250000 : 2844 : nerunerunerune
-71.230769 : 2476 : Snakes vs Lambdas
-71.166667 : 4774 : Snakes vs Lambdas
-70.916667 : 1597 : code-o-matic
-70.892641 : 36 1603 4288 : , AZALEA, fotocopia-al-150
-70.250000 : 4287 : Buy Ascension VR on Steam, $9.99
-70.202206 : 1091 1238 1840 2072 : Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco
-69.923077 : 2473 : Snakes vs Lambdas
-69.641026 : 3766 : 301
-69.269231 : 1833 : GD and Alumni
-68.837838 : 3484 : 301
-68.750000 : 4995 : Tsuru
+71.600000 : 2920 : Team Sampou
+71.222222 : 2208 : Hydralisk eats taco
+70.909091 : 5455 : Scala Ballas 🏀
+70.875000 : 2405 : Snakes vs Lambdas
+70.360000 : 3888 : Small Opulent Shelducks 💨
+70.000000 : 4441 : Zygohistomorphic Preproxenomorph
+69.933333 : 1408 : code-o-matic
+69.888889 : 23 519 : , WILD BASHKORT MAGES
+69.823529 : 1601 : code-o-matic
+69.125000 : 1745 : yowa
 68.666667 : 1349 : モダン焼 フジ
+68.535714 : 2191 : GD and Alumni
+68.533333 : 288 : kstm.org
+68.142857 : 3973 : Snakes vs Lambdas
+68.133333 : 2926 : Team Sampou
+68.106618 : 1091 1238 1840 2072 : Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco, Hydralisk eats taco
 68.000000 : 5244 : Snakes vs Lambdas
-67.846154 : 2475 : Snakes vs Lambdas
-67.714286 : 3984 : Snakes vs Lambdas
+68.000000 : 3986 : Snakes vs Lambdas
 67.714286 : 3346 : Olympia
-67.555556 : 5415 : Hydralisk eats taco
-67.333333 : 2410 : The Cat is #1!!
-67.222222 : 2418 : The Cat is #1!!
-66.750000 : 1832 : Buy Ascension VR on Steam, $9.99
-66.600206 : 47 1093 1201 : , TBD, TBD
-66.500000 : 5510 : Snakes vs Lambdas
-66.500000 : 5488 : Scala Ballas 🏀
-66.180769 : 50 585 : , WILD BASHKORT MAGES
-65.800000 : 4816 : uguu.org
+67.500000 : 1596 : code-o-matic
+67.444444 : 4931 : Temporary OCaml Team Name
+67.026316 : 3484 : 301
+66.866667 : 2865 : TeamDev
+66.763104 : 36 1603 4288 : , AZALEA, fotocopia-al-150
+66.600000 : 4817 : uguu.org
+66.243902 : 3766 : 301
+66.200000 : 4820 : uguu.org
+66.153846 : 2800 2799 : TeamDev, TeamDev
+66.000000 : 4836 : uguu.org
 65.770833 : 94 1382 2398 2528 2553 2785 : , sonna*baka*na, sonna*baka*na, sonna*baka*na, sonna*baka*na, sonna*baka*na
-65.454545 : 5273 : sonna*baka*na
-65.400000 : 4819 : uguu.org
-65.275735 : 503 510 2552 : TeamDev, TeamDev, ALAFTW
-65.111111 : 2420 : The Cat is #1!!
+65.714286 : 2822 2804 : TeamDev, TeamDev
+65.714286 : 1904 : Stanfy+
+65.594595 : 3817 : 301
+65.500000 : 4833 : uguu.org
+65.461538 : 1597 : code-o-matic
+65.066667 : 2402 : Snakes vs Lambdas
 65.000000 : 570 : TeamDev
-64.923077 : 568 : TeamDev
 64.666667 : 2400 : The Cat is #1!!
-64.444444 : 2413 : The Cat is #1!!
-64.250000 : 3351 : typo
-64.166667 : 3349 : paiv
-64.125000 : 3312 : Tsuru
-64.100000 : 4829 : uguu.org
-64.076923 : 1411 : GD and Alumni
+64.642857 : 2408 : Snakes vs Lambdas
+64.625000 : 2924 : Team Sampou
+64.210294 : 47 1093 1201 : , TBD, TBD
 64.000000 : 5476 : びア部🍺
-63.857143 : 2210 : The Cat is #1!!
 63.800000 : 57 : 
-63.200000 : 4826 : uguu.org
+63.400000 : 2896 : why-five-aye
+63.400000 : 2712 : why-five-aye
+63.214286 : 1855 : Stanfy+
+62.857143 : 5301 : Deramer
 62.777778 : 3362 : sonna*baka*na
-62.727273 : 2337 : The Cat is #1!!
-62.461538 : 2469 : Snakes vs Lambdas
 62.375000 : 2788 : THIRTEEN
-62.179487 : 3717 : 301
-61.647727 : 665 998 999 1000 1001 1004 1005 1006 1007 1008 : unfold, unfold, unfold, unfold, unfold, unfold, unfold, unfold, unfold, unfold
-61.583333 : 5563 : codingteam
-61.526316 : 3811 : 301
-61.244444 : 4453 4574 4582 : ImaginaryCF, ImaginaryCF, ImaginaryCF
+62.287926 : 503 510 2552 : TeamDev, TeamDev, ALAFTW
+61.733333 : 2476 : Snakes vs Lambdas
+61.545455 : 4830 : uguu.org
 61.076923 : 2004 : モダン焼 フジ
-60.900000 : 4818 : uguu.org
-60.750000 : 4567 : lilik
+61.000000 : 4828 : uguu.org
+61.000000 : 4774 : Snakes vs Lambdas
+61.000000 : 2898 : why-five-aye
+60.900000 : 2808 2801 : TeamDev, TeamDev
+60.857143 : 5530 : sonna*baka*na
+60.800000 : 5415 : Hydralisk eats taco
 60.714286 : 93 : 
+60.692308 : 2477 : Snakes vs Lambdas
+60.666667 : 2470 : Snakes vs Lambdas
+60.625000 : 3717 : 301
+60.600000 : 2410 : The Cat is #1!!
+60.538462 : 2935 : Team Sampou
+60.500000 : 2418 : The Cat is #1!!
+60.033333 : 1833 : GD and Alumni
+60.000000 : 5075 : Temporary OCaml Team Name
 60.000000 : 1083 : Invisible Imp
-59.800000 : 3814 : 301
+59.818182 : 4816 : uguu.org
 59.733333 : 27 : 
-59.230769 : 2932 : Team Sampou
+59.580952 : 50 585 : , WILD BASHKORT MAGES
+59.454545 : 4819 : uguu.org
+59.375000 : 2795 : TeamDev
+59.250000 : 3984 : Snakes vs Lambdas
+58.990476 : 665 998 999 1000 1001 1004 1005 1006 1007 1008 : unfold, unfold, unfold, unfold, unfold, unfold, unfold, unfold, unfold, unfold
 58.892857 : 3265 : Eger a Marson
+58.800000 : 2475 : Snakes vs Lambdas
 58.500000 : 2875 : Olympia
+58.450000 : 3811 : 301
 58.300000 : 99 : 
+58.272727 : 4829 : uguu.org
 58.000000 : 5266 : Snakes vs Lambdas
-57.818182 : 4821 : uguu.org
-57.656250 : 80 : 
-57.611111 : 2861 4410 : Deramer, Deramer
-57.500000 : 5045 : Cult of the Bound Variable
+58.000000 : 2413 : The Cat is #1!!
+57.461538 : 2938 : Team Sampou
+57.448276 : 1411 : GD and Alumni
 57.421053 : 741 : Lens d'Ulm
-57.333333 : 54 : 
+57.400000 : 682 : kontur.ru
+57.000000 : 3312 : Tsuru
+57.000000 : 2844 : nerunerunerune
 57.000000 : 30 : 
-56.090909 : 4983 : Small Opulent Shelducks 💨
-55.823529 : 2914 : Team Sampou
-55.800000 : 2403 4381 : Deramer, Deramer
+56.846154 : 5563 : codingteam
+56.812500 : 2473 : Snakes vs Lambdas
+56.200000 : 4287 : Buy Ascension VR on Steam, $9.99
+55.909091 : 80 : 
+55.875000 : 2210 : The Cat is #1!!
 55.750000 : 62 : 
-55.384615 : 2910 : Team Sampou
-55.228571 : 3815 : 301
-55.000000 : 5032 : Snakes vs Lambdas
-55.000000 : 2620 : Olympia
+55.627907 : 3814 : 301
+55.384615 : 5273 : sonna*baka*na
+55.363636 : 4818 : uguu.org
+55.000000 : 6050 : lambda-llama
+55.000000 : 4995 : Tsuru
 54.333333 : 1235 : AZALEA
-54.285714 : 3981 : Snakes vs Lambdas
-53.818182 : 4822 : uguu.org
-53.666667 : 2550 4428 : Deramer, Deramer
+54.222222 : 2861 4410 : Deramer, Deramer
+54.133333 : 2469 : Snakes vs Lambdas
+53.700000 : 2794 5985 : Deramer, Deramer
+53.272727 : 2420 : The Cat is #1!!
 53.250000 : 190 : Zygohistomorphic Preproxenomorph
-53.179991 : 750 527 2272 2397 2396 2395 2623 2720 2393 2195 2392 2391 2390 2389 3506 2387 2386 2385 : Möbius Swan, Dao of the fold, Dao of the fold, Dao of the fold, Dao of the fold, Dao of the fold, codingteam, Skobochka, Dao of the fold, GD and Alumni, Dao of the fold, Dao of the fold, Dao of the fold, Dao of the fold, NCPLUG, Dao of the fold, Dao of the fold, Dao of the fold
-52.833333 : 3838 : bystander.js
-52.500000 : 5043 : Cult of the Bound Variable
-52.428571 : 2829 : Zygohistomorphic Preproxenomorph
-52.410742 : 1778 1779 1780 1781 1782 1783 1784 2421 2424 2425 2426 2427 2484 2485 2486 2489 2488 2490 2491 2492 : Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀
+53.200000 : 5510 : Snakes vs Lambdas
+53.076923 : 2337 : The Cat is #1!!
+53.000000 : 4821 : uguu.org
+52.750000 : 568 : TeamDev
+52.666667 : 4826 : uguu.org
+52.355556 : 2403 4381 : Deramer, Deramer
 52.333333 : 5001 : Tsuru
-52.322581 : 2760 : Zygohistomorphic Preproxenomorph
-52.250000 : 3957 : code-o-matic
-52.153846 : 1586 : code-o-matic
 51.777778 : 2523 3579 : Deramer, Deramer
-51.333333 : 3884 : bystander.js
+51.600000 : 54 : 
+51.400000 : 3351 : typo
+51.333333 : 4999 : Tsuru
+51.333333 : 3349 : paiv
 51.307692 : 1901 : Stanfy+
 51.000000 : 5262 : Snakes vs Lambdas
-51.000000 : 2548 : Raging Mushrooms
-50.969697 : 2482 3140 4578 : ImaginaryCF, ImaginaryCF, ImaginaryCF
-50.923077 : 1456 : sdb
-50.571429 : 2913 : Team Sampou
-50.352941 : 79 : 
-50.333333 : 5412 : Hydralisk eats taco
-50.133233 : 914 916 918 939 962 967 : Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family
+50.904762 : 2937 : Team Sampou
+50.416667 : 2620 : Olympia
 50.000000 : 3570 : Tsuru
+49.944253 : 914 916 918 939 962 967 : Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family
+49.500000 : 675 : kontur.ru
 49.428571 : 3567 : Tsuru
-49.272727 : 4825 : uguu.org
-49.181818 : 2105 : Hydralisk eats taco
+49.333333 : 4822 : uguu.org
+49.314911 : 1778 1779 1780 1781 1782 1783 1784 2421 2424 2425 2426 2427 2484 2485 2486 2489 2488 2490 2491 2492 : Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀
+49.285714 : 5045 : Cult of the Bound Variable
+49.176471 : 3957 : code-o-matic
+49.151515 : 2760 : Zygohistomorphic Preproxenomorph
 49.125000 : 5240 : Snakes vs Lambdas
-49.111111 : 2308 : Snakes vs Lambdas
+49.111111 : 2798 : TeamDev
+48.914286 : 79 : 
 48.750000 : 1943 : Cult of the Bound Variable
 48.714286 : 3568 : Tsuru
-48.500000 : 5960 : Piggybank Software
-48.444444 : 34 : 
-48.222222 : 2812 : TeamDev
-47.888889 : 4290 : uguu.org
+48.600000 : 4567 : lilik
+48.428571 : 1586 : code-o-matic
+48.325000 : 3815 : 301
+48.285714 : 5989 : yarunee
+48.125000 : 5032 : Snakes vs Lambdas
+48.125000 : 2932 : Team Sampou
+48.000000 : 4453 4574 4582 : ImaginaryCF, ImaginaryCF, ImaginaryCF
+47.863107 : 750 527 2272 2397 2396 2395 2623 2720 2393 2195 2392 2391 2390 2389 3506 2387 2386 2385 : Möbius Swan, Dao of the fold, Dao of the fold, Dao of the fold, Dao of the fold, Dao of the fold, codingteam, Skobochka, Dao of the fold, GD and Alumni, Dao of the fold, Dao of the fold, Dao of the fold, Dao of the fold, NCPLUG, Dao of the fold, Dao of the fold, Dao of the fold
 47.714286 : 1903 : Stanfy+
-47.583333 : 3664 : 301
-47.400000 : 3604 : Temporary OCaml Team Name
+47.500000 : 3981 : Snakes vs Lambdas
 47.333333 : 2868 : nerunerunerune
-47.181818 : 2113 : The Cat is #1!!
-47.055199 : 5349 5426 : ALAFTW, ALAFTW
-47.000000 : 5391 : GD and Alumni
-46.920546 : 934 952 954 972 981 : Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family
-46.545455 : 3955 : code-o-matic
 46.142857 : 1854 : Stanfy+
-46.100000 : 2814 : TeamDev
-46.000000 : 5193 : why-five-aye
-46.000000 : 3873 : kontur.ru
-46.000000 : 3356 : kontur.ru
+46.000000 : 2550 4428 : Deramer, Deramer
+45.997671 : 934 952 954 972 981 : Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family
+45.972237 : 838 982 983 990 : Gassa & The Family, Gassa & The Family, Gassa & The Family, Gassa & The Family
 45.875000 : 3565 : Tsuru
-45.857143 : 4912 : Snakes vs Lambdas
-45.833333 : 1591 : code-o-matic
-45.714286 : 3835 : bystander.js
-45.714286 : 3807 : bystander.js
-45.666667 : 5044 : DiamondPrincess
-45.571429 : 3795 : bystander.js
-45.285714 : 3812 : bystander.js
-45.222222 : 2007 : Snakes vs Lambdas
-45.155825 : 1 103 155 178 299 579 658 710 156 300 717 157 301 720 1145 1164 303 723 1146 1166 304 733 1104 1149 1168 305 735 1106 1151 1171 306 738 1152 1173 307 740 1155 1178 308 742 1156 1180 309 745 1186 310 747 1190 311 1195 2540 312 1200 313 314 315 316 317 318 319 320 321 322 323 325 326 327 329 330 331 334 335 336 337 338 339 340 341 5839 342 345 : , Skobochka, yarunee, CubeClub, prolab, IKS, The team formally known as, kmc, yarunee, prolab, kmc, yarunee, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, Olympia, The team formally known as, CubeClub, prolab, kmc, Olympia, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, CubeClub, prolab, kmc, CubeClub, prolab, CubeClub, Zebra Infused Hamsters, prolab, CubeClub, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, trup16, prolab, prolab
-45.000000 : 4105 : kontur.ru
-45.000000 : 3832 : bystander.js
+45.875000 : 2829 : Zygohistomorphic Preproxenomorph
+45.376267 : 5349 5426 : ALAFTW, ALAFTW
+45.300000 : 5412 : Hydralisk eats taco
+45.285714 : 3838 : bystander.js
+45.190476 : 2914 : Team Sampou
+45.166667 : 4825 : uguu.org
+45.000000 : 5043 : Cult of the Bound Variable
+45.000000 : 5000 : Tsuru
+45.000000 : 2910 : Team Sampou
 45.000000 : 2839 : nerunerunerune
-44.857143 : 3833 : bystander.js
-44.780488 : 4100 : fotocopia-al-150
 44.750000 : 2002 : The Cat is #1!!
+44.650000 : 5391 : GD and Alumni
+44.500000 : 1832 : Buy Ascension VR on Steam, $9.99
+44.372790 : 1 103 155 178 299 579 658 710 156 300 717 157 301 720 1145 1164 303 723 1146 1166 304 733 1104 1149 1168 305 735 1106 1151 1171 306 738 1152 1173 307 740 1155 1178 308 742 1156 1180 309 745 1186 310 747 1190 311 1195 2540 312 1200 313 314 315 316 317 318 319 320 321 322 323 325 326 327 329 330 331 334 335 336 337 338 339 340 341 5839 342 345 346 : , Skobochka, yarunee, CubeClub, prolab, IKS, The team formally known as, kmc, yarunee, prolab, kmc, yarunee, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, Olympia, The team formally known as, CubeClub, prolab, kmc, Olympia, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, The team formally known as, CubeClub, prolab, kmc, CubeClub, prolab, kmc, CubeClub, prolab, CubeClub, Zebra Infused Hamsters, prolab, CubeClub, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, prolab, trup16, prolab, prolab, prolab
 44.333333 : 5745 : DiamondPrincess
-44.272727 : 2809 : TeamDev
-44.142857 : 3828 : bystander.js
-44.000000 : 4827 : fotocopia-al-150
-43.857143 : 3822 : bystander.js
-43.833333 : 2711 : Team Sampou
-43.729167 : 302 : Zygohistomorphic Preproxenomorph
+44.200000 : 2308 : Snakes vs Lambdas
+43.923077 : 3664 : 301
+43.600000 : 34 : 
 43.571429 : 3569 : Tsuru
-43.142857 : 3788 : bystander.js
+43.250000 : 2113 : The Cat is #1!!
 43.142857 : 3571 : Tsuru
 43.111111 : 2789 : A Storm of Minds
-42.900000 : 2104 : Hydralisk eats taco
-42.750000 : 2504 : nerunerunerune
-42.696970 : 1611 : Snakes vs Lambdas
+43.100000 : 4290 : uguu.org
+43.090909 : 3604 : Temporary OCaml Team Name
+42.836735 : 302 : Zygohistomorphic Preproxenomorph
 42.666667 : 5061 : DiamondPrincess
-42.214286 : 2533 : Olympia
-41.916667 : 5876 : Henchman #24
+42.666667 : 3955 : code-o-matic
+42.587413 : 2482 3140 4578 : ImaginaryCF, ImaginaryCF, ImaginaryCF
+42.307692 : 1591 : code-o-matic
+41.727273 : 4100 : fotocopia-al-150
 41.714286 : 3409 : Deramer
 41.666667 : 1110 : The Cat is #1!!
-41.600000 : 1136 : Snakes vs Lambdas
+41.647059 : 2913 : Team Sampou
+41.615385 : 2105 : Hydralisk eats taco
 41.583333 : 1067 : The Cat is #1!!
 41.500000 : 1107 : The Cat is #1!!
-41.428571 : 3607 : bystander.js
-41.391304 : 2912 : Team Sampou
-41.250000 : 3583 : kontur.ru
+41.411765 : 4827 : fotocopia-al-150
 41.166667 : 2824 : nerunerunerune
-41.066667 : 2918 : Team Sampou
-41.058824 : 5174 : lilik
-41.000000 : 2718 : モダン焼 フジ
-40.847222 : 2088 4379 : Deramer, Deramer
+41.133333 : 4983 : Small Opulent Shelducks 💨
 40.833333 : 5038 : DiamondPrincess
-40.181818 : 2917 : Team Sampou
-40.111111 : 2102 : Snakes vs Lambdas
-40.000000 : 5494 : Lens d'Ulm
-39.846154 : 3810 : 301
-39.760000 : 2972 : Leaf Pie
-39.750000 : 3804 : bystander.js
+40.700000 : 2007 : Snakes vs Lambdas
+40.125000 : 4912 : Snakes vs Lambdas
+40.000000 : 3835 : bystander.js
+40.000000 : 3807 : bystander.js
+39.875000 : 3795 : bystander.js
 39.714286 : 3160 : DiamondPrincess
 39.666667 : 5042 : DiamondPrincess
-39.595960 : 1395 4389 : Deramer, Deramer
-39.272727 : 5524 : sonna*baka*na
+39.625000 : 3812 : bystander.js
+39.450000 : 2711 : Team Sampou
+39.428571 : 5489 : Scala Ballas 🏀
+39.375000 : 3832 : bystander.js
+39.250000 : 3833 : bystander.js
 39.250000 : 712 : Lens d'Ulm
+39.142857 : 5044 : DiamondPrincess
+39.138889 : 1611 : Snakes vs Lambdas
 39.000000 : 5184 : why-five-aye
-38.941176 : 1392 : sdb
+38.941176 : 1416 : sdb
 38.833333 : 2797 : モダン焼 フジ
+38.777778 : 5174 : lilik
 38.700000 : 5439 : GD and Alumni
-38.666667 : 2931 : Team Sampou
-38.636364 : 721 : Lens d'Ulm
+38.625000 : 3828 : bystander.js
+38.500000 : 3884 : bystander.js
 38.500000 : 3549 : typo
 38.454545 : 3402 : uguu.org
-38.153846 : 1598 : code-o-matic
+38.444444 : 2088 4379 : Deramer, Deramer
+38.416667 : 2814 : TeamDev
+38.375000 : 3822 : bystander.js
+38.250000 : 2548 : Raging Mushrooms
 38.153846 : 1115 : The Cat is #1!!
 38.100000 : 2619 : A Storm of Minds
-38.000000 : 5334 : ALAFTW
 38.000000 : 5188 : why-five-aye
+37.902439 : 3810 : 301
+37.750000 : 3788 : bystander.js
 37.714286 : 5064 : DiamondPrincess
-37.600000 : 2779 : モダン焼 フジ
 37.461538 : 1109 : The Cat is #1!!
-37.394737 : 3771 : 301
 37.285714 : 3153 : DiamondPrincess
+37.116279 : 5334 : ALAFTW
+36.937500 : 2533 : Olympia
+36.814815 : 2972 : Leaf Pie
+36.800000 : 3873 : kontur.ru
+36.800000 : 3356 : kontur.ru
 36.714286 : 5057 : DiamondPrincess
-36.654545 : 494 3417 : Deramer, Deramer
-36.571429 : 5485 : Scala Ballas 🏀
-36.555556 : 5495 : Lens d'Ulm
-36.242857 : 2519 2561 3023 : The team formally known as, The team formally known as, The team formally known as
+36.615385 : 2912 : Team Sampou
+36.250000 : 3607 : bystander.js
+36.235294 : 2918 : Team Sampou
 36.166667 : 5186 : why-five-aye
 36.142857 : 3152 : DiamondPrincess
+36.100000 : 2102 : Snakes vs Lambdas
 36.090909 : 1369 : Snakes vs Lambdas
-35.815789 : 3770 : 301
+36.000000 : 5494 : Lens d'Ulm
+36.000000 : 4105 : kontur.ru
 35.714286 : 1390 : nerunerunerune
-35.666667 : 2399 : The Cat is #1!!
+35.636364 : 1395 4389 : Deramer, Deramer
 35.571429 : 2525 : DiamondPrincess
-35.200000 : 2666 : モダン焼 フジ
+35.525000 : 3771 : 301
+35.428571 : 1598 : code-o-matic
+35.400000 : 2519 2561 3023 : The team formally known as, The team formally known as, The team formally known as
+35.360000 : 2917 : Team Sampou
+35.333333 : 3804 : bystander.js
 35.142857 : 3188 : Raging Mushrooms
-34.916667 : 5527 : sonna*baka*na
-34.900000 : 4475 : Temporary OCaml Team Name
 34.888889 : 20 : 
-34.742857 : 5261 : ALAFTW
-34.729730 : 2998 : 301
+34.785714 : 5979 : lilik
+34.785714 : 2809 : TeamDev
+34.666667 : 1136 : Snakes vs Lambdas
 34.600000 : 2786 : A Storm of Minds
-34.600000 : 2330 : モダン焼 フジ
 34.583333 : 100 : 
-34.444444 : 4904 : Snakes vs Lambdas
-34.200000 : 2530 : nerunerunerune
-34.200000 : 2527 : nerunerunerune
-34.154423 : 4571 4575 4583 : ImaginaryCF, ImaginaryCF, ImaginaryCF
-34.153846 : 3527 : paiv
-33.972527 : 2621 3304 : ALAFTW, ALAFTW
+34.200000 : 2504 : nerunerunerune
+34.166667 : 2718 : モダン焼 フジ
 33.857143 : 3154 : DiamondPrincess
-33.800000 : 1096 : Snakes vs Lambdas
-33.681818 : 2922 : Team Sampou
-33.666667 : 5413 : Hydralisk eats taco
+33.777778 : 5261 : ALAFTW
 33.571429 : 2522 : DiamondPrincess
+33.454545 : 494 3417 : Deramer, Deramer
 33.428571 : 3176 : DiamondPrincess
-33.357143 : 462 : AZALEA
+33.384615 : 2812 : TeamDev
 33.285714 : 5742 : DiamondPrincess
-33.104762 : 3859 5448 : GD and Alumni, GD and Alumni
-33.085106 : 344 : Zygohistomorphic Preproxenomorph
+33.250000 : 5488 : Scala Ballas 🏀
+33.230769 : 5524 : sonna*baka*na
+33.100000 : 1456 : sdb
+33.000000 : 3583 : kontur.ru
 33.000000 : 3155 : DiamondPrincess
+33.000000 : 2104 : Hydralisk eats taco
+32.948718 : 2998 : 301
+32.923077 : 2399 : The Cat is #1!!
 32.857143 : 3564 : typo
-32.733333 : 2551 : public static void main
-32.666667 : 3581 : Hydralisk eats taco
 32.636364 : 3400 : uguu.org
 32.500000 : 2068 : 😼̯__,
-32.357143 : 522 : TeamDev
-32.222222 : 4584 : uguu.org
+32.404762 : 3770 : 301
+32.395833 : 344 : Zygohistomorphic Preproxenomorph
+32.230769 : 5527 : sonna*baka*na
 32.187500 : 356 : Zygohistomorphic Preproxenomorph
 32.125000 : 2509 : DiamondPrincess
-32.000000 : 5245 : fotocopia-al-150
 32.000000 : 2731 : モダン焼 フジ
-31.971429 : 3816 : 301
-31.764706 : 5933 : ALAFTW
-31.738636 : 1997 4382 : Deramer, Deramer
+31.883117 : 2551 : public static void main
+31.727273 : 4475 : Temporary OCaml Team Name
 31.714286 : 1167 : nerunerunerune
-31.709764 : 3539 3843 4081 4283 : foldCrane, foldCrane, foldCrane, foldCrane
+31.702024 : 4571 4575 4583 : ImaginaryCF, ImaginaryCF, ImaginaryCF
 31.571429 : 3141 : DiamondPrincess
-31.523810 : 1435 : sdb
-31.523810 : 1421 : sdb
 31.500000 : 2081 : yarunee
-31.470588 : 4371 : Zygohistomorphic Preproxenomorph
-31.307882 : 901 1366 : The $oun𝅗𝅥  of λ, The $oun𝅗𝅥  of λ
-31.268382 : 187 1831 2231 2232 2233 2234 2507 2508 : Zygohistomorphic Preproxenomorph, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee
+31.333333 : 2779 : モダン焼 フジ
+31.083333 : 3816 : 301
+31.000000 : 4904 : Snakes vs Lambdas
+30.727273 : 1096 : Snakes vs Lambdas
 30.714286 : 3157 : DiamondPrincess
 30.714286 : 3130 : DiamondPrincess
 30.714286 : 2524 : DiamondPrincess
 30.714286 : 2496 : DiamondPrincess
+30.666667 : 5193 : why-five-aye
 30.666667 : 899 : NCPLUG
-30.375000 : 5484 : Scala Ballas 🏀
+30.357143 : 721 : Lens d'Ulm
+30.341912 : 187 1831 2231 2232 2233 2234 2507 2508 : Zygohistomorphic Preproxenomorph, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee, yarunee
+30.300000 : 5413 : Hydralisk eats taco
 30.300000 : 5230 : びア部🍺
-30.200000 : 2493 2512 : typo, typo
-30.090909 : 1443 : sdb
-30.090909 : 1430 : sdb
-30.076923 : 5525 : sonna*baka*na
-30.000000 : 5780 : びア部🍺
-29.812500 : 5837 : Henchman #24
-29.711111 : 358 : Zygohistomorphic Preproxenomorph
-29.666667 : 4291 : uguu.org
-29.200000 : 2219 : Hydralisk eats taco
-29.142857 : 2909 : モダン焼 フジ
-29.142857 : 1906 : Stanfy+
-29.125000 : 221 : Zygohistomorphic Preproxenomorph
+30.260870 : 2931 : Team Sampou
+29.909091 : 5495 : Lens d'Ulm
+29.640000 : 2922 : Team Sampou
+29.588235 : 5876 : Henchman #24
+29.579167 : 2621 3304 : ALAFTW, ALAFTW
+29.333333 : 2666 : モダン焼 フジ
+29.065217 : 358 : Zygohistomorphic Preproxenomorph
+29.000000 : 4584 : uguu.org
 29.000000 : 3139 : DiamondPrincess
-28.937500 : 289 : kstm.org
-28.588235 : 2715 : Team Sampou
-28.533333 : 508 : TeamDev
-28.482759 : 5205 5231 : fotocopia-al-150, fotocopia-al-150
+28.833333 : 2330 : モダン焼 フジ
+28.827273 : 2493 2512 : typo, typo
+28.782609 : 1392 : sdb
+28.774194 : 901 1366 : The $oun𝅗𝅥  of λ, The $oun𝅗𝅥  of λ
+28.583333 : 1997 4382 : Deramer, Deramer
+28.500000 : 2530 : nerunerunerune
+28.500000 : 2527 : nerunerunerune
+28.444444 : 5485 : Scala Ballas 🏀
 28.333333 : 3547 : typo
-28.000000 : 1649 : Stanfy+
-27.944444 : 3830 : sonna*baka*na
+28.157895 : 4371 : Zygohistomorphic Preproxenomorph
+27.818182 : 1906 : Stanfy+
+27.750000 : 3527 : paiv
 27.700000 : 2271 : 😼̯__,
-27.583333 : 1438 : sdb
 27.545455 : 711 : ImaginaryCF
-27.300000 : 4210 : A Storm of Minds
+27.470588 : 462 : AZALEA
+27.430556 : 3859 5448 : GD and Alumni, GD and Alumni
 27.250000 : 5123 : びア部🍺
+27.000000 : 5780 : びア部🍺
+27.000000 : 5484 : Scala Ballas 🏀
 27.000000 : 2125 : nerunerunerune
-27.000000 : 2106 : Hydralisk eats taco
-26.875000 : 4920 : Buy Ascension VR on Steam, $9.99
+26.727273 : 3581 : Hydralisk eats taco
 26.714286 : 3142 : DiamondPrincess
+26.700000 : 4291 : uguu.org
+26.647059 : 522 : TeamDev
 26.625000 : 2888 : why-five-aye
-26.500000 : 2468 : A Storm of Minds
-26.480000 : 1454 : sdb
-26.480000 : 1448 : sdb
-26.480000 : 1442 : sdb
-26.480000 : 1434 : sdb
-26.480000 : 1432 : sdb
-26.480000 : 1428 : sdb
-26.480000 : 1422 : sdb
-26.480000 : 1420 : sdb
-26.388889 : 989 : Gassa & The Family
-26.315789 : 5644 : Henchman #24
+26.480000 : 1435 : sdb
+26.480000 : 1430 : sdb
+26.480000 : 1421 : sdb
+26.473684 : 3830 : sonna*baka*na
 26.222222 : 21 : 
-26.157895 : 5809 : Henchman #24
+26.205128 : 2219 : Hydralisk eats taco
 26.142857 : 2404 : nerunerunerune
-26.062500 : 509 : TeamDev
+26.066667 : 5525 : sonna*baka*na
 26.000000 : 2355 : 😼̯__,
+25.888889 : 221 : Zygohistomorphic Preproxenomorph
 25.801282 : 1073 1098 : Olympia, Olympia
-25.468085 : 359 : Zygohistomorphic Preproxenomorph
+25.722222 : 289 : kstm.org
+25.578947 : 2715 : Team Sampou
+25.500000 : 2909 : モダン焼 フジ
+25.477941 : 5205 5231 : fotocopia-al-150, fotocopia-al-150
 25.461538 : 1461 : sdb
-25.461538 : 1449 : sdb
-25.461538 : 1447 : sdb
-25.461538 : 1446 : sdb
-25.461538 : 1444 : sdb
-25.461538 : 1437 : sdb
-25.461538 : 1427 : sdb
-25.461538 : 1426 : sdb
-25.346154 : 1450 : sdb
-25.333333 : 1594 : code-o-matic
+25.461538 : 1443 : sdb
+25.461538 : 1438 : sdb
+25.176471 : 508 : TeamDev
 25.166667 : 2455 : モダン焼 フジ
 25.142857 : 613 : DiamondPrincess
-25.044444 : 3367 : 301
+25.052632 : 1649 : Stanfy+
+24.937500 : 359 : Zygohistomorphic Preproxenomorph
 24.875000 : 2893 : why-five-aye
-24.818182 : 2474 : A Storm of Minds
-24.765957 : 3190 : ALAFTW
-24.750000 : 2750 : モダン焼 フジ
-24.727273 : 4815 : lilik
-24.687500 : 4095 : A Storm of Minds
-24.543478 : 4505 : fotocopia-al-150
-24.518519 : 1445 : sdb
-24.518519 : 1431 : sdb
-24.518519 : 1429 : sdb
+24.818182 : 4210 : A Storm of Minds
+24.518519 : 1454 : sdb
+24.518519 : 1448 : sdb
+24.518519 : 1447 : sdb
+24.518519 : 1446 : sdb
+24.518519 : 1442 : sdb
+24.518519 : 1434 : sdb
+24.518519 : 1432 : sdb
+24.518519 : 1428 : sdb
+24.518519 : 1427 : sdb
+24.518519 : 1422 : sdb
+24.518519 : 1420 : sdb
 24.518519 : 1417 : sdb
-24.518519 : 1394 : sdb
 24.500000 : 2230 : モダン焼 フジ
-24.461538 : 5311 : Buy Ascension VR on Steam, $9.99
 24.428571 : 2526 : nerunerunerune
-24.407407 : 1419 : sdb
-24.333333 : 5482 : Scala Ballas 🏀
+24.090909 : 2468 : A Storm of Minds
+23.978723 : 3367 : 301
 23.888889 : 2661 : モダン焼 フジ
-23.879121 : 4376 4461 : Möbius Swan, Möbius Swan
-23.846154 : 5118 5456 : trup16, trup16
-23.833333 : 5271 : Bears ate our brains
-23.754119 : 7 172 778 : , ha2ne2, xyz
+23.850000 : 5837 : Henchman #24
+23.755102 : 3190 : ALAFTW
 23.666667 : 2003 : why-five-aye
-23.642857 : 1433 : sdb
-23.642857 : 1423 : sdb
+23.642857 : 1449 : sdb
+23.642857 : 1444 : sdb
+23.642857 : 1437 : sdb
+23.642857 : 1426 : sdb
+23.642857 : 1394 : sdb
 23.571429 : 2628 : why-five-aye
 23.555556 : 328 : why-five-aye
-23.535714 : 1440 : sdb
-23.535714 : 1414 : sdb
+23.539004 : 7 172 778 : , ha2ne2, xyz
 23.500000 : 1229 : モダン焼 フジ
 23.444444 : 614 : ImaginaryCF
 23.285714 : 2662 : why-five-aye
-23.259259 : 5820 : ALAFTW
-23.200000 : 365 : Zygohistomorphic Preproxenomorph
 23.200000 : 19 : 
-23.065217 : 360 : Zygohistomorphic Preproxenomorph
-22.888889 : 4987 : Buy Ascension VR on Steam, $9.99
-22.769231 : 4340 : Temporary OCaml Team Name
-22.724138 : 1425 : sdb
-22.400000 : 5483 : Scala Ballas 🏀
-22.285714 : 3876 : sonna*baka*na
+23.166667 : 509 : TeamDev
+23.040816 : 4505 : fotocopia-al-150
+22.846154 : 2106 : Hydralisk eats taco
+22.827586 : 1445 : sdb
+22.827586 : 1431 : sdb
+22.827586 : 1429 : sdb
+22.750000 : 2474 : A Storm of Minds
+22.724138 : 1450 : sdb
+22.724138 : 1419 : sdb
+22.724138 : 1414 : sdb
+22.666667 : 4815 : lilik
+22.574468 : 360 : Zygohistomorphic Preproxenomorph
+22.500000 : 5933 : ALAFTW
+22.212766 : 365 : Zygohistomorphic Preproxenomorph
+22.142857 : 5118 5456 : trup16, trup16
 22.111111 : 2886 : why-five-aye
 22.111111 : 2331 : why-five-aye
-22.111111 : 2000 : why-five-aye
+22.066667 : 1433 : sdb
+22.066667 : 1423 : sdb
+22.000000 : 2750 : モダン焼 フジ
+21.966667 : 1440 : sdb
 21.966667 : 1418 : sdb
 21.921053 : 3774 : 301
-21.888889 : 2539 : Team Sampou
-21.846154 : 5393 : codingteam
+21.739130 : 5644 : Henchman #24
+21.714286 : 5449 : GD and Alumni
 21.636364 : 5445 : GD and Alumni
-21.545455 : 4789 : Not bad team at all
-21.545455 : 3595 : A Storm of Minds
-21.522727 : 2216 : Snakes vs Lambdas
+21.608696 : 5809 : Henchman #24
+21.500000 : 6056 : R22b
+21.500000 : 4920 : Buy Ascension VR on Steam, $9.99
 21.500000 : 2109 : ImaginaryCF
-21.428571 : 5138 5762 : ALAFTW, ALAFTW
 21.375000 : 3559 : typo
 21.357143 : 757 : big.Rat
 21.333333 : 382 : fixstars
-21.317073 : 4550 : taxidriver
-21.303922 : 2071 2807 3024 : The $oun𝅗𝅥  of λ, The $oun𝅗𝅥  of λ, The $oun𝅗𝅥  of λ
-21.290323 : 181 : nobu
-21.238095 : 3869 : sonna*baka*na
-21.181818 : 1608 : nerunerunerune
-21.006154 : 512 1639 : Zebra Infused Hamsters, GD and Alumni
+21.272727 : 3876 : sonna*baka*na
+21.258065 : 1425 : sdb
 21.000000 : 3369 : codingteam
 21.000000 : 2200 : モダン焼 フジ
 20.909091 : 3286 : A Storm of Minds
 20.900000 : 770 : ImaginaryCF
 20.888889 : 2388 : モダン焼 フジ
-20.888889 : 252 : fixstars
-20.888889 : 219 : fixstars
-20.687500 : 3372 : codingteam
+20.809524 : 4550 : taxidriver
+20.789474 : 4095 : A Storm of Minds
 20.684211 : 37 : 
-20.666667 : 384 : fixstars
-20.562500 : 3375 : codingteam
-20.545455 : 5046 : Cult of the Bound Variable
-20.500000 : 387 : fixstars
+20.600000 : 4987 : Buy Ascension VR on Steam, $9.99
 20.454545 : 1370 : Buy Ascension VR on Steam, $9.99
+20.428571 : 5271 : Bears ate our brains
+20.363636 : 5483 : Scala Ballas 🏀
 20.363636 : 357 : nerunerunerune
-20.235294 : 3386 : codingteam
-20.021739 : 361 : Zygohistomorphic Preproxenomorph
-20.000000 : 3378 : codingteam
+20.272727 : 3869 : sonna*baka*na
+20.266667 : 1594 : code-o-matic
 20.000000 : 904 : Möbius Swan
+20.000000 : 181 : nobu
+19.909091 : 5482 : Scala Ballas 🏀
 19.900000 : 2891 : why-five-aye
 19.900000 : 2005 : why-five-aye
+19.900000 : 2000 : why-five-aye
 19.750000 : 5447 : GD and Alumni
-19.538462 : 734 : Lens d'Ulm
-19.200000 : 285 293 : fixstars, fixstars
+19.750000 : 4789 : Not bad team at all
+19.750000 : 3595 : A Storm of Minds
+19.733333 : 4340 : Temporary OCaml Team Name
+19.702703 : 5138 5762 : ALAFTW, ALAFTW
+19.652189 : 512 1639 : Zebra Infused Hamsters, GD and Alumni
+19.625000 : 5820 : ALAFTW
+19.595745 : 361 : Zygohistomorphic Preproxenomorph
+19.478261 : 5245 : fotocopia-al-150
+19.416667 : 1608 : nerunerunerune
+19.326531 : 2216 : Snakes vs Lambdas
 19.142857 : 3401 : uguu.org
-19.125000 : 5310 : Buy Ascension VR on Steam, $9.99
-19.111111 : 5183 : codingteam
-19.102564 : 1769 : Snakes vs Lambdas
-19.000000 : 376 : fixstars
-18.946667 : 18 1478 1762 : , 😼̯__,, Team Sampou
-18.900000 : 379 : fixstars
+19.111111 : 3386 : codingteam
+18.933333 : 5393 : codingteam
 18.800000 : 381 : fixstars
-18.800000 : 270 : fixstars
-18.800000 : 215 : fixstars
-18.698679 : 2618 2624 2766 3278 : Wintermute, Wintermute, Wintermute, Wintermute
-18.266667 : 5182 : codingteam
-18.125000 : 3102 : why-five-aye
-18.121212 : 2129 4576 : ImaginaryCF, ImaginaryCF
-18.053571 : 5581 : ParseError
-18.000000 : 3383 : codingteam
-18.000000 : 1590 : code-o-matic
-18.000000 : 518 : TeamDev
+18.800000 : 252 : fixstars
+18.800000 : 219 : fixstars
+18.761905 : 2539 : Team Sampou
+18.705882 : 5312 : Buy Ascension VR on Steam, $9.99
+18.600000 : 285 293 : fixstars, fixstars
+18.277778 : 3375 : codingteam
+18.269231 : 989 : Gassa & The Family
+18.142857 : 734 : Lens d'Ulm
+18.071573 : 2618 2624 2766 3278 : Wintermute, Wintermute, Wintermute, Wintermute
 17.941176 : 44 : 
-17.913043 : 4705 : fotocopia-al-150
-17.875000 : 3101 : why-five-aye
+17.910345 : 4376 4461 : Möbius Swan, Möbius Swan
+17.895928 : 18 1478 1762 : , 😼̯__,, Team Sampou
 17.800000 : 5611 : Not bad team at all
-17.756098 : 3103 : 301
-17.681504 : 1567 4878 4879 4880 4882 4883 4884 4885 : Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀
+17.738095 : 1769 : Snakes vs Lambdas
+17.666667 : 5311 : Buy Ascension VR on Steam, $9.99
 17.636364 : 2616 : A Storm of Minds
 17.583333 : 3396 : Temporary OCaml Team Name
-17.375000 : 5612 : Henchman #24
-17.195122 : 5457 : 🐍 String Invaders 👾
-17.175000 : 5239 : Henchman #24
-17.090909 : 217 : fixstars
-17.090909 : 213 : fixstars
+17.307692 : 1590 : code-o-matic
+17.200000 : 5183 : codingteam
+17.135593 : 5581 : ParseError
+17.100000 : 376 : fixstars
+17.090909 : 270 : fixstars
+17.090909 : 215 : fixstars
 17.090909 : 210 : fixstars
-17.000000 : 6030 : R22b
-16.975610 : 4552 : taxidriver
-16.974359 : 4558 : taxidriver
-16.875000 : 5472 : Scala Ballas 🏀
-16.794118 : 3826 : sonna*baka*na
+16.909091 : 384 : fixstars
+16.842105 : 3378 : codingteam
+16.816327 : 4705 : fotocopia-al-150
 16.777778 : 1291 : モダン焼 フジ
-16.769231 : 1600 : code-o-matic
+16.772727 : 2071 2807 3024 : The $oun𝅗𝅥  of λ, The $oun𝅗𝅥  of λ, The $oun𝅗𝅥  of λ
 16.714286 : 3399 : uguu.org
 16.700000 : 1743 : nerunerunerune
-16.520430 : 2218 2311 4099 : lilik, lilik, lilik
-16.357143 : 5388 : Henchman #24
-16.333333 : 48 : 
-16.312500 : 5179 : codingteam
-16.125000 : 1623 : why-five-aye
-16.105263 : 5309 : Buy Ascension VR on Steam, $9.99
-16.105263 : 1588 : code-o-matic
-15.931818 : 5390 : 🐍 String Invaders 👾
-15.900000 : 532 : Zebra Infused Hamsters
-15.700000 : 368 : fixstars
-15.666667 : 202 : fixstars
-15.402857 : 2274 2554 2723 2556 : びア部🍺, びア部🍺, びア部🍺, びア部🍺
-15.300000 : 3380 : codingteam
-15.250000 : 517 : TeamDev
-15.220000 : 533 : Zebra Infused Hamsters
-15.181818 : 369 : fixstars
+16.571429 : 4552 : taxidriver
+16.550000 : 3372 : codingteam
+16.545455 : 3103 : 301
+16.400000 : 387 : fixstars
+16.395349 : 5457 : 🐍 String Invaders 👾
+16.357143 : 5239 : Henchman #24
+16.314286 : 3826 : sonna*baka*na
+16.146341 : 4558 : taxidriver
+16.142857 : 5046 : Cult of the Bound Variable
+16.111111 : 3102 : why-five-aye
+16.000000 : 2129 4576 : ImaginaryCF, ImaginaryCF
+15.976744 : 5388 : Henchman #24
+15.888889 : 3101 : why-five-aye
+15.812406 : 1567 4878 4879 4880 4882 4883 4884 4885 : Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀, Scala Ballas 🏀
+15.750000 : 379 : fixstars
+15.666667 : 217 : fixstars
+15.666667 : 213 : fixstars
+15.590909 : 48 : 
+15.577778 : 5390 : 🐍 String Invaders 👾
+15.571429 : 1600 : code-o-matic
+15.339962 : 2218 2311 4099 : lilik, lilik, lilik
+15.300000 : 5310 : Buy Ascension VR on Steam, $9.99
+15.300000 : 1588 : code-o-matic
+15.222222 : 5182 : codingteam
+15.157895 : 3383 : codingteam
 15.111111 : 3521 : AZALEA
-15.064516 : 988 : Gassa & The Family
-15.000000 : 2495 : typo
-15.000000 : 2057 : Omega men
-14.823529 : 5774 : The $oun𝅗𝅥  of λ
-14.619048 : 3371 : codingteam
-14.477273 : 5314 : 🐍 String Invaders 👾
+15.000000 : 5472 : Scala Ballas 🏀
+15.000000 : 532 : Zebra Infused Hamsters
+15.000000 : 518 : TeamDev
+14.892857 : 5612 : Henchman #24
+14.615385 : 5935 : ALAFTW
+14.519198 : 2274 2554 2723 2556 : びア部🍺, びア部🍺, びア部🍺, びア部🍺
+14.500000 : 5179 : codingteam
 14.461538 : 208 : fixstars
 14.461538 : 206 : fixstars
+14.461538 : 202 : fixstars
 14.437500 : 499 : code-o-matic
+14.358491 : 533 : Zebra Infused Hamsters
 14.333333 : 2885 : why-five-aye
-14.300000 : 2511 : typo
-14.285714 : 3288 : ALAFTW
-14.275000 : 4974 : Henchman #24
-14.255319 : 4555 : taxidriver
-14.200000 : 2506 : typo
+14.333333 : 1623 : why-five-aye
 14.200000 : 1240 : kontur.ru
 14.000000 : 2006 : nerunerunerune
+13.954545 : 3371 : codingteam
 13.950000 : 45 : 
 13.916667 : 105 : Zygohistomorphic Preproxenomorph
-13.909091 : 5308 : Buy Ascension VR on Steam, $9.99
-13.857143 : 3366 : codingteam
-13.829268 : 4588 : Henchman #24
-13.687500 : 489 : TeamDev
+13.909091 : 3380 : codingteam
+13.847826 : 5314 : 🐍 String Invaders 👾
+13.673469 : 4555 : taxidriver
 13.666667 : 2764 : why-five-aye
 13.642857 : 1592 : code-o-matic
-13.607143 : 2175 : GD and Alumni
-13.600000 : 1599 : code-o-matic
-13.571429 : 3189 : Temporary OCaml Team Name
-13.562500 : 1771 : kstm.org
-13.545455 : 5114 : trup16
-13.545455 : 367 : fixstars
-13.527778 : 987 : Gassa & The Family
+13.636364 : 2495 : typo
+13.595238 : 4974 : Henchman #24
+13.500000 : 4588 : Henchman #24
 13.428571 : 204 : fixstars
 13.428571 : 200 : fixstars
 13.428571 : 196 : fixstars
-13.388889 : 3850 : A Storm of Minds
-13.375000 : 2117 : Small Opulent Shelducks 💨
-13.317460 : 4979 : 🐍 String Invaders 👾
-13.304348 : 5307 : Buy Ascension VR on Steam, $9.99
-13.304348 : 5306 : Buy Ascension VR on Steam, $9.99
-13.279070 : 4375 : Henchman #24
-13.279070 : 3883 : Henchman #24
-13.222222 : 5819 : Wowbagger6809
-13.181818 : 374 : fixstars
-13.152174 : 5241 : 🐍 String Invaders 👾
-13.142857 : 1845 : Small Opulent Shelducks 💨
-13.111111 : 4460 : Möbius Swan
-13.090909 : 2092 : Hydralisk eats taco
-13.059623 : 1777 2197 : ALAFTW, ALAFTW
-12.986111 : 3181 3403 : fotocopia-al-150, fotocopia-al-150
-12.907692 : 4915 : 🐍 String Invaders 👾
+13.333333 : 3288 : ALAFTW
+13.263158 : 5774 : The $oun𝅗𝅥  of λ
+13.227273 : 3366 : codingteam
+13.083333 : 368 : fixstars
+13.000000 : 2511 : typo
+12.977273 : 4375 : Henchman #24
+12.977273 : 3883 : Henchman #24
+12.972222 : 988 : Gassa & The Family
+12.909091 : 2506 : typo
 12.907692 : 2834 : 🐍 String Invaders 👾
-12.882353 : 290 : kstm.org
-12.848485 : 2070 : Small Opulent Shelducks 💨
-12.818182 : 2503 : typo
-12.781664 : 457 506 2782 : AZALEA, Zebra Infused Hamsters, びア部🍺
-12.730769 : 4561 : taxidriver
-12.727273 : 3291 : ALAFTW
-12.727273 : 366 : fixstars
-12.710526 : 986 : Gassa & The Family
-12.688889 : 2255 : Henchman #24
-12.666667 : 5598 : ImaginaryCF
-12.632256 : 1130 1099 3083 4051 : public static void main, public static void main, Möbius Swan, Möbius Swan
+12.846154 : 369 : fixstars
+12.842105 : 517 : TeamDev
+12.777778 : 4464 : Möbius Swan
+12.750000 : 5309 : Buy Ascension VR on Steam, $9.99
+12.712121 : 4979 : 🐍 String Invaders 👾
+12.684211 : 3850 : A Storm of Minds
+12.604167 : 5241 : 🐍 String Invaders 👾
 12.600000 : 2263 : Henchman #24
-12.589744 : 985 : Gassa & The Family
+12.592593 : 1599 : code-o-matic
+12.570629 : 1777 2197 : ALAFTW, ALAFTW
 12.533333 : 198 : fixstars
+12.522388 : 4915 : 🐍 String Invaders 👾
 12.522388 : 2832 : 🐍 String Invaders 👾
-12.522388 : 2830 : 🐍 String Invaders 👾
-12.500000 : 375 : fixstars
-12.484848 : 4918 : fotocopia-al-150
-12.416667 : 5116 : trup16
+12.487179 : 987 : Gassa & The Family
+12.432432 : 1845 : Small Opulent Shelducks 💨
+12.416667 : 5114 : trup16
+12.416667 : 367 : fixstars
+12.413043 : 2255 : Henchman #24
 12.413043 : 2254 : Henchman #24
 12.413043 : 2253 : Henchman #24
-12.240000 : 5305 : Buy Ascension VR on Steam, $9.99
-12.240000 : 5304 : Buy Ascension VR on Steam, $9.99
+12.338235 : 2830 : 🐍 String Invaders 👾
+12.290323 : 2175 : GD and Alumni
+12.260062 : 3181 3403 : fotocopia-al-150, fotocopia-al-150
 12.239130 : 2262 : Henchman #24
 12.234043 : 2256 : Henchman #24
-12.222222 : 1165 : Buy Ascension VR on Steam, $9.99
-12.210526 : 2579 : A Storm of Minds
+12.228571 : 2117 : Small Opulent Shelducks 💨
 12.159420 : 2828 : 🐍 String Invaders 👾
-12.159420 : 2826 : 🐍 String Invaders 👾
-12.159420 : 2825 : 🐍 String Invaders 👾
 12.148936 : 2261 : Henchman #24
-12.148936 : 2069 : Henchman #24
+12.147015 : 457 506 2782 : AZALEA, Zebra Infused Hamsters, びア部🍺
+12.114286 : 2070 : Small Opulent Shelducks 💨
+12.083333 : 374 : fixstars
+12.075000 : 986 : Gassa & The Family
+12.071795 : 1130 1099 3083 4051 : public static void main, public static void main, Möbius Swan, Möbius Swan
 12.063830 : 2257 : Henchman #24
-12.019231 : 528 : Zebra Infused Hamsters
-11.985714 : 2821 : 🐍 String Invaders 👾
+12.055556 : 1771 : kstm.org
+11.985714 : 2826 : 🐍 String Invaders 👾
+11.985714 : 2825 : 🐍 String Invaders 👾
+11.975610 : 985 : Gassa & The Family
 11.916667 : 5111 : trup16
-11.816901 : 2820 : 🐍 String Invaders 👾
-11.816901 : 2815 : 🐍 String Invaders 👾
-11.750000 : 5931 : Piggybank Software
+11.914894 : 3291 : ALAFTW
+11.895833 : 2069 : Henchman #24
+11.875000 : 3189 : Temporary OCaml Team Name
+11.816901 : 2821 : 🐍 String Invaders 👾
+11.769231 : 5308 : Buy Ascension VR on Steam, $9.99
+11.769231 : 5307 : Buy Ascension VR on Steam, $9.99
+11.769231 : 5306 : Buy Ascension VR on Steam, $9.99
+11.750000 : 2503 : typo
 11.750000 : 194 : fixstars
 11.750000 : 192 : fixstars
 11.730769 : 46 : 
-11.652778 : 2813 : 🐍 String Invaders 👾
-11.583333 : 292 : fixstars
+11.666667 : 366 : fixstars
+11.652778 : 2820 : 🐍 String Invaders 👾
+11.652778 : 2815 : 🐍 String Invaders 👾
 11.571429 : 371 : fixstars
-11.525940 : 17 1844 1764 : , 😼̯__,, Team Sampou
-11.500000 : 294 : fixstars
-11.383562 : 2671 : 🐍 String Invaders 👾
-11.380952 : 2056 : Omega men
-11.365385 : 530 : Zebra Infused Hamsters
-11.259259 : 5172 : Buy Ascension VR on Steam, $9.99
-11.229730 : 2803 : 🐍 String Invaders 👾
+11.538462 : 375 : fixstars
+11.526316 : 489 : TeamDev
+11.526316 : 290 : kstm.org
+11.493151 : 2813 : 🐍 String Invaders 👾
+11.461538 : 5116 : trup16
+11.363636 : 528 : Zebra Infused Hamsters
+11.333333 : 5304 : Buy Ascension VR on Steam, $9.99
+11.238095 : 4460 : Möbius Swan
 11.214286 : 2762 : TheWildLobsters
 11.200000 : 372 : fixstars
-11.119048 : 984 : Gassa & The Family
-11.111111 : 5303 : Buy Ascension VR on Steam, $9.99
-11.111111 : 3156 : kontur.ru
-11.071429 : 4814 : Buy Ascension VR on Steam, $9.99
-11.071429 : 4587 : Buy Ascension VR on Steam, $9.99
-10.951995 : 2538 5885 : codingteam, Piggybank Software
-10.901961 : 513 : Zebra Infused Hamsters
+11.190476 : 2058 : Omega men
+11.135135 : 4918 : fotocopia-al-150
+11.080000 : 2671 : 🐍 String Invaders 👾
+11.076923 : 2092 : Hydralisk eats taco
+11.047619 : 2579 : A Storm of Minds
+11.040460 : 17 1844 1764 : , 😼̯__,, Team Sampou
+11.000000 : 1165 : Buy Ascension VR on Steam, $9.99
+10.934211 : 2803 : 🐍 String Invaders 👾
+10.928571 : 5305 : Buy Ascension VR on Steam, $9.99
+10.913043 : 4562 : taxidriver
 10.888889 : 3280 : AZALEA
-10.842105 : 5338 : ALAFTW
-10.733333 : 957 : Gassa & The Family
-10.689655 : 4022 : Buy Ascension VR on Steam, $9.99
-10.666667 : 5491 : Henchman #24
-10.509434 : 529 : Zebra Infused Hamsters
-10.500000 : 976 : Gassa & The Family
-10.448980 : 2251 : ALAFTW
-10.416667 : 169 : typo
-10.416667 : 168 : typo
-10.413043 : 978 : Gassa & The Family
-10.400000 : 3192 : ALAFTW
-10.400000 : 1539 : kittykoala
+10.777778 : 5960 : Piggybank Software
+10.745455 : 530 : Zebra Infused Hamsters
+10.692308 : 292 : fixstars
+10.689655 : 4814 : Buy Ascension VR on Steam, $9.99
+10.689655 : 4587 : Buy Ascension VR on Steam, $9.99
+10.615385 : 294 : fixstars
+10.613636 : 984 : Gassa & The Family
+10.482759 : 5172 : Buy Ascension VR on Steam, $9.99
+10.363636 : 5598 : ImaginaryCF
 10.357143 : 1470 : why-five-aye
-10.333333 : 2726 : Buy Ascension VR on Steam, $9.99
-10.326087 : 970 : Gassa & The Family
+10.344828 : 5303 : Buy Ascension VR on Steam, $9.99
+10.343750 : 4561 : taxidriver
 10.312500 : 2544 : bystander.js
-10.285714 : 4458 : Möbius Swan
-10.276596 : 965 : Gassa & The Family
-10.275862 : 5029 : Buy Ascension VR on Steam, $9.99
+10.300000 : 5338 : ALAFTW
+10.296296 : 513 : Zebra Infused Hamsters
+10.276596 : 957 : Gassa & The Family
 10.250000 : 2545 : bystander.js
-10.191489 : 960 : Gassa & The Family
-10.182857 : 2670 2802 : The team formally known as, The team formally known as
-10.100000 : 1527 : Cult of the Bound Variable
-10.067460 : 42 791 2897 : , Team Sampou, sonna*baka*na
+10.106383 : 970 : Gassa & The Family
+10.062500 : 976 : Gassa & The Family
+10.062500 : 965 : Gassa & The Family
+10.039216 : 2251 : ALAFTW
+10.000000 : 4022 : Buy Ascension VR on Steam, $9.99
+10.000000 : 2726 : Buy Ascension VR on Steam, $9.99
 10.000000 : 2543 : bystander.js
+10.000000 : 2057 : Omega men
+9.979167 : 978 : Gassa & The Family
+9.979167 : 960 : Gassa & The Family
+9.955556 : 5491 : Henchman #24
+9.946429 : 529 : Zebra Infused Hamsters
 9.937500 : 2546 : bystander.js
+9.933333 : 5029 : Buy Ascension VR on Steam, $9.99
+9.916667 : 5819 : Wowbagger6809
 9.875000 : 541 : bystander.js
-9.820000 : 947 : Gassa & The Family
 9.812500 : 2542 : bystander.js
+9.750000 : 3192 : ALAFTW
 9.750000 : 2541 : bystander.js
 9.750000 : 1409 : Cult of the Bound Variable
-9.660000 : 924 : Gassa & The Family
-9.627451 : 944 : Gassa & The Family
-9.580000 : 942 : Gassa & The Family
-9.566038 : 525 : Zebra Infused Hamsters
+9.627451 : 947 : Gassa & The Family
 9.562500 : 542 : bystander.js
-9.530612 : 949 : Gassa & The Family
 9.523810 : 43 : 
-9.481818 : 2805 3407 : Zebra Infused Hamsters, Zebra Infused Hamsters
-9.450000 : 5907 : 🐍 String Invaders 👾
-9.411765 : 706 : Stanfy+
-9.388889 : 3106 : The $oun𝅗𝅥  of λ
-9.380952 : 5149 : 🐍 String Invaders 👾
-9.365385 : 931 : Gassa & The Family
-9.340000 : 936 : Gassa & The Family
-9.340000 : 926 : Gassa & The Family
-9.340000 : 921 : Gassa & The Family
-9.339623 : 911 : Gassa & The Family
+9.470588 : 924 : Gassa & The Family
+9.454545 : 1539 : kittykoala
+9.442308 : 944 : Gassa & The Family
+9.400000 : 5931 : Piggybank Software
+9.392157 : 942 : Gassa & The Family
+9.371147 : 42 791 2897 : , Team Sampou, sonna*baka*na
+9.340000 : 949 : Gassa & The Family
+9.333333 : 2670 2802 : The team formally known as, The team formally known as
 9.250000 : 2236 : A Storm of Minds
-9.234375 : 5062 : 🐍 String Invaders 👾
-9.211538 : 929 : Gassa & The Family
-9.153846 : 2767 : Zygohistomorphic Preproxenomorph
+9.188679 : 931 : Gassa & The Family
+9.166667 : 911 : Gassa & The Family
+9.156863 : 936 : Gassa & The Family
+9.156863 : 926 : Gassa & The Family
 9.153846 : 164 : typo
-9.120000 : 4451 : Möbius Swan
-9.116279 : 3220 : ALAFTW
-8.960000 : 5487 : codingteam
+9.121376 : 2538 5885 : codingteam, Piggybank Software
+9.090909 : 6036 : fotocopia-al-150
+9.090909 : 3156 : kontur.ru
+9.038603 : 2805 3407 : Zebra Infused Hamsters, Zebra Infused Hamsters
+9.037736 : 929 : Gassa & The Family
+8.980769 : 921 : Gassa & The Family
+8.954545 : 5149 : 🐍 String Invaders 👾
+8.928571 : 169 : typo
+8.928571 : 168 : typo
 8.928571 : 162 : typo
-8.916667 : 4446 : Möbius Swan
-8.890909 : 526 : Zebra Infused Hamsters
-8.851852 : 4279 : Möbius Swan
-8.769231 : 727 : Hydralisk eats taco
-8.740741 : 2055 : Omega men
-8.720000 : 4443 : Möbius Swan
-8.666667 : 1536 : kittykoala
-8.652174 : 5237 : fotocopia-al-150
+8.925000 : 2767 : Zygohistomorphic Preproxenomorph
+8.894737 : 525 : Zebra Infused Hamsters
+8.691176 : 5062 : 🐍 String Invaders 👾
+8.640000 : 4458 : Möbius Swan
 8.636364 : 908 : Gassa & The Family
-8.593750 : 3780 : びア部🍺
-8.518519 : 4369 : Möbius Swan
-8.486486 : 3247 : codingteam
-8.444444 : 4367 : Möbius Swan
+8.590909 : 5932 : 🐍 String Invaders 👾
+8.535714 : 4279 : Möbius Swan
+8.444444 : 4451 : Möbius Swan
+8.421053 : 706 : Stanfy+
+8.416667 : 1527 : Cult of the Bound Variable
 8.411765 : 536 : bystander.js
-8.379310 : 2193 : GD and Alumni
 8.368421 : 3455 : 301
+8.340426 : 3220 : ALAFTW
 8.339286 : 906 : Gassa & The Family
-8.307692 : 1983 : モダン焼 フジ
+8.333333 : 3780 : びア部🍺
 8.294118 : 538 : bystander.js
-8.230769 : 4309 : Möbius Swan
-8.090909 : 2217 : Olympia
-8.076923 : 4412 : Möbius Swan
-8.073171 : 4557 : taxidriver
+8.288136 : 526 : Zebra Infused Hamsters
+8.263158 : 3247 : codingteam
+8.230769 : 4446 : Möbius Swan
+8.214286 : 4369 : Möbius Swan
+8.142857 : 4367 : Möbius Swan
+8.142857 : 727 : Hydralisk eats taco
+8.074074 : 4443 : Möbius Swan
 8.058824 : 539 : bystander.js
 8.055556 : 520 : bystander.js
-8.032258 : 4518 : taxidriver
-8.000000 : 3608 5133 : InforFun, trup16
-7.928571 : 4339 : Möbius Swan
-7.928571 : 166 : typo
-7.925926 : 5238 : fotocopia-al-150
+8.047619 : 3106 : The $oun𝅗𝅥  of λ
+8.000000 : 1536 : kittykoala
+7.966667 : 2056 : Omega men
 7.902439 : 3195 : ALAFTW
-7.785714 : 4346 : Möbius Swan
+7.838710 : 2193 : GD and Alumni
+7.777778 : 4412 : Möbius Swan
 7.777778 : 540 : bystander.js
 7.777778 : 537 : bystander.js
-7.750000 : 1140 : Cult of the Bound Variable
-7.666667 : 4303 : Möbius Swan
-7.642857 : 4298 : Möbius Swan
-7.619048 : 832 : A Storm of Minds
-7.500000 : 2052 : Omega men
-7.483871 : 2054 : Omega men
-7.461538 : 1605 : why-five-aye
-7.441860 : 3273 : ALAFTW
-7.419355 : 2053 : Omega men
-7.377778 : 2967 : ALAFTW
-7.312500 : 5176 : codingteam
-7.244898 : 4551 : taxidriver
-7.187500 : 171 : typo
-7.151515 : 2051 : Omega men
-7.142857 : 2147 : AZALEA
-7.069767 : 3229 : ALAFTW
-7.062500 : 170 : typo
-6.976744 : 3276 : ALAFTW
+7.724138 : 5487 : codingteam
+7.714286 : 1983 : モダン焼 フジ
+7.700000 : 3608 5133 : InforFun, trup16
+7.697674 : 4557 : taxidriver
+7.655172 : 4339 : Möbius Swan
+7.642857 : 4309 : Möbius Swan
+7.517241 : 4346 : Möbius Swan
+7.419355 : 4303 : Möbius Swan
+7.400000 : 166 : typo
+7.379310 : 4298 : Möbius Swan
+7.294118 : 1140 : Cult of the Bound Variable
+7.272727 : 832 : A Storm of Minds
+7.151515 : 2055 : Omega men
+7.063830 : 2967 : ALAFTW
+6.960784 : 4551 : taxidriver
 6.946429 : 581 : Frictionless Bananas
-6.937500 : 4554 : taxidriver
-6.937500 : 167 : typo
-6.937500 : 165 : typo
+6.928571 : 1605 : why-five-aye
+6.882353 : 5176 : codingteam
+6.857143 : 2052 : Omega men
+6.846154 : 2217 : Olympia
 6.842105 : 535 : bystander.js
-6.774194 : 4255 : Möbius Swan
-6.764706 : 2050 : Omega men
-6.689189 : 2901 3071 3205 : Omega men, Omega men, Omega men
-6.666667 : 2049 : Omega men
-6.567568 : 4560 : taxidriver
-6.529412 : 163 : typo
-6.526316 : 3370 : codingteam
-6.515152 : 2409 : lilik
-6.416667 : 4344 : Omega men
-6.378378 : 2045 : Omega men
-6.351351 : 2047 : Omega men
-6.326107 : 40 903 1731 : , Team Sampou, sonna*baka*na
-6.316552 : 14 2228 2244 : , sonna*baka*na, Team Sampou
-6.315789 : 2048 : Omega men
-6.315789 : 2046 : Omega men
-6.302392 : 38 994 2112 : , Team Sampou, sonna*baka*na
-6.297297 : 4343 : Omega men
-6.297297 : 2034 : Omega men
-6.242424 : 5198 : fotocopia-al-150
-6.233333 : 5812 : 🐍 String Invaders 👾
+6.764706 : 2053 : Omega men
+6.764706 : 171 : typo
+6.742857 : 2051 : Omega men
+6.729730 : 4518 : taxidriver
+6.666667 : 3273 : ALAFTW
+6.660000 : 4554 : taxidriver
+6.647059 : 170 : typo
+6.633333 : 5237 : fotocopia-al-150
+6.628571 : 2054 : Omega men
+6.608696 : 3229 : ALAFTW
+6.562500 : 4255 : Möbius Swan
+6.529412 : 167 : typo
+6.529412 : 165 : typo
+6.521739 : 3276 : ALAFTW
+6.517241 : 5907 : 🐍 String Invaders 👾
+6.509957 : 2901 3071 3205 : Omega men, Omega men, Omega men
+6.484848 : 5238 : fotocopia-al-150
+6.451613 : 2147 : AZALEA
+6.358974 : 3370 : codingteam
+6.243243 : 4344 : Omega men
 6.232558 : 3198 : ALAFTW
-6.230769 : 4559 : taxidriver
-6.216216 : 2032 : Omega men
-6.210526 : 4289 : Omega men
-6.210526 : 543 : bystander.js
-6.195098 : 41 902 1570 : , Team Sampou, sonna*baka*na
-6.153846 : 2028 : Omega men
-6.153846 : 2026 : Omega men
-6.151515 : 5207 : fotocopia-al-150
-6.131579 : 4342 : Omega men
-6.128205 : 2035 : Omega men
-6.128205 : 2027 : Omega men
-6.105263 : 2031 : Omega men
+6.230769 : 4560 : taxidriver
+6.216216 : 2050 : Omega men
+6.184211 : 2047 : Omega men
+6.166667 : 163 : typo
+6.153846 : 2049 : Omega men
+6.153846 : 2048 : Omega men
+6.153846 : 2046 : Omega men
+6.142857 : 2409 : lilik
+6.131579 : 4343 : Omega men
 6.103448 : 514 : Dao of the fold
-6.054054 : 2033 : Omega men
-6.051282 : 2030 : Omega men
-6.026316 : 2044 : Omega men
-6.025641 : 2029 : Omega men
+6.051282 : 4289 : Omega men
+6.051282 : 2045 : Omega men
+6.001318 : 41 902 1570 : , Team Sampou, sonna*baka*na
 6.000000 : 3576 : lilik
-6.000000 : 2025 : Omega men
-5.926623 : 39 975 2065 : , Team Sampou, sonna*baka*na
+5.974359 : 4342 : Omega men
+5.974359 : 2034 : Omega men
+5.934343 : 40 903 1731 : , Team Sampou, sonna*baka*na
+5.901229 : 14 2228 2244 : , sonna*baka*na, Team Sampou
+5.900000 : 543 : bystander.js
+5.879065 : 38 994 2112 : , Team Sampou, sonna*baka*na
 5.875000 : 846 : Olympia
-5.866667 : 3271 : lilik
-5.853659 : 2036 : Omega men
-5.838710 : 851 : Olympia
-5.833333 : 3191 : ALAFTW
-5.809524 : 1829 : Omega men
-5.700318 : 2894 3088 : codingteam, codingteam
-5.690476 : 4556 : taxidriver
-5.600000 : 5181 : fotocopia-al-150
-5.583333 : 5505 : Bears ate our brains
-5.575758 : 2948 : CubeClub
-5.478261 : 4910 : trup16
-5.428571 : 291 : kstm.org
-5.421053 : 5150 : fotocopia-al-150
-5.378378 : 5141 : fotocopia-al-150
-5.303030 : 2709 : Zebra Infused Hamsters
-5.297297 : 5173 : fotocopia-al-150
-5.285714 : 5810 : 🐍 String Invaders 👾
-5.206897 : 736 : Invisible Imp
+5.871795 : 2044 : Omega men
+5.853659 : 2026 : Omega men
+5.800000 : 2031 : Omega men
+5.785714 : 4559 : taxidriver
+5.760407 : 39 975 2065 : , Team Sampou, sonna*baka*na
+5.756098 : 2030 : Omega men
+5.750000 : 2032 : Omega men
+5.743590 : 2033 : Omega men
+5.731707 : 2029 : Omega men
+5.714286 : 2036 : Omega men
+5.714286 : 2028 : Omega men
+5.690476 : 2035 : Omega men
+5.690476 : 2027 : Omega men
+5.600000 : 3191 : ALAFTW
+5.581395 : 2025 : Omega men
+5.567568 : 5198 : fotocopia-al-150
+5.545455 : 1829 : Omega men
+5.500000 : 3271 : lilik
+5.486486 : 5207 : fotocopia-al-150
+5.411765 : 2948 : CubeClub
+5.395299 : 2894 3088 : codingteam, codingteam
+5.323529 : 851 : Olympia
+5.282051 : 5150 : fotocopia-al-150
+5.195652 : 4556 : taxidriver
+5.194444 : 5812 : 🐍 String Invaders 👾
+5.181818 : 291 : kstm.org
 5.166667 : 1129 : モダン焼 フジ
-5.166667 : 788 : cashto
-5.166667 : 606 : A Storm of Minds
-5.120000 : 2534 : ALAFTW
+5.157895 : 5181 : fotocopia-al-150
+5.153846 : 5505 : Bears ate our brains
+5.147727 : 736 : Invisible Imp
+5.142857 : 4910 : trup16
 5.111111 : 2166 : InforFun
-5.048297 : 8 773 1094 1705 : , Omega men, Omega men, fotocopia-al-150
-5.000000 : 1585 : Deramer
-4.842105 : 1481 : Stanfy+
-4.833333 : 5427 : Henchman #24
-4.731707 : 600 : A Storm of Minds
-4.714286 : 5642 : 🐍 String Invaders 👾
-4.677419 : 2268 : InforFun
-4.666667 : 2576 : Zebra Infused Hamsters
-4.653061 : 1361 : Möbius Swan
-4.613636 : 5277 : Henchman #24
-4.571429 : 498 : bystander.js
-4.566667 : 2752 : lilik
-4.552632 : 5554 : 🐍 String Invaders 👾
-4.511111 : 5128 : Henchman #24
-4.480797 : 184 1138 : unfold, Möbius Swan
-4.464286 : 2615 : why-five-aye
-4.435897 : 5473 : 🐍 String Invaders 👾
-4.428571 : 1848 2784 2887 : fotocopia-al-150, fotocopia-al-150, fotocopia-al-150
-4.151515 : 2407 : lilik
-4.138889 : 575 : ImaginaryCF
-4.098039 : 4000 : Errol's Robots
-4.074074 : 1352 1606 : Möbius Swan, Möbius Swan
-4.058824 : 1412 : lilik
-4.027027 : 2878 : lilik
-3.965327 : 16 1766 : , Team Sampou
-3.939394 : 1410 : yarunee
+5.102564 : 5141 : fotocopia-al-150
+5.025641 : 5173 : fotocopia-al-150
+5.000000 : 2709 : Zebra Infused Hamsters
+5.000000 : 788 : cashto
+4.960000 : 606 : A Storm of Minds
+4.923077 : 2534 : ALAFTW
+4.909249 : 8 773 1094 1705 : , Omega men, Omega men, fotocopia-al-150
+4.782609 : 1585 : Deramer
+4.743590 : 5810 : 🐍 String Invaders 👾
+4.619048 : 600 : A Storm of Minds
+4.613636 : 5427 : Henchman #24
+4.419355 : 2752 : lilik
+4.413043 : 5277 : Henchman #24
+4.413043 : 5128 : Henchman #24
+4.384615 : 1361 : Möbius Swan
+4.380952 : 1481 : Stanfy+
+4.242424 : 2576 : Zebra Infused Hamsters
+4.219512 : 5554 : 🐍 String Invaders 👾
+4.219512 : 5473 : 🐍 String Invaders 👾
+4.173913 : 498 : bystander.js
+4.142857 : 2268 : InforFun
+4.125000 : 5642 : 🐍 String Invaders 👾
+4.097561 : 184 1138 : unfold, Möbius Swan
+4.095046 : 1848 2784 2887 : fotocopia-al-150, fotocopia-al-150, fotocopia-al-150
+4.032258 : 2615 : why-five-aye
+3.943396 : 4000 : Errol's Robots
+3.921053 : 575 : ImaginaryCF
+3.914286 : 2407 : lilik
+3.863217 : 1352 1606 : Möbius Swan, Möbius Swan
 3.833333 : 2356 : The Cat is #1!!
-3.807143 : 13 2245 : , Team Sampou
-3.800000 : 491 : Deramer
-3.704082 : 15 1768 : , Team Sampou
-3.659091 : 4553 : taxidriver
-3.504372 : 1179 1181 : Omega men, Omega men
-3.450000 : 5232 : AZALEA
+3.820513 : 2878 : lilik
+3.729730 : 1412 : lilik
+3.654813 : 13 2245 : , Team Sampou
+3.594595 : 491 : Deramer
+3.581303 : 16 1766 : , Team Sampou
+3.513514 : 1410 : yarunee
+3.447382 : 1179 1181 : Omega men, Omega men
 3.434783 : 1082 : Frictionless Bananas
-3.433333 : 3784 : Zygohistomorphic Preproxenomorph
+3.425532 : 4553 : taxidriver
+3.356618 : 15 1768 : , Team Sampou
 3.315789 : 1141 : Stanfy+
 3.294118 : 3290 : Möbius Swan
-3.264151 : 1696 : Möbius Swan
-3.244898 : 4508 : taxidriver
-3.235294 : 1144 : モダン焼 フジ
-3.203704 : 1689 : Möbius Swan
-3.203704 : 1640 : Möbius Swan
-3.187500 : 2186 : GD and Alumni
-3.176471 : 2502 : public static void main
-3.147059 : 2235 : codingteam
-3.089286 : 1612 : Möbius Swan
+3.145455 : 1640 : Möbius Swan
+3.121212 : 3784 : Zygohistomorphic Preproxenomorph
+3.035088 : 1696 : Möbius Swan
+3.035088 : 1689 : Möbius Swan
 3.027027 : 3277 : Möbius Swan
-2.971429 : 179 : unfold
-2.928571 : 1625 : Omega men
-2.900000 : 4782 : fotocopia-al-150
+3.000000 : 4508 : taxidriver
+2.982759 : 1612 : Möbius Swan
+2.972973 : 1144 : モダン焼 フジ
+2.842105 : 2502 : public static void main
 2.829545 : 515 : Dao of the fold
-2.826087 : 1079 : Cult of the Bound Variable
-2.794118 : 2148 : A Storm of Minds
-2.696970 : 583 : A Storm of Minds
-2.621622 : 783 : A Storm of Minds
-2.619674 : 3020 3043 : loop the hack, loop the hack
-2.600000 : 1607 : lilik
-2.513514 : 490 : why-five-aye
-2.488889 : 183 1847 : code-o-matic, fotocopia-al-150
-2.466667 : 2780 : びア部🍺
-2.411765 : 2549 : lilik
-2.411765 : 1761 : Möbius Swan
-2.378788 : 569 : A Storm of Minds
+2.810811 : 179 : unfold
+2.795455 : 1625 : Omega men
+2.760000 : 5232 : AZALEA
+2.756757 : 2186 : GD and Alumni
+2.697674 : 4782 : fotocopia-al-150
+2.675000 : 2235 : codingteam
+2.656716 : 583 : A Storm of Minds
+2.638889 : 2148 : A Storm of Minds
+2.600000 : 1079 : Cult of the Bound Variable
+2.487571 : 3020 3043 : loop the hack, loop the hack
+2.487179 : 783 : A Storm of Minds
+2.423729 : 1607 : lilik
+2.387097 : 2780 : びア部🍺
+2.384615 : 490 : why-five-aye
 2.372549 : 2769 : codingteam
-2.342857 : 1775 : Möbius Swan
-2.282051 : 1018 : lilik
-2.282051 : 159 : paiv
-2.277778 : 1755 : Möbius Swan
-2.266667 : 5949 : R22b
-2.222222 : 3839 : びア部🍺
-2.210526 : 1161 : Möbius Swan
-2.210526 : 1158 : Möbius Swan
-2.210526 : 1150 : Möbius Swan
-2.151463 : 11 2247 : , Team Sampou
-2.088235 : 459 : bystander.js
-2.052632 : 845 : Small Opulent Shelducks 💨
-2.019231 : 4211 : taxidriver
-2.000000 : 1610 : Möbius Swan
-1.964912 : 1558 : Möbius Swan
-1.964912 : 611 : A Storm of Minds
-1.943396 : 2663 : Dao of the fold
-1.931818 : 5030 : Henchman #24
-1.868966 : 4 : 
-1.842105 : 3845 : lilik
-1.780000 : 2082 : Henchman #24
-1.750000 : 4907 : Henchman #24
-1.702703 : 1776 : yarunee
-1.700000 : 2079 : Henchman #24
-1.684211 : 1757 : fotocopia-al-150
-1.666946 : 3 4080 4457 : , Not bad team at all, Not bad team at all
-1.657143 : 3740 : Bears ate our brains
-1.647059 : 2194 : GD and Alumni
-1.639344 : 2531 : codingteam
-1.638298 : 4228 : Henchman #24
-1.634615 : 4655 : trup16
-1.626866 : 567 : A Storm of Minds
+2.308824 : 569 : A Storm of Minds
+2.270527 : 183 1847 : code-o-matic, fotocopia-al-150
+2.216216 : 1761 : Möbius Swan
+2.157895 : 2549 : lilik
+2.157895 : 1775 : Möbius Swan
+2.142857 : 3839 : びア部🍺
+2.119048 : 159 : paiv
+2.102564 : 1755 : Möbius Swan
+2.069767 : 1018 : lilik
+2.048780 : 1158 : Möbius Swan
+2.000000 : 1161 : Möbius Swan
+2.000000 : 1150 : Möbius Swan
+1.981132 : 4211 : taxidriver
+1.972222 : 459 : bystander.js
+1.964912 : 1610 : Möbius Swan
+1.955882 : 11 2247 : , Team Sampou
+1.950000 : 845 : Small Opulent Shelducks 💨
+1.931034 : 611 : A Storm of Minds
+1.898305 : 1558 : Möbius Swan
+1.856164 : 4 : 
+1.847826 : 5030 : Henchman #24
+1.839286 : 2663 : Dao of the fold
+1.789474 : 6030 : R22b
+1.750000 : 3845 : lilik
+1.711538 : 2082 : Henchman #24
+1.673913 : 4907 : Henchman #24
+1.624257 : 3 4080 4457 : , Not bad team at all, Not bad team at all
 1.615385 : 1080 : Wintermute
-1.589286 : 705 : Stanfy+
-1.557692 : 2075 : Henchman #24
-1.549020 : 2115 : Henchman #24
-1.547826 : 6 1111 : , xyz
-1.538462 : 2084 : codingteam
-1.521739 : 4503 : Henchman #24
-1.480769 : 2116 : Henchman #24
-1.459016 : 1522 : fotocopia-al-150
-1.440000 : 2740 : 301
-1.395349 : 1075 : モダン焼 フジ
-1.360000 : 5858 : R22b
-1.333333 : 10 : 
-1.283019 : 3998 : taxidriver
-1.276596 : 158 : paiv
-1.192308 : 4480 : lilik
-1.111111 : 2768 : codingteam
-1.092784 : 9 : 
-0.982456 : 2771 : CubeClub
-0.972222 : 4338 : lilik
-0.971429 : 2717 : lilik
-0.961538 : 2791 : lilik
-0.885648 : 2 173 2127 : , 診断人, chiiia12
-0.850000 : 779 : Buy Ascension VR on Steam, $9.99
-0.840000 : 5808 : peria
-0.818182 : 12 : 
-0.809524 : 1759 : lilik
+1.603774 : 2079 : Henchman #24
+1.579710 : 567 : A Storm of Minds
+1.574074 : 4655 : trup16
+1.571429 : 4228 : Henchman #24
+1.567568 : 3740 : Bears ate our brains
+1.562500 : 2531 : codingteam
+1.543103 : 6 1111 : , xyz
+1.536585 : 1776 : yarunee
+1.523810 : 1757 : fotocopia-al-150
+1.513514 : 2194 : GD and Alumni
+1.508475 : 705 : Stanfy+
+1.500000 : 2075 : Henchman #24
+1.490566 : 2115 : Henchman #24
+1.489362 : 4503 : Henchman #24
+1.478261 : 5949 : R22b
+1.425926 : 2116 : Henchman #24
+1.395349 : 2084 : codingteam
+1.369231 : 1522 : fotocopia-al-150
+1.358491 : 2740 : 301
+1.305263 : 10 : 
+1.276596 : 1075 : モダン焼 フジ
+1.214286 : 3998 : taxidriver
+1.200000 : 158 : paiv
+1.169811 : 4480 : lilik
+1.133333 : 5858 : R22b
+1.081633 : 9 : 
+1.034483 : 2768 : codingteam
+0.949367 : 2791 : lilik
+0.949153 : 2771 : CubeClub
+0.897436 : 4338 : lilik
+0.894737 : 2717 : lilik
+0.859154 : 2 173 2127 : , 診断人, chiiia12
+0.809524 : 779 : Buy Ascension VR on Steam, $9.99
+0.797468 : 12 : 
+0.755556 : 1759 : lilik
+0.736842 : 5808 : peria
 0.637500 : 2094 : InforFun
-0.600000 : 3748 : ParseError
-0.384615 : 793 : The $oun𝅗𝅥  of λ
-0.368852 : 5 : 
+0.584416 : 3748 : ParseError
+0.376344 : 793 : The $oun𝅗𝅥  of λ
+0.365854 : 5 : 
