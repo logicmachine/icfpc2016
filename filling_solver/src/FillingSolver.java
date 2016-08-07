@@ -44,8 +44,20 @@ public class FillingSolver {
 			return r.area.compareTo(l.area);
 		});
 		System.err.println("largest part:" + parts.get(0));
-
-		limitTime = System.currentTimeMillis() + (timelimitMs == 0 ? 5000 : Math.min(5000, timelimitMs / 3));
+		int rightEdgeCount = 0;
+		for (Edge e : decomposer.edges) {
+			if (decomposer.points.get(e.p1).x.equals(decomposer.points.get(e.p2).x)
+					|| decomposer.points.get(e.p1).y.equals(decomposer.points.get(e.p2).y)) {
+				++rightEdgeCount;
+			}
+		}
+		System.err.println("edge count:" + decomposer.edges.length + " " + rightEdgeCount);
+		boolean searchPerpendicular = decomposer.edges.length < rightEdgeCount * 2;
+		if (timelimitMs == 0) {
+			limitTime = System.currentTimeMillis() + (searchPerpendicular ? 120000 : 5000);
+		} else {
+			limitTime = System.currentTimeMillis() + (searchPerpendicular ? timelimitMs * 9 / 10 : Math.min(5000, timelimitMs / 3));
+		}
 		maxBboxSize = MAX_BBOX_SIZE_PERPENDICULAR;
 		boolean result = solveInner();
 		if (result) return;
