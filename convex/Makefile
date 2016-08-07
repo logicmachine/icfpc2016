@@ -1,6 +1,6 @@
 all: 1solver
 
-CXXFLAGS=-std=c++11 -O0 -fopenmp
+CXXFLAGS=-std=c++11 -O0 -g -fopenmp
 pch.hpp.gch: pch.hpp
 	g++ $(CXXFLAGS) $<
 

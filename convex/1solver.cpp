@@ -4,6 +4,48 @@
 using namespace std;
 using TransposedPolygon = pair<Polygon, Matrix3x3>;
 
+static Matrix3x3
+rot(Rational &cos, Rational &sin)
+{
+	Matrix3x3 m = Matrix3x3::identity();
+
+	/*  cos sin   0
+	 * -sin cos   0
+	 *    0   0   1
+	 */
+	m(0,0) = cos;
+	m(0,1) = sin;
+	m(0,2) = Rational(0);
+
+	m(1,0) = -sin;
+	m(1,1) = cos;
+	m(1,2) = Rational(0);
+
+	m(2,0) = Rational(0);
+	m(2,1) = Rational(0);
+	m(2,2) = Rational(1);
+
+	return m;
+}
+
+static Matrix3x3
+getTransform(Point const &p1, Point const &p2,
+	     Point const &p3, Point const &p4) { // (p1-p2) -> (p3-p4)
+	Matrix3x3 t = Matrix3x3::transpose(-p1.x, -p1.y);
+	Rational dx1 = p2.x - p1.x;
+	Rational dy1 = p2.y - p1.y;
+	Rational dx2 = p4.x - p3.x;
+	Rational dy2 = p4.y - p3.y;
+	Rational norm = dx1*dx1 + dy1*dy1;
+	Rational cos = (dx1*dx2 + dy1*dy2)/norm;
+	Rational sin = (dx2*dy1 - dy2*dx1)/norm;
+
+	t = rot(cos,sin) * t;
+	t = Matrix3x3::transpose(p3.x, p3.y) * t;
+
+	return t;
+}
+
 Polygon destination_convex(const Problem &problem){
 	vector<Point> all_points;
 	for(const auto &s : problem.skelton){
@@ -85,8 +127,28 @@ output(const vector<TransposedPolygon> &current,
 	return oss.str();
 }
 
+struct VertPolyRoute {
+	int poly;
+	int edge_to;
+	int pos_in_poly;
+};
+
+struct EdgePolyRoute {
+	int poly;
+	int from_vert;
+	int to_vert;
+	int next_vert;
+};
+
 struct Edge {
+	int num_neigh_poly;
+	EdgePolyRoute neigh_poly[2];
 	int v[2];
+
+	Edge ()
+		:num_neigh_poly(0)
+	{}
+
 	int other_vertex(int i) {
 		if (v[0] == i) {
 			return v[1];
@@ -96,14 +158,9 @@ struct Edge {
 	}
 };
 
-struct PolyRoute {
-	int poly;
-	int edge_to;
-};
-
 struct Vertex {
 	std::vector< int > edge_list;
-	std::vector< PolyRoute > neigh_poly;
+	std::vector< VertPolyRoute > neigh_poly;
 	Point pos;
 };
 
@@ -112,10 +169,11 @@ struct VertexRef {
 	int edge_idx_in_vertex;
 };
 
+typedef std::vector<VertexRef> GraphPolygon;
 struct Graph {
 	vector<Edge> edge_list;
 	vector<Vertex> vertex_list;
-	vector<std::vector<VertexRef> > polygon_list;
+	vector<GraphPolygon > polygon_list;
 
 	int find_point(Point const &p) {
 		int n = vertex_list.size();
@@ -274,27 +332,62 @@ find_close_vert(Graph &g,
 		int cur_vi,
 		int prev_vi)
 {
-	int vi_cand=-1, eidx;
+	int vi_cand=-1, eidx, cand_eidx=-1;
 	Vertex &v = g.vertex_list[cur_vi];
 	int ne = v.edge_list.size();
+
+	bool find_totsu_vertex = false;
 
 	for (eidx=0; eidx<ne; eidx++) {
 		Edge &e = g.edge_list[ v.edge_list[eidx] ];
 		int next_vi = e.other_vertex(cur_vi);
 
+		//printf("  %d->%d->%d\n",
+		//       prev_vi,
+		//       cur_vi,
+		//       next_vi);
+
 		if (next_vi == prev_vi) {
 			continue;
 		}
 
+		int c_prev = ccw(g.vertex_list[prev_vi].pos,
+				 g.vertex_list[cur_vi].pos,
+				 g.vertex_list[next_vi].pos);
+
+
+
 		if (vi_cand == -1) {
 			vi_cand = next_vi;
+			cand_eidx = eidx;
+			if (c_prev == 1) {
+				find_totsu_vertex = true;
+			}
 		} else {
-			int c = ccw(g.vertex_list[cur_vi].pos,
-				    g.vertex_list[vi_cand].pos,
-				    g.vertex_list[next_vi].pos);
+			int c_cur = ccw(g.vertex_list[cur_vi].pos,
+					g.vertex_list[vi_cand].pos,
+					g.vertex_list[next_vi].pos);
 
-			if (c == 1) {
+			//printf("  find_totsu = %d\n", (int)find_totsu_vertex);
+			//printf("  cur,cand,next %d->%d->%d = %d\n",
+			//       cur_vi, vi_cand, next_vi, c_cur);
+			//printf("  prev,cur,next %d->%d->%d = %d\n",
+			//       prev_vi, cur_vi, next_vi, c_prev);
+
+			/* priory totsu vertex */
+			if (find_totsu_vertex) {
+				if (c_prev != 1) {
+					c_cur = 9999;
+				}
+			} else {
+				if (c_prev == 1) {
+					find_totsu_vertex = true;
+					c_cur = 1;
+				}
+			}
+			if (c_cur == 1) {
 				vi_cand = next_vi;
+				cand_eidx = eidx;
 			}
 		}
 	}
@@ -304,7 +397,7 @@ find_close_vert(Graph &g,
 		exit(1);
 	}
 
-	return std::make_pair(vi_cand,eidx);
+	return std::make_pair(vi_cand,cand_eidx);
 }
 
 static bool
@@ -354,6 +447,7 @@ build_polygon(Graph &g)
 			Edge &e = g.edge_list[v_start.edge_list[ei]];
 			int v_other = e.other_vertex(start_vi);
 			std::vector<VertexRef> vert_list;
+			std::vector<Point> polygon;
 
 			VertexRef vr;
 			vr.vertex_id = start_vi;
@@ -370,6 +464,10 @@ build_polygon(Graph &g)
 			visited.resize(nv, 0);
 			visited[v_other] = 1;
 
+			polygon.push_back(g.vertex_list[start_vi].pos);
+
+			//printf("find %d->%d\n", start_vi, v_other);
+
 			while (1) {
 				auto next_vi = find_close_vert(g, cur_vi, prev_vi);
 
@@ -379,6 +477,7 @@ build_polygon(Graph &g)
 				vr.edge_idx_in_vertex = next_vi.second;
 
 				vert_list.push_back(vr);
+				polygon.push_back(g.vertex_list[cur_vi].pos);
 
 				if (next_vi.first == start_vi) {
 					break;
@@ -397,26 +496,18 @@ build_polygon(Graph &g)
 			}
 
 			if (v_ccw) {
-				int pi = g.polygon_list.size();
+				Polygon p(polygon.begin(), polygon.end());
+				Rational a = p.area();
 
-				g.polygon_list.push_back(vert_list);
-
-#if 0
-				int nv = vert_list.size();
-				for (int vi=0; vi<nv-1; vi++) {
-					PolyRoute pr;
-					VertexRef &vr = vert_list[vi];
-
-					pr.poly = pi;
-					pr.edge_to = vr.edge_idx_in_vertex;
-
-					g.vertex_list[vert_list[vi].vertex_id].neigh_poly.push_back(pr);
+				if (a > Rational(0)) {
+					int pi = g.polygon_list.size();
+					g.polygon_list.push_back(vert_list);
 				}
-#endif
 			}
 		}
 	}
 
+	/* canonicalize polygon */
 	for (auto && p : g.polygon_list ) {
 		int min_idx = -1;
 		int min_vert = 999999;
@@ -459,30 +550,31 @@ build_polygon(Graph &g)
 		}
 	}
 
-	/* canonicalize polygon */
-	{
-		/* remove clockwise polygon */
 
-		int pi = 0;
-		while (pi < g.polygon_list.size()) {
-			auto && p = g.polygon_list[pi];
-			std::vector<Point> pl;
+	for (int pi=0; pi<(int)g.polygon_list.size(); pi++) {
+		std::vector<VertexRef> &vr_list = g.polygon_list[pi];
+		int nv = vr_list.size();
+		for (int vi=0; vi<nv; vi++) {
+			VertPolyRoute pr;
+			VertexRef &vr = vr_list[vi];
 
-			for (VertexRef const & vr : p) {
-				Point &p = g.vertex_list[vr.vertex_id].pos;
-				pl.push_back(p);
-			}
+			int vid = vr.vertex_id;
+			Vertex &v = g.vertex_list[vid];
 
-			Polygon polygon(pl.begin(),
-					pl.end());
+			pr.poly = pi;
+			pr.edge_to = vr.edge_idx_in_vertex;
+			pr.pos_in_poly = vi;
 
-			Rational a = polygon.area();
+			g.vertex_list[vid].neigh_poly.push_back(pr);
 
-			if (a < Rational(0)) {
-				g.polygon_list.erase(g.polygon_list.begin() + pi);
-			} else {
-				pi++;
-			}
+			Edge &e = g.edge_list[v.edge_list[pr.edge_to]];
+			EdgePolyRoute epr;
+			epr.poly = pi;
+			epr.from_vert = vid;
+			epr.to_vert = vr_list[(vi+1)%nv].vertex_id;
+			epr.next_vert = vr_list[(vi+2)%nv].vertex_id;
+
+			e.neigh_poly[e.num_neigh_poly++] = epr;
 		}
 	}
 }
@@ -517,13 +609,25 @@ build_graph(Graph &g,
 		e.v[0] = vi0;
 		e.v[1] = vi1;
 
+
 		g.edge_list.push_back(e);
 		g.vertex_list[vi0].edge_list.push_back(ei);
 		g.vertex_list[vi1].edge_list.push_back(ei);
 	}
 }
 
-typedef std::vector<std::vector<int> > route_set_t;
+struct RouteEdge {
+	int vert_from;
+	int vert_to;
+	int edge;
+};
+
+struct Route {
+	Matrix3x3 to_1_0_matrix; // この辺を (0,0) (1,0) へ変換する行列
+	std::vector<RouteEdge> edge_list;
+};
+
+typedef std::vector<Route > route_edge_set_t;
 
 static bool
 on_line_3p(const Point &p0,
@@ -539,13 +643,14 @@ on_line_3p(const Point &p0,
 
 static void
 find_len1_visit(Graph &g,
-		route_set_t &rs,
-		std::vector<int> route,
+		route_edge_set_t &rs,
+		std::vector<RouteEdge> route_edge_list,
 		int vi,
 		int from_vi,
 		const Point &start_pos,
 		const Matrix3x3 &pm,
-		Rational const &prev_len)
+		Rational const &prev_len,
+		int route_edge)
 {
 	Vertex &v0 = g.vertex_list[vi];
 
@@ -566,7 +671,11 @@ find_len1_visit(Graph &g,
 	//std::cerr << "sta:" << start_pos.x << ',' << start_pos.y << '=' << len.to_double() << '\n';
 	//std::cerr << "dp :" << dp.x << ',' << dp.y << '=' << len.to_double() << '\n';
 
-	route.push_back(vi);
+	RouteEdge re;
+	re.vert_from = from_vi;
+	re.vert_to = vi;
+	re.edge = route_edge;
+	route_edge_list.push_back(re);
 
 	//if (route.size() > 11) {
 	//	return;
@@ -587,12 +696,24 @@ find_len1_visit(Graph &g,
 	if (len == Rational(1)) {
 		/* find ! */
 		//std::cerr << "found\n";
-		rs.push_back(route);
+		struct Route r;
+
+		r.to_1_0_matrix = getTransform(start_pos,
+					       p_new,
+					       Point(Rational(0),Rational(0)),
+					       Point(Rational(1),Rational(0)));
+
+		Point x0 = r.to_1_0_matrix.transform(start_pos);
+		Point x1 = r.to_1_0_matrix.transform(p_new);
+
+		r.edge_list = route_edge_list;
+		rs.push_back(r);
 	} else if (len < Rational(1)) {
 
 		int ne = v0.edge_list.size();
 		for (int ei_to=0; ei_to<ne; ei_to++) {
-			Edge &e_to = g.edge_list[v0.edge_list[ei_to]];
+			int e_to_idx = v0.edge_list[ei_to];
+			Edge &e_to = g.edge_list[e_to_idx];
 			int to_vi = e_to.other_vertex(vi);
 
 			for (int ei_ref=0; ei_ref<ne; ei_ref++) {
@@ -627,7 +748,7 @@ find_len1_visit(Graph &g,
 				//std::cerr << "to " << to_vi << ":" << to.pos.x << "," << to.pos.y << "\n";
 
 				if (ccw(to.pos,cur.pos,from_pos)==-2) {
-					find_len1_visit(g, rs, route, to_vi, vi, start_pos, pm, len);
+					find_len1_visit(g, rs, route_edge_list, to_vi, vi, start_pos, pm, len, e_to_idx);
 				} else {
 					if (on_line_3p(ref.pos,cur.pos,to.pos))
 					{
@@ -671,7 +792,7 @@ find_len1_visit(Graph &g,
 						//std::cerr << inv_refmat(2,1) << ',';
 						//std::cerr << inv_refmat(2,2) << "\n\n";
 
-						find_len1_visit(g, rs, route, to_vi, vi, start_pos, inv_refmat, len);
+						find_len1_visit(g, rs, route_edge_list, to_vi, vi, start_pos, inv_refmat, len, e_to_idx);
 					}
 				}
 			}
@@ -686,13 +807,13 @@ find_len1_visit(Graph &g,
 
 }
 
-static route_set_t // list of vertex index
+static route_edge_set_t // list of vertex index
 find_len1_edge(Graph &g)
 {
 	int nv = g.vertex_list.size();
 	Matrix3x3 pm = Matrix3x3::identity();
 
-	std::vector<route_set_t> rs_parallel;
+	std::vector<route_edge_set_t> rs_parallel;
 
 	rs_parallel.resize(nv);
 
@@ -700,8 +821,7 @@ find_len1_edge(Graph &g)
 	for (int vi=0; vi<nv; vi++) {
 		Vertex &v = g.vertex_list[vi];
 		int ne = v.edge_list.size();
-		std::vector<int> route;
-		route.push_back(vi);
+		std::vector<RouteEdge> route;
 
 		for (int eidx=0; eidx<ne; eidx++) {
 			int ei = v.edge_list[eidx];
@@ -709,17 +829,270 @@ find_len1_edge(Graph &g)
 			int oi = e.other_vertex(vi);
 
 			find_len1_visit(g, rs_parallel[vi], route, oi, vi,
-					v.pos, Matrix3x3::identity(), Rational(0));
+					v.pos, Matrix3x3::identity(), Rational(0), ei);
 		}
 	}
 
-	route_set_t rs;
+	route_edge_set_t rs;
 
 	for (auto && s : rs_parallel) {
 		rs.insert(rs.end(), s.begin(), s.end());
 	}
 
 	return rs;
+}
+
+static route_edge_set_t
+filter_initial_cand(route_edge_set_t const &rs)
+{
+	int i;
+	route_edge_set_t len1_cand;
+
+	for (i=0; i<(int)rs.size(); i++) {
+		auto &r = rs[i];
+		if (r.edge_list.size() == 1) {
+			/* 長さ1の辺が残ってるなら確定 */
+			len1_cand.push_back(r);
+		}
+	}
+
+	if (! len1_cand.empty()) {
+		return len1_cand;
+	}
+
+	/* 他のlen1 の辺と組み合わせて四角にならないなら使わない(という処理を入れたい) */
+
+	return rs;
+}
+
+// 辺境エッジ
+struct SqBuilderEdge {
+	Point p0,p1;		// 端座標
+};
+
+struct ResultPoint {
+	Point src;
+	Point dst;
+
+	ResultPoint(Point const &src,
+		    Point const &dst)
+		:src(src), dst(dst)
+	{
+	}
+};
+
+struct SqBuilder {
+	Matrix3x3 init_transform;
+
+	std::vector<SqBuilderEdge> frontier_edge_list; // 辺境エッジ
+	std::vector<ResultPoint> result_point_list; // 結果の点リスト
+	std::vector< std::vector<int> > result_polygon_list;
+
+	int add_result_point(Point const &src,
+			     Point const &dst,
+			     bool dry_run)
+	{
+		/* if (点がかぶってる) return -1; */
+		using R = Rational;
+
+		if (src.x < R(0) ||
+		    src.x > R(1) ||
+		    src.y < R(0) ||
+		    src.y > R(1))
+		{
+			/* 正方形に入ってない */
+			return false;
+		}
+
+		int nr = result_point_list.size();
+		for (int ri=0; ri<nr; ri++) {
+			if (result_point_list[ri].src == src &&
+			    result_point_list[ri].dst == dst)
+			{
+				/* すでにはいってる */
+				return ri;
+			}
+		}
+
+		if (!dry_run) {
+			int ret = result_point_list.size();
+			result_point_list.push_back(ResultPoint(src,dst));
+			return ret;
+		}
+
+		return 0;
+	}
+
+	bool add_frontier_edge(Point &p0, Point &p1, bool dry_run) {
+		if (dry_run) {
+			return true;
+		}
+
+		using R = Rational;
+		if ((p0.x == R(0) && p1.x == R(0)) ||
+		    (p0.x == R(1) && p1.x == R(1)) ||
+		    (p0.y == R(0) && p1.y == R(0)) ||
+		    (p0.y == R(1) && p1.x == R(1)))
+		{
+			/* 端のことは忘れてよい
+			 * xx (外側ポリゴンを作る必要がある) */
+			return true;
+		}
+
+		int ne = frontier_edge_list.size();
+		for (int ei=0; ei<ne; ei++) {
+			SqBuilderEdge &e = frontier_edge_list[ei];
+
+			if (e.p0 == p0 && e.p1 == p1) {
+				/* ei が frontier ではなくなったので削除 */
+				frontier_edge_list.erase(frontier_edge_list.begin() + ei);
+				return true;
+			}
+		}
+
+		SqBuilderEdge be;
+		be.p0 = p0;
+		be.p1 = p1;
+		frontier_edge_list.push_back(be);
+
+		return true;
+	}
+
+	void output() {
+		int np = result_point_list.size();
+		std::cout << np << '\n';
+
+		for (int pi=0; pi<np; pi++) {
+			std::cout << result_point_list[pi].src.x << ',' << result_point_list[pi].src.y << '\n';
+		}
+
+		int npoly = result_polygon_list.size();
+		std::cout << npoly << '\n';
+
+		for (int pi=0; pi<npoly; pi++) {
+			std::vector<int> &p = result_polygon_list[pi];
+			std::cout << p.size();
+
+			for (auto i : p) {
+				std::cout << ' ' << i;
+			}
+
+			std::cout << '\n';
+		}
+
+		for (int pi=0; pi<np; pi++) {
+			std::cout << result_point_list[pi].dst.x << ',' << result_point_list[pi].dst.y << '\n';
+		}
+	}
+};
+
+static int
+get_ccw_poly(Graph const &g,
+	     Edge const &e,
+	     bool is_ccw)
+{
+	for (int ni=0; ni<e.num_neigh_poly; ni++) {
+		const EdgePolyRoute &epr = e.neigh_poly[ni];
+
+		const Point &p0 = g.vertex_list[epr.from_vert].pos;
+		const Point &p1 = g.vertex_list[epr.to_vert].pos;
+		const Point &p2 = g.vertex_list[epr.next_vert].pos;
+
+		int c = ccw(p0, p1, p2);
+
+		if (is_ccw) {
+			if (c == 1) {
+				return epr.poly;
+			}
+		} else if (c == -1) {
+			return epr.poly;
+		}
+	}
+
+	return -1;
+}
+
+static bool
+add_frontier_polygon1(SqBuilder &b,
+		      Graph &g,
+		      GraphPolygon &poly,
+		      Matrix3x3 const &transform_matrix,
+		      bool dry_run)
+{
+	typedef std::vector<VertexRef> GraphPolygon;
+	int np = poly.size();
+
+	std::vector<int> result_polygon;
+
+	for (int vi=0; vi<np; vi++) {
+		VertexRef &vr_cur = poly[vi];
+		VertexRef &vr_next = poly[(vi+1) % np];
+
+		Vertex const &v_cur = g.vertex_list[vr_cur.vertex_id];
+		Vertex const &v_next = g.vertex_list[vr_next.vertex_id];
+
+		Point new_cur_p = transform_matrix.transform(v_cur.pos);
+		Point new_next_p = transform_matrix.transform(v_next.pos);
+
+		int r = b.add_result_point(new_cur_p,
+					   v_cur.pos, dry_run);
+
+		if (r == -1) {
+			/* オーバーラップしてる || src が 四角に入ってない */
+			return false;
+		}
+
+		b.add_frontier_edge(new_cur_p, new_next_p, dry_run);
+	}
+
+	if (!dry_run) {
+		b.result_polygon_list.push_back(result_polygon);
+	}
+
+	return true;
+}
+
+static bool
+add_frontier_polygon(SqBuilder &b,
+		     Graph &g,
+		     GraphPolygon &poly,
+		     Matrix3x3 const &transform_matrix)
+{
+	return add_frontier_polygon1(b, g, poly, transform_matrix, false);
+}
+
+
+static void
+detect_square(Graph &g,
+	      Route &route,
+	      bool is_ccw)
+{
+	SqBuilder b;
+	std::vector<RouteEdge> &initial_edge_list = route.edge_list;
+
+	b.init_transform = route.to_1_0_matrix;
+
+	for ( RouteEdge const &re : initial_edge_list) {
+		Edge &e = g.edge_list[re.edge];
+		int poly_id = get_ccw_poly(g, e, is_ccw);
+		if (poly_id == -1) {
+			/* 初期値の向きが悪い */
+			return;
+		}
+
+		bool r = add_frontier_polygon(b,
+					      g,
+					      g.polygon_list[poly_id],
+					      route.to_1_0_matrix);
+
+		if (! r) {
+			/* 初期値があってれば必ず追加できるはず */
+			return;
+		}
+	}
+
+	b.output();
+	exit(0);
 }
 
 int main(){
@@ -735,17 +1108,19 @@ int main(){
 	//g.dump();
 
 	build_polygon(g);
-	g.dump();
+	//g.dump();
 
-	route_set_t rs = find_len1_edge(g);
+	route_edge_set_t rs = find_len1_edge(g);
+	route_edge_set_t cand = filter_initial_cand(rs);
 
-	for (auto &&route : rs) {
-		for (auto &&p : route) {
-			std::cout << p << ',';
-		}
-		std::cout << '\n';
+	for (auto &&route : cand) {
+		//for (auto &&p : route.edge_list) {
+		//	std::cerr << p.edge << ',';
+		//}
+		//std::cerr << '\n';
+
+		detect_square(g, route, true);
 	}
-	exit(1);
 #if 0
 
 	auto convex = destination_convex(problem);
