@@ -30,7 +30,7 @@ import tempfile
 
 #BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
 #BASE_PATH = ".."
-DB_FILE = "icfpc2016.sqlite3"
+DB_FILE = "/home/futatsugi/develop/contests/icfpc/icfpc2016/submitter/icfpc2016.sqlite3"
 TIMEOUT = 180.0
 #TIMEOUT = 15.0
 
@@ -85,7 +85,8 @@ class Command:
 	def run(self, timeout):
 		def target():
 			#self.process = subprocess.Popen(shlex.split(self.cmd.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			#self.process = subprocess.Popen(self.cmd.encode("utf-8"), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			self.process = subprocess.Popen(self.cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			self.stdo, self.stde = self.process.communicate()
 			"""
 			# using subprocess32
@@ -107,7 +108,8 @@ class Command:
 
 def perform(command):
 	try:
-		p = subprocess.Popen(shlex.split(command.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		#p = subprocess.Popen(shlex.split(command.encode("utf-8")), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		p = subprocess.Popen(shlex.split(command), shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	except:
 		p = None
 	stdo, stde = "", ""
@@ -119,22 +121,22 @@ def perform(command):
 	return rc, stdo, stde
 
 def submit_solution(problem_id, content):
-	with cur_lock:
-		rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
-		#print o ###
-		try:
-			data = json.loads(o)
-			if not data["ok"]:
-				if re.search("Can not submit a solution to an own problem", data["error"]):
-					print >>sys.stderr, "%d %s: skipped." % (problem_id, data["error"])
-				else:
-					print >>sys.stderr, "%d %s: please retry." % (problem_id, data["error"],)
-				return
-			print "%05d resemblance: %f" % (data["problem_id"], data["resemblance"]) ###
+	rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
+	try:
+		data = json.loads(o)
+		if not data["ok"]:
+			if re.search("Can not submit a solution to an own problem", data["error"]):
+				print >>sys.stderr, "%d %s: skipped." % (problem_id, data["error"])
+			else:
+				print >>sys.stderr, "%d %s: please retry." % (problem_id, data["error"],)
+			return
+		print "%05d resemblance: %f" % (data["problem_id"], data["resemblance"]) ###
+		with cur_lock:
 			cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], data["problem_id"]))
 			con.commit()
-		except:
-			print >>sys.stderr, "%d solution JSON error: please retry." % (problem_id,)
+	except Exception as e:
+		#print >>sys.stderr, "%d solution JSON error: please retry." % (problem_id,)
+		print >>sys.stderr, problem_id, e.args
 
 def main(args):
 	if len(args) < 3:
@@ -142,21 +144,16 @@ def main(args):
 		sys.exit(1)
 
 	target_id = int(os.path.splitext(os.path.basename(args[1]))[0])
+	#print >>sys.stderr, args[1] ##### debug
 	content = open(args[1]).read()
 	problem_ids_group = []
 	for line in open(args[2]):
 		problem_ids_group.append(map(int, line.strip().split(":")[1].strip().split()))
 
-	"""
-	print target_id
-	print problem_ids_group
-	sys.exit()
-	"""
-
 	for problem_ids in problem_ids_group:
 		if target_id in problem_ids:
 			for problem_id in problem_ids:
 				submit_solution(problem_id, content)
-				time.sleep(1.0)
+				time.sleep(2.0)
 
 if __name__ == "__main__": main(sys.argv)
