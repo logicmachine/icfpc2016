@@ -121,26 +121,30 @@ def perform(command):
 def submit_solution(problem_id, content):
 	with cur_lock:
 		rc, o, e = Command("%s <<EOF\n%s\nEOF\n" % (API_SOLUTION % problem_id, content)).run(None)
+		#print o ###
 		try:
 			data = json.loads(o)
 			if not data["ok"]:
 				if re.search("Can not submit a solution to an own problem", data["error"]):
 					print >>sys.stderr, "%d %s: skipped." % (problem_id, data["error"])
 				else:
-					print >>sys.stderr, "%d %s: retry %d" % (problem_id, data["error"], (n + 1))
+					print >>sys.stderr, "%d %s: please retry." % (problem_id, data["error"],)
 				return
+			print "%05d resemblance: %f" % (data["problem_id"], data["resemblance"]) ###
 			cur.execute("UPDATE solves SET size=?, resemblance=?, solution_spec_hash=? WHERE problem_id=?", (data["solution_size"], data["resemblance"], data["solution_spec_hash"], data["problem_id"]))
 			con.commit()
 		except:
-			print >>sys.stderr, "%d solution JSON error: retry %d" % (problem_id, (n + 1))
+			print >>sys.stderr, "%d solution JSON error: please retry." % (problem_id,)
 
 def main(args):
 	if len(args) < 3:
-		print >>sys.stderr, "Usage: %s problem_id solution_file" % os.path.basename(args[0])
+		print >>sys.stderr, "Usage: %s solution_file problem_ids..." % os.path.basename(args[0])
 		sys.exit(1)
 
-	problem_id = int(args[1])
-	content = open(args[2]).read()
-	submit_solution(problem_id, content)
+	content = open(args[1]).read()
+	problem_ids = map(int, args[2:])
+	for problem_id in problem_ids:
+		submit_solution(problem_id, content)
+		time.sleep(1.0)
 
 if __name__ == "__main__": main(sys.argv)
