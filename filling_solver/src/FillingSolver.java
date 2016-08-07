@@ -548,13 +548,14 @@ public class FillingSolver {
 			for (int i = 0; i < origParts.size(); ++i) {
 				Part origPart = origParts.get(i);
 				if (part.size() != origPart.vs.size()) continue;
-				int idx = 0;
+				int idx = -1;
 				for (int j = 0; j < part.size(); ++j) {
 					if (origPart.vs.get(j) == part.get(0).pIdx) {
 						idx = j;
 						break;
 					}
 				}
+				if (idx == -1) continue;
 				boolean match = true;
 				for (int j = 1; j < part.size(); ++j) {
 					if (part.get(j).pIdx != origPart.vs.get((idx + j) % origPart.vs.size())) {
