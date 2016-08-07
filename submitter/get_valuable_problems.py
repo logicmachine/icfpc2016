@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import sys
 import os
@@ -26,6 +27,10 @@ import collections
 import sqlite3
 import cgi
 import tempfile
+import codecs
+
+#sys.stdout = codecs.EncodedFile(sys.stdout, 'utf_8')
+sys.stdout = codecs.lookup('utf_8')[-1](sys.stdout)
 
 #BASE_PATH = "/home/futatsugi/develop/contests/icfpc2016"
 #BASE_PATH = ".."
@@ -95,6 +100,10 @@ def perform(command):
 	return rc, stdo, stde
 
 def main(args):
+	SHOW_OWNER = False
+	if len(args) > 1:
+		SHOW_OWNER = True
+	
 	#print "Reading snapshots..."
 	#rc, o, e = perform(API_SNAPSHOT)
 	rc, o, e = Command(API_SNAPSHOT).run(None)
@@ -109,10 +118,31 @@ def main(args):
 	rc, o, e = Command(API_BLOB % last_snapshot).run(None)
 
 	data = []
-	problems = json.loads(o)["problems"]
+	jsondata = json.loads(o)
+	problems = jsondata["problems"]
+	users = jsondata["users"]
+	teams = collections.defaultdict(unicode)
+	for user in users:
+		teams[user["username"]] = user["display_name"]
+	#teams = {user["username"]: user["display_name"] for user in users}
+	#for i in range(1, 102): teams[unicode(i)] = "official"
+	#teams[1] = "official"
+	"""
+	for k, v in teams.iteritems():
+		print v
+	sys.exit() ###
+	"""
+	
 	hash_problem = collections.defaultdict(list)
 	problem_hash = {}
+	problem_owner = {}
 	for problem in problems:
+		"""
+		#if problem["problem_id"] in (3560, 4229, 4236):
+		if problem["problem_id"] in (18, 1478, 1762):
+			print >>sys.stderr, problem["problem_id"], problem["owner"]
+		"""
+		problem_owner[problem["problem_id"]] = problem["owner"]
 		#print problem["problem_id"], problem["problem_spec_hash"]
 		cnt_perfect = 0
 		for team in problem["ranking"]:
@@ -130,17 +160,24 @@ def main(args):
 	for v in data:
 		if v[1] in memo: continue
 		score = 0.0
-		problems = []
+		problems_ = []
+		owners_ = []
+		teams_ = []
 		for vv in hash_problem[problem_hash[v[1]]]:
-			problems.append(vv[0])
+			problems_.append(vv[0])
+			owners_.append(problem_owner[vv[0]])
+			teams_.append(teams[problem_owner[vv[0]]])
 			score += vv[1]
-		ans.append((score, tuple(problems)))
+		ans.append((score, tuple(problems_), tuple(teams_)))
 		#print v[0], hash_problem[problem_hash[v[1]]]
 		memo.extend(hash_problem[problem_hash[v[1]]])
 
 	ans = list(set(ans))
 	ans.sort(reverse=True)
 	for xs in ans:
-		print "%f : %s" % (xs[0], " ".join(map(str, xs[1])))
+		if SHOW_OWNER:
+			print u"%f : %s : %s" % (xs[0], u" ".join(map(unicode, xs[1])), u", ".join(xs[2]))
+		else:
+			print u"%f : %s" % (xs[0], u" ".join(map(unicode, xs[1])))
 
 if __name__ == "__main__": main(sys.argv)
