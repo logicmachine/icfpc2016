@@ -99,16 +99,12 @@ public class FillingSolver {
 		}
 	}
 
-	int recCount;
-
 	State rec(State cur) {
 		//		output(cur);
 		//		System.out.println(cur.envelop);
 		//		System.out.println("area:" + cur.area);
 		//		System.out.println(cur.xmin + " " + cur.xmax + " " + cur.ymin + " " + cur.ymax);
 		//		System.out.println();
-		++recCount;
-		if (recCount % 10000 == 0) System.err.println(recCount);
 		if (limitTime != NO_TIME_LIMIT && System.currentTimeMillis() > limitTime) return null;
 		while (usedHash.size() <= cur.envelop.size()) {
 			usedHash.add(new HashSet<Integer>());
