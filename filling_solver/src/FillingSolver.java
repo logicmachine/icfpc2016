@@ -532,6 +532,11 @@ public class FillingSolver {
 					Point p1 = part.get(j).p;
 					Point p2 = part.get((j + 1) % part.size()).p;
 					Point p3 = part.get((j + 2) % part.size()).p;
+					if (p1.equals(p3)) {
+						part.remove(j);
+						part.remove(j < part.size() ? j : 0);
+						continue;
+					}
 					Rational dx1 = p2.x.sub(p1.x);
 					Rational dy1 = p2.y.sub(p1.y);
 					Rational dx2 = p3.x.sub(p2.x);
