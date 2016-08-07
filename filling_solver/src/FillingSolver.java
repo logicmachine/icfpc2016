@@ -24,7 +24,6 @@ public class FillingSolver {
 	ArrayList<HashSet<Integer>> usedHash;
 	long limitTime;
 	AffineTransform resultMapping = new AffineTransform(Rational.ONE, Rational.ZERO, Rational.ZERO, Rational.ONE);
-	HashMap<PartCacheKey, ArrayList<Vertex>> partCache = new HashMap<>();
 
 	FillingSolver(PartsDecomposer decomposer) {
 		this.decomposer = decomposer;
@@ -367,26 +366,18 @@ public class FillingSolver {
 			ArrayList<Vertex> addVertex = new ArrayList<>();
 			Point p1 = points.get(ev1.pIdx);
 			Point p2 = points.get(ev2.pIdx);
-			PartCacheKey key = new PartCacheKey(p1, p2, partIdx << 16 | partVIdx);
-			if (partCache.containsKey(key)) {
-				addVertex.addAll(partCache.get(key));
-			} else {
-				AffineTransform t = getTransform(p1, p2, ev1.p, ev2.p);
-				if (reverse) {
-					for (int i = 0; i < part.vs.size(); ++i) {
-						int pi = part.vs.get((partVIdx - i + PS) % PS);
-						addVertex.add(new Vertex(pi, reflect(ev1.p, ev2.p, t.apply(points.get(pi)))));
-					}
-				} else {
-					for (int i = 0; i < part.vs.size(); ++i) {
-						int pi = part.vs.get((i + partVIdx) % PS);
-						Point addP = t.apply(points.get(pi));
-						if (addP.x.den.bitLength() > maxBitLength || addP.y.den.bitLength() > maxBitLength) return null;
-						addVertex.add(new Vertex(pi, addP));
-					}
+			AffineTransform t = getTransform(p1, p2, ev1.p, ev2.p);
+			if (reverse) {
+				for (int i = 0; i < part.vs.size(); ++i) {
+					int pi = part.vs.get((partVIdx - i + PS) % PS);
+					addVertex.add(new Vertex(pi, reflect(ev1.p, ev2.p, t.apply(points.get(pi)))));
 				}
-				if (partCache.size() < 10000000) {
-					partCache.put(key, new ArrayList<Vertex>(addVertex));
+			} else {
+				for (int i = 0; i < part.vs.size(); ++i) {
+					int pi = part.vs.get((i + partVIdx) % PS);
+					Point addP = t.apply(points.get(pi));
+					if (addP.x.den.bitLength() > maxBitLength || addP.y.den.bitLength() > maxBitLength) return null;
+					addVertex.add(new Vertex(pi, addP));
 				}
 			}
 			ret.xmin = this.xmin;
@@ -646,33 +637,6 @@ public class FillingSolver {
 		@Override
 		public String toString() {
 			return "pi=" + pIdx + "(" + p.x + "," + p.y + ")";
-		}
-	}
-
-	static class PartCacheKey {
-		int partInfo;
-		Point p1, p2;
-
-		PartCacheKey(Point p1, Point p2, int partInfo) {
-			this.p1 = p1;
-			this.p2 = p2;
-			this.partInfo = partInfo;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = ((p1 == null) ? 0 : p1.hashCode());
-			result = prime * result + ((p2 == null) ? 0 : p2.hashCode());
-			result = prime * result + partInfo;
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj) return true;
-			PartCacheKey other = (PartCacheKey) obj;
-			return partInfo == other.partInfo && p1.equals(other.p1) && p2.equals(other.p2);
 		}
 	}
 }
